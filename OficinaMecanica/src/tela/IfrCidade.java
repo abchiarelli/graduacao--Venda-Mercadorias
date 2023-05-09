@@ -8,6 +8,7 @@ import apoio.ConexaoBD;
 import dao.CidadeDAO;
 import entidade.Cidade;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,6 +42,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfdDescricao = new javax.swing.JTextField();
+        btnConsultar = new javax.swing.JButton();
 
         setTitle("Cadastro: Cidade");
 
@@ -115,6 +117,13 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Manutenção", jPanel2);
 
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,7 +132,8 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnConsultar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalvar)
                         .addGap(18, 18, 18)
                         .addComponent(btnFechar))
@@ -138,7 +148,8 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFechar)
-                    .addComponent(btnSalvar))
+                    .addComponent(btnSalvar)
+                    .addComponent(btnConsultar))
                 .addContainerGap())
         );
 
@@ -169,8 +180,22 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        ArrayList<Cidade> cidades = new ArrayList<>();
+        
+        cidades = new CidadeDAO().consultarTodos();
+        
+        for (int i = 0; i < cidades.size(); i++) {
+            System.out.println("Id: " + cidades.get(i).getId());
+            System.out.println("Cidade: " + cidades.get(i).getDescricao());
+            
+            System.out.println("");
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;

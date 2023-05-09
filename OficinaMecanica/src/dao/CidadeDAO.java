@@ -8,6 +8,7 @@ import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Cidade;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -50,7 +51,32 @@ public class CidadeDAO implements IDAOT<Cidade> {
 
     @Override
     public ArrayList<Cidade> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        ArrayList<Cidade> cidades = new ArrayList<>();
+        
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "SELECT * "
+                    + "FROM cidade "
+                    + "ORDER BY descricao";
+            
+            ResultSet retorno = st.executeQuery(sql);
+            
+            while (retorno.next()) {
+                Cidade cidade = new Cidade();
+                
+                cidade.setId(retorno.getInt("id"));
+                cidade.setDescricao(retorno.getString("descricao"));
+                
+                cidades.add(cidade);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar CIDADES: " + e);
+        }
+        
+        return cidades;
     }
 
     @Override
