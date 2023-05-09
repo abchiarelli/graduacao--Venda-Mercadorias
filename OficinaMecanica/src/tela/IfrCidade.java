@@ -5,7 +5,10 @@
 package tela;
 
 import apoio.ConexaoBD;
+import dao.CidadeDAO;
+import entidade.Cidade;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,8 +32,8 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -41,17 +44,17 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
         setTitle("Cadastro: Cidade");
 
-        jButton1.setText("Fechar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFecharActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Salvar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
@@ -121,9 +124,9 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnSalvar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(btnFechar))
                     .addComponent(jTabbedPane1))
                 .addContainerGap())
         );
@@ -134,41 +137,42 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(btnFechar)
+                    .addComponent(btnSalvar))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnFecharActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String descricaoCidade = tfdDescricao.getText();
+        
+        //instanciando obj Cidade
+        Cidade cidade = new Cidade();
+        cidade.setDescricao(descricaoCidade);
 
-        try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = "insert into cidade "
-                    + "values"
-                    + "(default, "
-                    + "'" + descricaoCidade + "')";
-
-            System.out.println("SQL: " + sql);
-
-            int retorno = st.executeUpdate(sql);
-        } catch (Exception e) {
-            System.out.println("Erro ao inserir Cidade: " + e);
+        //instanciando obj CidadeDAO
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        if(cidadeDAO.salvar(cidade) == null) {
+            tfdDescricao.setText("");
+            
+            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+            
+            tfdDescricao.requestFocus();
+        } else {
+            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro.");
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
