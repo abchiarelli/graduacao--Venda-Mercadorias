@@ -32,6 +32,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menCadFornecedores = new javax.swing.JMenu();
         MenCadCliente = new javax.swing.JMenuItem();
         MenCadFornecedores = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         MenSair = new javax.swing.JMenuItem();
 
@@ -68,6 +69,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         menCadFornecedores.add(MenCadFornecedores);
+
+        jMenuItem2.setText("Produtos");
+        menCadFornecedores.add(jMenuItem2);
 
         jMenuBar1.add(menCadFornecedores);
 
@@ -168,6 +172,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu menCadFornecedores;
     // End of variables declaration//GEN-END:variables
 }
