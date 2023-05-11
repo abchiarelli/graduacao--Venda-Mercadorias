@@ -4,6 +4,8 @@
  */
 package vendamercadorias;
 
+import tela.FrmPrincipal;
+
 /**
  *
  * @author artur
@@ -14,7 +16,7 @@ public class VendaMercadorias {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        new FrmPrincipal().setVisible(true);
     }
     
 }
