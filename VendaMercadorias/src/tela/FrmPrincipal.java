@@ -27,7 +27,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        dpnPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenCadCliente = new javax.swing.JMenuItem();
@@ -39,20 +39,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Venda de Mercadorias");
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout dpnPrincipalLayout = new javax.swing.GroupLayout(dpnPrincipal);
+        dpnPrincipal.setLayout(dpnPrincipalLayout);
+        dpnPrincipalLayout.setHorizontalGroup(
+            dpnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 862, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        dpnPrincipalLayout.setVerticalGroup(
+            dpnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 613, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Cadastro");
 
         MenCadCliente.setText("Clientes");
+        MenCadCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenCadClienteActionPerformed(evt);
+            }
+        });
         jMenu1.add(MenCadCliente);
 
         jMenuBar1.add(jMenu1);
@@ -77,14 +82,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jDesktopPane1)
+                .addComponent(dpnPrincipal)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jDesktopPane1)
+                .addComponent(dpnPrincipal)
                 .addContainerGap())
         );
 
@@ -94,6 +99,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void MenSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenSairActionPerformed
         System.exit(0);
     }//GEN-LAST:event_MenSairActionPerformed
+
+    private void MenCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenCadClienteActionPerformed
+        IfrCadClientes telaCadastroClientes = new IfrCadClientes();
+        
+        dpnPrincipal.add(telaCadastroClientes);
+        
+        telaCadastroClientes.setVisible(true);
+    }//GEN-LAST:event_MenCadClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,7 +146,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenCadCliente;
     private javax.swing.JMenuItem MenSair;
-    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JDesktopPane dpnPrincipal;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
