@@ -71,6 +71,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menCadFornecedores.add(MenCadFornecedores);
 
         jMenuItem2.setText("Produtos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         menCadFornecedores.add(jMenuItem2);
 
         jMenuBar1.add(menCadFornecedores);
@@ -128,6 +133,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         
         telaCadFornecedor.setVisible(true);
     }//GEN-LAST:event_MenCadFornecedoresActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        IfrCadProdutos telaCadProdutos = new IfrCadProdutos();
+        
+        DtpPrincipal.add(telaCadProdutos);
+        
+        telaCadProdutos.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments

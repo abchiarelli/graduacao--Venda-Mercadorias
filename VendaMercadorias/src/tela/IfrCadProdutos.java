@@ -4,6 +4,9 @@
  */
 package tela;
 
+import entidade.Produto;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author artur
@@ -118,9 +121,36 @@ public class IfrCadProdutos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        
+        Produto produto = new Produto();
+        
+        try {
         String descricao = txfDescricao.getText();
         float valor = Float.parseFloat(txfValor.getText());
         float quantidade = Float.parseFloat(txfQuantidade.getText());
+            
+        produto.setDescricao(descricao);
+        produto.setValorUnitario(valor);
+        produto.setQuantidadeEstoque(quantidade);
+        } catch (Exception e) {
+            System.out.println("Erro ao adquirir valores: " + e);
+        }
+        
+        if(produto.getDescricao() != null) {
+            txfDescricao.setText("");
+            txfQuantidade.setText("");
+            txfValor.setText("");
+            
+            txfDescricao.setFocusable(true);
+            
+            System.out.println("Informações do produto:");
+            System.out.println("Descricao: " + produto.getDescricao());
+            System.out.println("Valor Unitário: " + produto.getValorUnitario());
+            System.out.println("Quantidade estoque: " + produto.getQuantidadeEstoque());
+            JOptionPane.showMessageDialog(this, "Produto criado e impresso no console!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Ocorreu algum erro.");
+        }
         
     }//GEN-LAST:event_btnSalvarActionPerformed
 
