@@ -27,10 +27,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
-        dpnPrincipal = new javax.swing.JDesktopPane();
+        DtpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menCadFornecedores = new javax.swing.JMenu();
         MenCadCliente = new javax.swing.JMenuItem();
+        MenCadFornecedores = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         MenSair = new javax.swing.JMenuItem();
 
@@ -39,18 +40,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Venda de Mercadorias");
 
-        javax.swing.GroupLayout dpnPrincipalLayout = new javax.swing.GroupLayout(dpnPrincipal);
-        dpnPrincipal.setLayout(dpnPrincipalLayout);
-        dpnPrincipalLayout.setHorizontalGroup(
-            dpnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout DtpPrincipalLayout = new javax.swing.GroupLayout(DtpPrincipal);
+        DtpPrincipal.setLayout(DtpPrincipalLayout);
+        DtpPrincipalLayout.setHorizontalGroup(
+            DtpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 862, Short.MAX_VALUE)
         );
-        dpnPrincipalLayout.setVerticalGroup(
-            dpnPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        DtpPrincipalLayout.setVerticalGroup(
+            DtpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 613, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Cadastro");
+        menCadFornecedores.setText("Cadastro");
 
         MenCadCliente.setText("Clientes");
         MenCadCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -58,9 +59,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 MenCadClienteActionPerformed(evt);
             }
         });
-        jMenu1.add(MenCadCliente);
+        menCadFornecedores.add(MenCadCliente);
 
-        jMenuBar1.add(jMenu1);
+        MenCadFornecedores.setText("Fornecedores");
+        MenCadFornecedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenCadFornecedoresActionPerformed(evt);
+            }
+        });
+        menCadFornecedores.add(MenCadFornecedores);
+
+        jMenuBar1.add(menCadFornecedores);
 
         jMenu2.setText("Ajuda");
 
@@ -82,14 +91,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(dpnPrincipal)
+                .addComponent(DtpPrincipal)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(dpnPrincipal)
+                .addComponent(DtpPrincipal)
                 .addContainerGap())
         );
 
@@ -101,12 +110,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MenSairActionPerformed
 
     private void MenCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenCadClienteActionPerformed
-        IfrCadClientes telaCadastroClientes = new IfrCadClientes();
+        IfrCadCliente telaCadastroClientes = new IfrCadCliente();
         
-        dpnPrincipal.add(telaCadastroClientes);
+        DtpPrincipal.add(telaCadastroClientes);
         
         telaCadastroClientes.setVisible(true);
     }//GEN-LAST:event_MenCadClienteActionPerformed
+
+    private void MenCadFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenCadFornecedoresActionPerformed
+        IfrCadFornecedor telaCadFornecedor = new IfrCadFornecedor();
+        
+        DtpPrincipal.add(telaCadFornecedor);
+        
+        telaCadFornecedor.setVisible(true);
+    }//GEN-LAST:event_MenCadFornecedoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,12 +161,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane DtpPrincipal;
     private javax.swing.JMenuItem MenCadCliente;
+    private javax.swing.JMenuItem MenCadFornecedores;
     private javax.swing.JMenuItem MenSair;
-    private javax.swing.JDesktopPane dpnPrincipal;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenu menCadFornecedores;
     // End of variables declaration//GEN-END:variables
 }

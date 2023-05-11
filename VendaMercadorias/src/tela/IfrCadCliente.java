@@ -10,12 +10,12 @@ import javax.swing.JOptionPane;
  *
  * @author artur
  */
-public class IfrCadClientes extends javax.swing.JInternalFrame {
+public class IfrCadCliente extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form IfrCadClientes
      */
-    public IfrCadClientes() {
+    public IfrCadCliente() {
         initComponents();
     }
 
