@@ -140,19 +140,28 @@ public class IfrCadFornecedor extends javax.swing.JInternalFrame {
 
         if (verificador.nome(nome)) {
             fornecedor.setNome(nome);
-            System.out.println(nome);
+            System.out.println("Nome: " + nome);
         }
 
         if (verificador.email(email)) {
             fornecedor.setEmail(email);
-            System.out.println(email);
+            System.out.println("e-mail: " + fornecedor.getEmail());
         }
 
-        fornecedor.setTelefone(telefone);
+        if (telefone.length() > 11) {
+            if (verificador.telefoneCelular(telefone)) {
+                fornecedor.setTelefone(telefone);
+                System.out.println("Telefone: " + fornecedor.getTelefone());
+            }
+        } else {
+            if (verificador.telefoneFixo(telefone)) {
+                fornecedor.setTelefone(telefone);
+                System.out.println("Telefone: " + fornecedor.getTelefone());
+            }
+        }
+        
         fornecedor.setCnpj(cnpj);
-
-        JOptionPane.showMessageDialog(this, "Ocorreu algum erro.");
-
+        System.out.println("CNPJ: " + fornecedor.getCnpj());
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
