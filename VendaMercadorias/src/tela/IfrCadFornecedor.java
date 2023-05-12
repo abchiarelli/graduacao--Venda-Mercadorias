@@ -4,6 +4,8 @@
  */
 package tela;
 
+import apoio.VerificaDados;
+import entidade.Fornecedor;
 import javax.swing.JOptionPane;
 
 /**
@@ -126,7 +128,32 @@ public class IfrCadFornecedor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        JOptionPane.showMessageDialog(this, "Desculpe, função ainda não implementada.");
+
+        String nome = txfNome.getText();
+        String email = txfEmail.getText();
+        String telefone = txfTelefone.getText();
+        String cnpj = txfCNPJ.getText();
+
+        VerificaDados verificador = new VerificaDados();
+
+        Fornecedor fornecedor = new Fornecedor();
+
+        if (verificador.nome(nome)) {
+            fornecedor.setNome(nome);
+            System.out.println(nome);
+        }
+
+        if (verificador.email(email)) {
+            fornecedor.setEmail(email);
+            System.out.println(email);
+        }
+
+        fornecedor.setTelefone(telefone);
+        fornecedor.setCnpj(cnpj);
+
+        JOptionPane.showMessageDialog(this, "Ocorreu algum erro.");
+
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
