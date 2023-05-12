@@ -4,6 +4,9 @@
  */
 package tela;
 
+import apoio.VerificaDados;
+import entidade.Cliente;
+import entidade.Endereco;
 import javax.swing.JOptionPane;
 
 /**
@@ -174,6 +177,59 @@ public class IfrCadCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        String nome = txfNome.getText();
+        String email = txfEmail.getText();
+        String cpf = txfCPF.getText();
+        String telefone = txfTelefone.getText();
+        
+        String enderecoDescricao = txfEndereco.getText();
+        String cep = txfCEP.getText();
+        
+        Cliente cliente = new Cliente();
+        Endereco endereco = new Endereco();
+        
+        VerificaDados verificador = new VerificaDados();
+        
+        boolean pass = true;
+        
+        if (!verificador.nome(nome)) {
+            JOptionPane.showMessageDialog(this, "Nome inserido possui caracteres inválidos.\nVerifique os dados informados.");
+            pass = false;
+        }
+        
+        if (!verificador.email(email)) {
+            JOptionPane.showMessageDialog(this, "e-mail informado não é válido.\nVerifique os dados informados.");
+            pass = false;
+        }
+
+        if (!verificador.telefone(telefone)) {
+            JOptionPane.showMessageDialog(this, "Telefone inserido possui caracteres inválidos.\nVerifique os dados informados.");
+            pass = false;
+        }
+        
+        if (pass) {
+            cliente.setNome(nome);
+            cliente.setEmail(email);
+            cliente.setCpf(cpf);
+            cliente.setTelefone(telefone);
+            
+            endereco.setDescricao(enderecoDescricao);
+            endereco.setCep(cep);
+            
+            System.out.println("== Dados do Cliente");
+            System.out.println("");
+            System.out.println("Nome: " + cliente.getNome());
+            System.out.println("e-mail: " + cliente.getEmail());
+            System.out.println("CPF: " + cliente.getCpf());
+            System.out.println("Telefone: " + cliente.getTelefone());
+            
+            System.out.println("==");
+            System.out.println("== Dados do Endereco");
+            System.out.println("");
+            System.out.println("Descricao: " + endereco.getDescricao());
+            System.out.println("CEP: " + endereco.getDescricao());
+        }
+        
         JOptionPane.showMessageDialog(this, "Desculpe, função ainda não implementada.");
     }//GEN-LAST:event_btnSalvarActionPerformed
 
