@@ -25,19 +25,27 @@ public class VerificaDados {
         return verificaString(regex, email);
     }
     
-    public boolean telefoneFixo(String telefone) {
+    public boolean telefone(String telefone) {
+        if (telefone.length() > 11) {
+            return telefoneCelular(telefone);
+        } else {
+            return telefoneFixo(telefone);
+        }
+    }
+    
+    
+    private boolean telefoneFixo(String telefone) {
         String regex = "^[\\d]{2}3[\\d]{3}-[\\d]{4}$";
         
         return verificaString(regex, telefone);
     }
     
-    public boolean telefoneCelular(String celular) {
+    private boolean telefoneCelular(String celular) {
         String regex = "^[\\d]{2}9[\\d]{4}-[\\d]{4}$";
         
         return verificaString(regex, celular);
     }
-    
-    
+
     private boolean verificaString(String regex, String termo) {
         Pattern patter = Pattern.compile(regex);
         Matcher matcher = patter.matcher(termo);
