@@ -53,6 +53,12 @@ public class IfrCadFornecedor extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Telefone:");
 
+        txfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txfNomeKeyTyped(evt);
+            }
+        });
+
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,40 +140,51 @@ public class IfrCadFornecedor extends javax.swing.JInternalFrame {
         String telefone = txfTelefone.getText();
         String cnpj = txfCNPJ.getText();
 
+        boolean pass = true;
+
         VerificaDados verificador = new VerificaDados();
 
         Fornecedor fornecedor = new Fornecedor();
 
-        if (verificador.nome(nome)) {
+        if (!verificador.nome(nome)) {
+            JOptionPane.showMessageDialog(this, "Nome inserido possui caracteres inválidos.\nVerifique os dados informados.");
+            pass = false;
+        }
+
+        if (!verificador.email(email)) {
+            JOptionPane.showMessageDialog(this, "e-mail informado não é válido.\nVerifique os dados informados.");
+            pass = false;
+        }
+
+        if (!verificador.telefone(telefone)) {
+            JOptionPane.showMessageDialog(this, "Telefone inserido possui caracteres inválidos.\nVerifique os dados informados.");
+            pass = false;
+        }
+
+        if (pass) {
             fornecedor.setNome(nome);
             System.out.println("Nome: " + nome);
-        }
 
-        if (verificador.email(email)) {
             fornecedor.setEmail(email);
             System.out.println("e-mail: " + fornecedor.getEmail());
+
+            fornecedor.setTelefone(telefone);
+            System.out.println("Telefone: " + fornecedor.getTelefone());
+
+            fornecedor.setCnpj(cnpj);
+            System.out.println("CNPJ: " + fornecedor.getCnpj());
         }
 
-        if (telefone.length() > 11) {
-            if (verificador.telefoneCelular(telefone)) {
-                fornecedor.setTelefone(telefone);
-                System.out.println("Telefone: " + fornecedor.getTelefone());
-            }
-        } else {
-            if (verificador.telefoneFixo(telefone)) {
-                fornecedor.setTelefone(telefone);
-                System.out.println("Telefone: " + fornecedor.getTelefone());
-            }
-        }
-        
-        fornecedor.setCnpj(cnpj);
-        System.out.println("CNPJ: " + fornecedor.getCnpj());
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void txfNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfNomeKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfNomeKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
