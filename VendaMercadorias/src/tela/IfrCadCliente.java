@@ -198,7 +198,7 @@ public class IfrCadCliente extends javax.swing.JInternalFrame {
         }
         
         if (!verificador.email(email)) {
-            JOptionPane.showMessageDialog(this, "e-mail informado não é válido.\nVerifique os dados informados.");
+            JOptionPane.showMessageDialog(this, "O e-mail informado não é válido.\nVerifique os dados informados.");
             pass = false;
         }
 

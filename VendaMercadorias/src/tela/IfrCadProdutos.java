@@ -143,7 +143,8 @@ public class IfrCadProdutos extends javax.swing.JInternalFrame {
             
             txfDescricao.setFocusable(true);
             
-            System.out.println("Informações do produto:");
+            System.out.println("== Informações do produto:");
+            System.out.println("");
             System.out.println("Descricao: " + produto.getDescricao());
             System.out.println("Valor Unitário: " + produto.getValorUnitario());
             System.out.println("Quantidade estoque: " + produto.getQuantidadeEstoque());

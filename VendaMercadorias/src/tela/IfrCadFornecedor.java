@@ -146,13 +146,8 @@ public class IfrCadFornecedor extends javax.swing.JInternalFrame {
 
         Fornecedor fornecedor = new Fornecedor();
 
-        if (!verificador.nome(nome)) {
-            JOptionPane.showMessageDialog(this, "Nome inserido possui caracteres inválidos.\nVerifique os dados informados.");
-            pass = false;
-        }
-
         if (!verificador.email(email)) {
-            JOptionPane.showMessageDialog(this, "e-mail informado não é válido.\nVerifique os dados informados.");
+            JOptionPane.showMessageDialog(this, "O e-mail informado não é válido.\nVerifique os dados informados.");
             pass = false;
         }
 
