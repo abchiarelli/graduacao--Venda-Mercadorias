@@ -37,6 +37,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         MenFornecedor = new javax.swing.JMenu();
         MenProduto = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        MenCidade = new javax.swing.JMenu();
+        MitCidadeCadastrar = new javax.swing.JMenuItem();
+        MitCidadeEditar = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         MenSair = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
@@ -58,6 +62,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         MenCliente.setText("Cliente");
 
         MitClienteCadastrar.setText("Cadastrar");
+        MitClienteCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MitClienteCadastrarActionPerformed(evt);
+            }
+        });
         MenCliente.add(MitClienteCadastrar);
 
         MitClienteConsultar.setText("Consultar");
@@ -76,6 +85,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(MenProduto);
 
         jMenu2.setText("Ajuda");
+
+        MenCidade.setText("Cidade");
+
+        MitCidadeCadastrar.setText("jMenuItem2");
+        MenCidade.add(MitCidadeCadastrar);
+
+        MitCidadeEditar.setText("jMenuItem2");
+        MenCidade.add(MitCidadeEditar);
+
+        jMenu2.add(MenCidade);
+        jMenu2.add(jSeparator2);
 
         MenSair.setText("Sair");
         MenSair.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +132,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void MenSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenSairActionPerformed
         System.exit(0);
     }//GEN-LAST:event_MenSairActionPerformed
+
+    private void MitClienteCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitClienteCadastrarActionPerformed
+        IfrCliente frameCliente = new IfrCliente();
+        
+        DtpPrincipal.add(frameCliente);
+        
+        frameCliente.setVisible(true);
+    }//GEN-LAST:event_MitClienteCadastrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,10 +178,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DtpPrincipal;
+    private javax.swing.JMenu MenCidade;
     private javax.swing.JMenu MenCliente;
     private javax.swing.JMenu MenFornecedor;
     private javax.swing.JMenu MenProduto;
     private javax.swing.JMenuItem MenSair;
+    private javax.swing.JMenuItem MitCidadeCadastrar;
+    private javax.swing.JMenuItem MitCidadeEditar;
     private javax.swing.JMenuItem MitClienteCadastrar;
     private javax.swing.JMenuItem MitClienteConsultar;
     private javax.swing.JMenuItem MitClienteEditar;
@@ -161,5 +192,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }
