@@ -29,10 +29,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         DtpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        menCadFornecedores = new javax.swing.JMenu();
-        MenCadCliente = new javax.swing.JMenuItem();
-        MenCadFornecedores = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        MenCliente = new javax.swing.JMenu();
+        MitClienteCadastrar = new javax.swing.JMenuItem();
+        MitClienteConsultar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        MitClienteEditar = new javax.swing.JMenuItem();
+        MenFornecedor = new javax.swing.JMenu();
+        MenProduto = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         MenSair = new javax.swing.JMenuItem();
 
@@ -49,36 +52,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         DtpPrincipalLayout.setVerticalGroup(
             DtpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 613, Short.MAX_VALUE)
+            .addGap(0, 617, Short.MAX_VALUE)
         );
 
-        menCadFornecedores.setText("Cadastro");
+        MenCliente.setText("Cliente");
 
-        MenCadCliente.setText("Clientes");
-        MenCadCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenCadClienteActionPerformed(evt);
-            }
-        });
-        menCadFornecedores.add(MenCadCliente);
+        MitClienteCadastrar.setText("Cadastrar");
+        MenCliente.add(MitClienteCadastrar);
 
-        MenCadFornecedores.setText("Fornecedores");
-        MenCadFornecedores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenCadFornecedoresActionPerformed(evt);
-            }
-        });
-        menCadFornecedores.add(MenCadFornecedores);
+        MitClienteConsultar.setText("Consultar");
+        MenCliente.add(MitClienteConsultar);
+        MenCliente.add(jSeparator1);
 
-        jMenuItem2.setText("Produtos");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        menCadFornecedores.add(jMenuItem2);
+        MitClienteEditar.setText("Editar");
+        MenCliente.add(MitClienteEditar);
 
-        jMenuBar1.add(menCadFornecedores);
+        jMenuBar1.add(MenCliente);
+
+        MenFornecedor.setText("Fornecedor");
+        jMenuBar1.add(MenFornecedor);
+
+        MenProduto.setText("Produto");
+        jMenuBar1.add(MenProduto);
 
         jMenu2.setText("Ajuda");
 
@@ -118,30 +113,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_MenSairActionPerformed
 
-    private void MenCadClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenCadClienteActionPerformed
-        IfrCadCliente telaCadastroClientes = new IfrCadCliente();
-        
-        DtpPrincipal.add(telaCadastroClientes);
-        
-        telaCadastroClientes.setVisible(true);
-    }//GEN-LAST:event_MenCadClienteActionPerformed
-
-    private void MenCadFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenCadFornecedoresActionPerformed
-        IfrCadFornecedor telaCadFornecedor = new IfrCadFornecedor();
-        
-        DtpPrincipal.add(telaCadFornecedor);
-        
-        telaCadFornecedor.setVisible(true);
-    }//GEN-LAST:event_MenCadFornecedoresActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        IfrCadProdutos telaCadProdutos = new IfrCadProdutos();
-        
-        DtpPrincipal.add(telaCadProdutos);
-        
-        telaCadProdutos.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -179,13 +150,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DtpPrincipal;
-    private javax.swing.JMenuItem MenCadCliente;
-    private javax.swing.JMenuItem MenCadFornecedores;
+    private javax.swing.JMenu MenCliente;
+    private javax.swing.JMenu MenFornecedor;
+    private javax.swing.JMenu MenProduto;
     private javax.swing.JMenuItem MenSair;
+    private javax.swing.JMenuItem MitClienteCadastrar;
+    private javax.swing.JMenuItem MitClienteConsultar;
+    private javax.swing.JMenuItem MitClienteEditar;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenu menCadFornecedores;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
