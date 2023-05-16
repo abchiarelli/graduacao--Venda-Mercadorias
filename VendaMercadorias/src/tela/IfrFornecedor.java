@@ -32,7 +32,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         TxtFiltroNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        PnlFornecedorCadastro = new javax.swing.JPanel();
+        PnlFornecedorManutencao = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -41,15 +41,6 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         TxtEmail = new javax.swing.JTextField();
         TxtTelefone = new javax.swing.JFormattedTextField();
         TxtCnpj = new javax.swing.JFormattedTextField();
-        PnlFornecedorEdicao = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        TxtAtualizarNome = new javax.swing.JTextField();
-        TxtAtualizarEmail = new javax.swing.JTextField();
-        TxtAtualizarTelefone = new javax.swing.JFormattedTextField();
-        TxtAtualizarCnpj = new javax.swing.JFormattedTextField();
         BtnSalvar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
@@ -132,22 +123,22 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
 
-        javax.swing.GroupLayout PnlFornecedorCadastroLayout = new javax.swing.GroupLayout(PnlFornecedorCadastro);
-        PnlFornecedorCadastro.setLayout(PnlFornecedorCadastroLayout);
-        PnlFornecedorCadastroLayout.setHorizontalGroup(
-            PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlFornecedorCadastroLayout.createSequentialGroup()
+        javax.swing.GroupLayout PnlFornecedorManutencaoLayout = new javax.swing.GroupLayout(PnlFornecedorManutencao);
+        PnlFornecedorManutencao.setLayout(PnlFornecedorManutencaoLayout);
+        PnlFornecedorManutencaoLayout.setHorizontalGroup(
+            PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlFornecedorManutencaoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(TxtNome)
                         .addComponent(TxtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
-                    .addGroup(PnlFornecedorCadastroLayout.createSequentialGroup()
+                    .addGroup(PnlFornecedorManutencaoLayout.createSequentialGroup()
                         .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
@@ -155,19 +146,19 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                         .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
-        PnlFornecedorCadastroLayout.setVerticalGroup(
-            PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlFornecedorCadastroLayout.createSequentialGroup()
+        PnlFornecedorManutencaoLayout.setVerticalGroup(
+            PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlFornecedorManutencaoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PnlFornecedorCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
@@ -175,72 +166,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 .addContainerGap(168, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Cadastro", PnlFornecedorCadastro);
-
-        jLabel6.setText("Nome:");
-
-        jLabel7.setText("e-mail:");
-
-        jLabel8.setText("Telefone:");
-
-        jLabel9.setText("CNPJ:");
-
-        try {
-            TxtAtualizarTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            TxtAtualizarCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        javax.swing.GroupLayout PnlFornecedorEdicaoLayout = new javax.swing.GroupLayout(PnlFornecedorEdicao);
-        PnlFornecedorEdicao.setLayout(PnlFornecedorEdicaoLayout);
-        PnlFornecedorEdicaoLayout.setHorizontalGroup(
-            PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlFornecedorEdicaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(TxtAtualizarNome)
-                        .addComponent(TxtAtualizarEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
-                    .addGroup(PnlFornecedorEdicaoLayout.createSequentialGroup()
-                        .addComponent(TxtAtualizarTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtAtualizarCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(123, Short.MAX_VALUE))
-        );
-        PnlFornecedorEdicaoLayout.setVerticalGroup(
-            PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlFornecedorEdicaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(TxtAtualizarNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(TxtAtualizarEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PnlFornecedorEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(TxtAtualizarTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(TxtAtualizarCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(168, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Atualização", PnlFornecedorEdicao);
+        jTabbedPane1.addTab("Manutenção", PnlFornecedorManutencao);
 
         BtnSalvar.setText("Salvar");
 
@@ -299,13 +225,8 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnSalvar;
-    private javax.swing.JPanel PnlFornecedorCadastro;
-    private javax.swing.JPanel PnlFornecedorEdicao;
     private javax.swing.JPanel PnlFornecedorLista;
-    private javax.swing.JFormattedTextField TxtAtualizarCnpj;
-    private javax.swing.JTextField TxtAtualizarEmail;
-    private javax.swing.JTextField TxtAtualizarNome;
-    private javax.swing.JFormattedTextField TxtAtualizarTelefone;
+    private javax.swing.JPanel PnlFornecedorManutencao;
     private javax.swing.JFormattedTextField TxtCnpj;
     private javax.swing.JTextField TxtEmail;
     private javax.swing.JTextField TxtFiltroNome;
@@ -316,10 +237,6 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;

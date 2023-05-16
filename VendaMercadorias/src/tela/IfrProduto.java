@@ -33,20 +33,13 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         TxtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        PnlCadastro = new javax.swing.JPanel();
+        PnlManutencao = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         TxtDescricao = new javax.swing.JTextField();
         TxtValor = new javax.swing.JTextField();
         TxtQuantidade = new javax.swing.JTextField();
-        PnlAtualizacao = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        TxtAtualizaDescricao = new javax.swing.JTextField();
-        TxtAtualizaValor = new javax.swing.JTextField();
-        TxtAtualizaQuantidade = new javax.swing.JTextField();
         BtnSalvar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
@@ -124,18 +117,18 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Estoque (qtde):");
 
-        javax.swing.GroupLayout PnlCadastroLayout = new javax.swing.GroupLayout(PnlCadastro);
-        PnlCadastro.setLayout(PnlCadastroLayout);
-        PnlCadastroLayout.setHorizontalGroup(
-            PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlCadastroLayout.createSequentialGroup()
-                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PnlCadastroLayout.createSequentialGroup()
+        javax.swing.GroupLayout PnlManutencaoLayout = new javax.swing.GroupLayout(PnlManutencao);
+        PnlManutencao.setLayout(PnlManutencaoLayout);
+        PnlManutencaoLayout.setHorizontalGroup(
+            PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlManutencaoLayout.createSequentialGroup()
+                .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlManutencaoLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TxtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PnlCadastroLayout.createSequentialGroup()
+                    .addGroup(PnlManutencaoLayout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -146,71 +139,24 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                         .addComponent(TxtQuantidade)))
                 .addGap(42, 42, 42))
         );
-        PnlCadastroLayout.setVerticalGroup(
-            PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlCadastroLayout.createSequentialGroup()
+        PnlManutencaoLayout.setVerticalGroup(
+            PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlManutencaoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(TxtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(TxtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(190, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Cadastro", PnlCadastro);
-
-        jLabel4.setText("Descrição:");
-
-        jLabel5.setText("Valor (unitário):");
-
-        jLabel6.setText("Estoque (qtde):");
-
-        javax.swing.GroupLayout PnlAtualizacaoLayout = new javax.swing.GroupLayout(PnlAtualizacao);
-        PnlAtualizacao.setLayout(PnlAtualizacaoLayout);
-        PnlAtualizacaoLayout.setHorizontalGroup(
-            PnlAtualizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlAtualizacaoLayout.createSequentialGroup()
-                .addGroup(PnlAtualizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PnlAtualizacaoLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtAtualizaDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PnlAtualizacaoLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtAtualizaValor, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtAtualizaQuantidade)))
-                .addGap(42, 42, 42))
-        );
-        PnlAtualizacaoLayout.setVerticalGroup(
-            PnlAtualizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlAtualizacaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PnlAtualizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(TxtAtualizaDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(PnlAtualizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(TxtAtualizaValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PnlAtualizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(TxtAtualizaQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(190, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Atualização", PnlAtualizacao);
+        jTabbedPane1.addTab("Manutenção", PnlManutencao);
 
         BtnSalvar.setText("Salvar");
 
@@ -267,12 +213,8 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnSalvar;
-    private javax.swing.JPanel PnlAtualizacao;
-    private javax.swing.JPanel PnlCadastro;
     private javax.swing.JPanel PnlListagem;
-    private javax.swing.JTextField TxtAtualizaDescricao;
-    private javax.swing.JTextField TxtAtualizaQuantidade;
-    private javax.swing.JTextField TxtAtualizaValor;
+    private javax.swing.JPanel PnlManutencao;
     private javax.swing.JTextField TxtDescricao;
     private javax.swing.JTextField TxtFiltro;
     private javax.swing.JTextField TxtQuantidade;
@@ -281,9 +223,6 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
