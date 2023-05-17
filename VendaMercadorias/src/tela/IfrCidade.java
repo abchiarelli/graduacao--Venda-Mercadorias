@@ -4,7 +4,11 @@
  */
 package tela;
 
+import dao.CidadeDAO;
 import entidade.Cidade;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,6 +16,8 @@ import entidade.Cidade;
  */
 public class IfrCidade extends javax.swing.JInternalFrame {
 
+    ArrayList<Cidade> cidades = null;
+    
     /**
      * Creates new form IfrCidade
      */
@@ -33,7 +39,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         TxtFiltroNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TblListagem = new javax.swing.JTable();
         PnlManutencao = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         TxtNome = new javax.swing.JTextField();
@@ -47,7 +53,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Filtro por nome:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TblListagem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -63,12 +69,12 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(1);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(150);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+        jScrollPane1.setViewportView(TblListagem);
+        if (TblListagem.getColumnModel().getColumnCount() > 0) {
+            TblListagem.getColumnModel().getColumn(0).setMinWidth(1);
+            TblListagem.getColumnModel().getColumn(0).setPreferredWidth(1);
+            TblListagem.getColumnModel().getColumn(1).setMinWidth(150);
+            TblListagem.getColumnModel().getColumn(1).setPreferredWidth(250);
         }
 
         javax.swing.GroupLayout PnlListagemLayout = new javax.swing.GroupLayout(PnlListagem);
@@ -140,6 +146,11 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         });
 
         BtnBuscar.setText("Buscar");
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBuscarActionPerformed(evt);
+            }
+        });
 
         BtnExcluir.setText("Excluir");
 
@@ -192,11 +203,42 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
         String nome = TxtNome.getText();
         
-        Cidade cidade = new Cidade();
+        Cidade cidade = new Cidade(nome);
         
-        cidade.setNome(nome);
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        
+        if (cidadeDAO.salvar(cidade) == null) {
+            JOptionPane.showMessageDialog(this, "Cidade salva com sucesso!");
+            limpaRegistro();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar Cidade.");
+        }
     }//GEN-LAST:event_BtnSalvarActionPerformed
 
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        popularTabela();
+    }//GEN-LAST:event_BtnBuscarActionPerformed
+
+    private void limpaRegistro() {
+        TxtNome.setText("");
+        TxtNome.requestFocus();
+    }
+    
+    private void popularTabela() {
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        
+        cidades = cidadeDAO.consultarTodos();
+        
+        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        model.setRowCount(0);
+        
+        for (Cidade cidade : cidades) {
+            String[] row = {String.valueOf(cidade.getId()), cidade.getNome()};
+            model.addRow(row);
+        }
+        
+        TblListagem.setModel(model);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
@@ -206,12 +248,12 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnSalvar;
     private javax.swing.JPanel PnlListagem;
     private javax.swing.JPanel PnlManutencao;
+    private javax.swing.JTable TblListagem;
     private javax.swing.JTextField TxtFiltroNome;
     private javax.swing.JTextField TxtNome;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
