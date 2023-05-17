@@ -9,11 +9,11 @@ package entidade;
  * @author artur
  */
 public class Fornecedor {
-    int id;
-    String nome;
-    String email;
-    String telefone;
-    String cnpj;
+    private int id;
+    private String nome;
+    private String email;
+    private String telefone;
+    private String cnpj;
 
     public int getId() {
         return id;
@@ -54,4 +54,6 @@ public class Fornecedor {
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
+    
+    
 }
