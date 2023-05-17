@@ -22,10 +22,10 @@ public class CidadeDAO implements IDAOT<Cidade> {
         try {
             Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
 
-            String sql = "INSERT INTO cidade ("
+            String sql = "INSERT INTO cidade VALUES ("
                     + "DEFAULT, "
-                    + "" + o.getNome()
-                    + ");";
+                    + "'" + o.getNome()
+                    + "');";
 
             System.out.println("SQL: " + sql);
 
@@ -58,13 +58,13 @@ public class CidadeDAO implements IDAOT<Cidade> {
 
             String sql = "SELECT * "
                     + "FROM cidade "
-                    + "ORDER BY nome;";
+                    + "ORDER BY descricao;";
 
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String nome = rs.getString("nome");
+                String nome = rs.getString("descricao");
 
                 Cidade cidade = new Cidade(id, nome);
 
@@ -90,7 +90,7 @@ public class CidadeDAO implements IDAOT<Cidade> {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String nome = rs.getString("nome");
+                String nome = rs.getString("descricao");
 
                 Cidade cidade = new Cidade(id, nome);
 
@@ -118,7 +118,7 @@ public class CidadeDAO implements IDAOT<Cidade> {
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                String nome = rs.getString("nome");
+                String nome = rs.getString("descricao");
 
                 Cidade cidade = new Cidade(id, nome);
 
