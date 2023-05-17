@@ -9,12 +9,13 @@ package entidade;
  * @author artur
  */
 public class Cliente {
-
     private int id;
     private String nome;
     private String email;
     private String cpf;
     private String telefone;
+    private String logradouro;
+    private int cidade;
 
     public int getId() {
         return id;
@@ -56,4 +57,21 @@ public class Cliente {
         this.telefone = telefone;
     }
 
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public int getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(int cidade) {
+        this.cidade = cidade;
+    }
+    
+    
 }
