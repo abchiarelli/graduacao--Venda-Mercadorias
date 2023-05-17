@@ -5,6 +5,7 @@
 package apoio;
 
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.Properties;
 
@@ -22,7 +23,7 @@ public class ConexaoBD {
         try {
             //leitor de .properties
             Properties prop = new Properties();
-            prop.load(new FileInputStream("dbcon.properties"));
+            prop.load(new FileInputStream("./nbproject/private/dbcon.properties"));
 
             //dados de conexao
             String driver = prop.getProperty("db.driver");

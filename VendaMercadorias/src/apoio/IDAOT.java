@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  *
  * @author pretto
+ * @param <T>
  */
 
 // Utiliza Generics como tipo de dado
