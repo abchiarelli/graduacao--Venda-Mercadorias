@@ -41,13 +41,13 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         TxtEmail = new javax.swing.JTextField();
         TxtTelefone = new javax.swing.JFormattedTextField();
         TxtCnpj = new javax.swing.JFormattedTextField();
-        BtnSalvar = new javax.swing.JButton();
-        BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnAtualizar = new javax.swing.JButton();
+        BtnSalvar = new javax.swing.JButton();
+        BtnCancelar = new javax.swing.JButton();
 
-        setTitle("Fornecedores");
+        setTitle("Cadastro: Fornecedores");
         setPreferredSize(new java.awt.Dimension(500, 408));
 
         jLabel5.setText("Filtro por nome:");
@@ -81,12 +81,12 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             .addGroup(PnlFornecedorListaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PnlFornecedorListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(PnlFornecedorListaLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 87, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         PnlFornecedorListaLayout.setVerticalGroup(
@@ -144,7 +144,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         PnlFornecedorManutencaoLayout.setVerticalGroup(
             PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,15 +168,20 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Manutenção", PnlFornecedorManutencao);
 
-        BtnSalvar.setText("Salvar");
-
-        BtnCancelar.setText("Cancelar");
-
         BtnBuscar.setText("Buscar");
 
         BtnExcluir.setText("Excluir");
 
         BtnAtualizar.setText("Atualizar");
+
+        BtnSalvar.setText("Salvar");
+
+        BtnCancelar.setText("Cancelar");
+        BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,9 +190,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
@@ -198,7 +201,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                         .addComponent(BtnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BtnSalvar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,16 +210,21 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BtnSalvar)
-                    .addComponent(BtnCancelar)
                     .addComponent(BtnBuscar)
                     .addComponent(BtnExcluir)
-                    .addComponent(BtnAtualizar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(BtnAtualizar)
+                    .addComponent(BtnSalvar)
+                    .addComponent(BtnCancelar))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
+        this.dispose();
+        
+    }//GEN-LAST:event_BtnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

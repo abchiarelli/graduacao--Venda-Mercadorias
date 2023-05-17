@@ -55,7 +55,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         BtnAtualizar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
 
-        setTitle("Clientes");
+        setTitle("Cadastro: Clientes");
 
         TblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -140,8 +140,6 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-
-        CbbCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout PnlClienteManutencaoLayout = new javax.swing.GroupLayout(PnlClienteManutencao);
         PnlClienteManutencao.setLayout(PnlClienteManutencaoLayout);

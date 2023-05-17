@@ -4,6 +4,8 @@
  */
 package tela;
 
+import entidade.Cidade;
+
 /**
  *
  * @author artur
@@ -33,6 +35,8 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         PnlManutencao = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        TxtNome = new javax.swing.JTextField();
         BtnSalvar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
@@ -45,16 +49,27 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nome"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(1);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(150);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+        }
 
         javax.swing.GroupLayout PnlListagemLayout = new javax.swing.GroupLayout(PnlListagem);
         PnlListagem.setLayout(PnlListagemLayout);
@@ -85,22 +100,44 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Listagem", PnlListagem);
 
+        jLabel2.setText("Nome:");
+
         javax.swing.GroupLayout PnlManutencaoLayout = new javax.swing.GroupLayout(PnlManutencao);
         PnlManutencao.setLayout(PnlManutencaoLayout);
         PnlManutencaoLayout.setHorizontalGroup(
             PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(PnlManutencaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         PnlManutencaoLayout.setVerticalGroup(
             PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 227, Short.MAX_VALUE)
+            .addGroup(PnlManutencaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manutenção", PnlManutencao);
 
         BtnSalvar.setText("Salvar");
+        BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSalvarActionPerformed(evt);
+            }
+        });
 
         BtnCancelar.setText("Cancelar");
+        BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelarActionPerformed(evt);
+            }
+        });
 
         BtnBuscar.setText("Buscar");
 
@@ -142,11 +179,23 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                     .addComponent(BtnBuscar)
                     .addComponent(BtnExcluir)
                     .addComponent(BtnAtualizar))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_BtnCancelarActionPerformed
+
+    private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
+        String nome = TxtNome.getText();
+        
+        Cidade cidade = new Cidade();
+        
+        cidade.setNome(nome);
+    }//GEN-LAST:event_BtnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -158,7 +207,9 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PnlListagem;
     private javax.swing.JPanel PnlManutencao;
     private javax.swing.JTextField TxtFiltroNome;
+    private javax.swing.JTextField TxtNome;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;

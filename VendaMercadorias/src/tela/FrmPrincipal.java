@@ -29,17 +29,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         DtpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        MenCliente = new javax.swing.JMenu();
-        MitClienteCadastrar = new javax.swing.JMenuItem();
-        MitClienteConsultar = new javax.swing.JMenuItem();
+        MenCadastro = new javax.swing.JMenu();
+        MitCliente = new javax.swing.JMenuItem();
+        MitFornecedor = new javax.swing.JMenuItem();
+        MitProduto = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        MitClienteEditar = new javax.swing.JMenuItem();
-        MenFornecedor = new javax.swing.JMenu();
-        MenProduto = new javax.swing.JMenu();
+        MitCidade = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        MenCidade = new javax.swing.JMenu();
-        MitCidadeCadastrar = new javax.swing.JMenuItem();
-        MitCidadeEditar = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         MenSair = new javax.swing.JMenuItem();
 
@@ -59,42 +55,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGap(0, 617, Short.MAX_VALUE)
         );
 
-        MenCliente.setText("Cliente");
+        MenCadastro.setText("Cadastro");
 
-        MitClienteCadastrar.setText("Cadastrar");
-        MitClienteCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        MitCliente.setText("Cliente");
+        MitCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MitClienteCadastrarActionPerformed(evt);
+                MitClienteActionPerformed(evt);
             }
         });
-        MenCliente.add(MitClienteCadastrar);
+        MenCadastro.add(MitCliente);
 
-        MitClienteConsultar.setText("Consultar");
-        MenCliente.add(MitClienteConsultar);
-        MenCliente.add(jSeparator1);
+        MitFornecedor.setText("Fornecedor");
+        MitFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MitFornecedorActionPerformed(evt);
+            }
+        });
+        MenCadastro.add(MitFornecedor);
 
-        MitClienteEditar.setText("Editar");
-        MenCliente.add(MitClienteEditar);
+        MitProduto.setText("Produto");
+        MitProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MitProdutoActionPerformed(evt);
+            }
+        });
+        MenCadastro.add(MitProduto);
+        MenCadastro.add(jSeparator1);
 
-        jMenuBar1.add(MenCliente);
+        MitCidade.setText("Cidade");
+        MenCadastro.add(MitCidade);
 
-        MenFornecedor.setText("Fornecedor");
-        jMenuBar1.add(MenFornecedor);
-
-        MenProduto.setText("Produto");
-        jMenuBar1.add(MenProduto);
+        jMenuBar1.add(MenCadastro);
 
         jMenu2.setText("Ajuda");
-
-        MenCidade.setText("Cidade");
-
-        MitCidadeCadastrar.setText("jMenuItem2");
-        MenCidade.add(MitCidadeCadastrar);
-
-        MitCidadeEditar.setText("jMenuItem2");
-        MenCidade.add(MitCidadeEditar);
-
-        jMenu2.add(MenCidade);
         jMenu2.add(jSeparator2);
 
         MenSair.setText("Sair");
@@ -133,13 +126,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_MenSairActionPerformed
 
-    private void MitClienteCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitClienteCadastrarActionPerformed
+    private void MitClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitClienteActionPerformed
         IfrCliente frameCliente = new IfrCliente();
         
         DtpPrincipal.add(frameCliente);
         
         frameCliente.setVisible(true);
-    }//GEN-LAST:event_MitClienteCadastrarActionPerformed
+    }//GEN-LAST:event_MitClienteActionPerformed
+
+    private void MitFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitFornecedorActionPerformed
+        IfrFornecedor frameFornecedor = new IfrFornecedor();
+        
+        DtpPrincipal.add(frameFornecedor);
+        
+        frameFornecedor.setVisible(true);
+    }//GEN-LAST:event_MitFornecedorActionPerformed
+
+    private void MitProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitProdutoActionPerformed
+        IfrProduto frameProduto = new IfrProduto();
+        
+        DtpPrincipal.add(frameProduto);
+        
+        frameProduto.setVisible(true);
+    }//GEN-LAST:event_MitProdutoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,16 +187,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DtpPrincipal;
-    private javax.swing.JMenu MenCidade;
-    private javax.swing.JMenu MenCliente;
-    private javax.swing.JMenu MenFornecedor;
-    private javax.swing.JMenu MenProduto;
+    private javax.swing.JMenu MenCadastro;
     private javax.swing.JMenuItem MenSair;
-    private javax.swing.JMenuItem MitCidadeCadastrar;
-    private javax.swing.JMenuItem MitCidadeEditar;
-    private javax.swing.JMenuItem MitClienteCadastrar;
-    private javax.swing.JMenuItem MitClienteConsultar;
-    private javax.swing.JMenuItem MitClienteEditar;
+    private javax.swing.JMenuItem MitCidade;
+    private javax.swing.JMenuItem MitCliente;
+    private javax.swing.JMenuItem MitFornecedor;
+    private javax.swing.JMenuItem MitProduto;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

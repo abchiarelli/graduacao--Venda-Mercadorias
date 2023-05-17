@@ -33,7 +33,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         TxtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        PnlManutencao = new javax.swing.JPanel();
+        PnlCadastro = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -48,7 +48,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jButton1.setText("jButton1");
 
-        setTitle("Produtos");
+        setTitle("Cadastro: Produtos");
         setToolTipText("");
 
         jLabel7.setText("Filtro por nome:");
@@ -117,18 +117,18 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Estoque (qtde):");
 
-        javax.swing.GroupLayout PnlManutencaoLayout = new javax.swing.GroupLayout(PnlManutencao);
-        PnlManutencao.setLayout(PnlManutencaoLayout);
-        PnlManutencaoLayout.setHorizontalGroup(
-            PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlManutencaoLayout.createSequentialGroup()
-                .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PnlManutencaoLayout.createSequentialGroup()
+        javax.swing.GroupLayout PnlCadastroLayout = new javax.swing.GroupLayout(PnlCadastro);
+        PnlCadastro.setLayout(PnlCadastroLayout);
+        PnlCadastroLayout.setHorizontalGroup(
+            PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlCadastroLayout.createSequentialGroup()
+                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PnlCadastroLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TxtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PnlManutencaoLayout.createSequentialGroup()
+                    .addGroup(PnlCadastroLayout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -139,28 +139,33 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                         .addComponent(TxtQuantidade)))
                 .addGap(42, 42, 42))
         );
-        PnlManutencaoLayout.setVerticalGroup(
-            PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlManutencaoLayout.createSequentialGroup()
+        PnlCadastroLayout.setVerticalGroup(
+            PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(TxtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(TxtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(190, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Manutenção", PnlManutencao);
+        jTabbedPane1.addTab("Cadastro", PnlCadastro);
 
         BtnSalvar.setText("Salvar");
 
         BtnCancelar.setText("Cancelar");
+        BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelarActionPerformed(evt);
+            }
+        });
 
         BtnBuscar.setText("Buscar");
 
@@ -206,6 +211,10 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_BtnCancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
@@ -213,8 +222,8 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnSalvar;
+    private javax.swing.JPanel PnlCadastro;
     private javax.swing.JPanel PnlListagem;
-    private javax.swing.JPanel PnlManutencao;
     private javax.swing.JTextField TxtDescricao;
     private javax.swing.JTextField TxtFiltro;
     private javax.swing.JTextField TxtQuantidade;
