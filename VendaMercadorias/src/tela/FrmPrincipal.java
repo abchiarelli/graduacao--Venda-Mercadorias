@@ -83,6 +83,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         MenCadastro.add(jSeparator1);
 
         MitCidade.setText("Cidade");
+        MitCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MitCidadeActionPerformed(evt);
+            }
+        });
         MenCadastro.add(MitCidade);
 
         jMenuBar1.add(MenCadastro);
@@ -149,6 +154,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         
         frameProduto.setVisible(true);
     }//GEN-LAST:event_MitProdutoActionPerformed
+
+    private void MitCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitCidadeActionPerformed
+        IfrCidade frameCidade = new IfrCidade();
+        
+        DtpPrincipal.add(frameCidade);
+        
+        frameCidade.setVisible(true);
+    }//GEN-LAST:event_MitCidadeActionPerformed
 
     /**
      * @param args the command line arguments
