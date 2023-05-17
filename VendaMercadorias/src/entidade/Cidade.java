@@ -8,11 +8,9 @@ package entidade;
  *
  * @author artur
  */
-public class Endereco {
-
+public class Cidade {
     private int id;
-    private String descricao;
-    private String cep;
+    private String nome;
 
     public int getId() {
         return id;
@@ -22,20 +20,13 @@ public class Endereco {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
+    
+    
 }
