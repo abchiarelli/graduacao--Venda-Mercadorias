@@ -11,8 +11,8 @@ package entidade;
 public class Produto {
     private int id;
     private String descricao;
-    private float valorUnitario;
-    private float quantidadeEstoque;
+    private float valor;
+    private float quantidade;
 
     public int getId() {
         return id;
@@ -30,20 +30,21 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public float getValorUnitario() {
-        return valorUnitario;
+    public float getValor() {
+        return valor;
     }
 
-    public void setValorUnitario(float valorUnitario) {
-        this.valorUnitario = valorUnitario;
+    public void setValor(float valor) {
+        this.valor = valor;
     }
 
-    public float getQuantidadeEstoque() {
-        return quantidadeEstoque;
+    public float getQuantidade() {
+        return quantidade;
     }
 
-    public void setQuantidadeEstoque(float quantidadeEstoque) {
-        this.quantidadeEstoque = quantidadeEstoque;
+    public void setQuantidade(float quantidade) {
+        this.quantidade = quantidade;
     }
-        
+    
+    
 }
