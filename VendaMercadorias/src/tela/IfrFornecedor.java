@@ -4,12 +4,20 @@
  */
 package tela;
 
+import dao.FornecedorDAO;
+import entidade.Fornecedor;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author artur
  */
 public class IfrFornecedor extends javax.swing.JInternalFrame {
 
+    ArrayList<Fornecedor> fornecedores;
+    
     /**
      * Creates new form IfrFornecedor
      */
@@ -31,7 +39,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         TxtFiltroNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TblListagem = new javax.swing.JTable();
         PnlFornecedorManutencao = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -52,7 +60,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Filtro por nome:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TblListagem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -68,10 +76,10 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(150);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+        jScrollPane1.setViewportView(TblListagem);
+        if (TblListagem.getColumnModel().getColumnCount() > 0) {
+            TblListagem.getColumnModel().getColumn(0).setMinWidth(150);
+            TblListagem.getColumnModel().getColumn(0).setPreferredWidth(250);
         }
 
         javax.swing.GroupLayout PnlFornecedorListaLayout = new javax.swing.GroupLayout(PnlFornecedorLista);
@@ -169,12 +177,22 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         jTabbedPane1.addTab("Manutenção", PnlFornecedorManutencao);
 
         BtnBuscar.setText("Buscar");
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBuscarActionPerformed(evt);
+            }
+        });
 
         BtnExcluir.setText("Excluir");
 
         BtnAtualizar.setText("Atualizar");
 
         BtnSalvar.setText("Salvar");
+        BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSalvarActionPerformed(evt);
+            }
+        });
 
         BtnCancelar.setText("Cancelar");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -223,9 +241,79 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         this.dispose();
-        
+
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
+    private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
+        salvar();
+    }//GEN-LAST:event_BtnSalvarActionPerformed
+
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        popularTabela();
+    }//GEN-LAST:event_BtnBuscarActionPerformed
+
+    private Fornecedor criarFornecedor() {
+        
+        String nome = TxtNome.getText();
+        String email = TxtEmail.getText();
+        String telefone = TxtTelefone.getText();
+        String cnpj = TxtCnpj.getText();
+        
+        return new Fornecedor(nome, email, telefone, cnpj);
+    }
+    
+    private void limparRegistro() {
+        TxtNome.setText("");
+        TxtEmail.setText("");
+        TxtTelefone.setText("");
+        TxtCnpj.setText("");
+        
+        TxtNome.requestFocus();
+    }
+    
+    private void salvar() {
+        Fornecedor fornecedor = criarFornecedor();
+        
+        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        if(fornecedorDAO.salvar(fornecedor) == null) {
+            JOptionPane.showMessageDialog(this, "Fornecedor salvo com Sucesso");
+            limparRegistro();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro so salvar Fornecedor.");
+        }
+    }
+    
+    private void popularTabela() {
+        limparTabela();
+        
+        popularArray();
+        
+        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        
+        for (Fornecedor fornecedor : fornecedores) {
+            String nome = fornecedor.getNome();
+            String telefone = fornecedor.getTelefone();
+            
+            String[] row = {nome, telefone};
+            model.addRow(row);
+        }
+        
+        
+    }
+    
+    private void limparTabela() {
+        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        model.setRowCount(0);
+        TblListagem.setModel(model);
+    }
+    
+    private void popularArray() {
+        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        fornecedores = fornecedorDAO.consultarTodos();
+    }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
@@ -235,6 +323,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnSalvar;
     private javax.swing.JPanel PnlFornecedorLista;
     private javax.swing.JPanel PnlFornecedorManutencao;
+    private javax.swing.JTable TblListagem;
     private javax.swing.JFormattedTextField TxtCnpj;
     private javax.swing.JTextField TxtEmail;
     private javax.swing.JTextField TxtFiltroNome;
@@ -247,6 +336,5 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
