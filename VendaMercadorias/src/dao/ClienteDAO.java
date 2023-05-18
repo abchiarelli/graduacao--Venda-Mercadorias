@@ -23,10 +23,10 @@ public class ClienteDAO implements IDAOT<Cliente> {
             String DML = "INSERT INTO cliente VALUES ("
                     + "DEFAULT, "
                     + "'" + o.getNome() + "', "
-                    + "'" + o.getEmail() + ", "
-                    + "'" + o.getTelefone() + ", "
-                    + "'" + o.getCpf() + ", "
-                    + "'" + o.getLogradouro() + ", "
+                    + "'" + o.getEmail() + "', "
+                    + "'" + o.getTelefone() + "', "
+                    + "'" + o.getCpf() + "', "
+                    + "'" + o.getLogradouro() + "', "
                     + o.getCidade()
                     + ");";
 
