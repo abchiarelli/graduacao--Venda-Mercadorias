@@ -15,6 +15,24 @@ public class Fornecedor {
     private String telefone;
     private String cnpj;
 
+    public Fornecedor(String nome, String email, String telefone, String cnpj) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.cnpj = cnpj;
+    }
+
+    public Fornecedor(int id, String nome, String email, String telefone, String cnpj) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.cnpj = cnpj;
+    }
+    
+    
+    
+
     public int getId() {
         return id;
     }
