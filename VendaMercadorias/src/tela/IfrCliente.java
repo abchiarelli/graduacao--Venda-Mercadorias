@@ -4,8 +4,14 @@
  */
 package tela;
 
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
+import dao.CidadeDAO;
+import dao.ClienteDAO;
+import entidade.Cidade;
+import entidade.Cliente;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -13,11 +19,19 @@ import javax.swing.text.MaskFormatter;
  */
 public class IfrCliente extends javax.swing.JInternalFrame {
 
+    ArrayList<Cidade> cidades = new ArrayList<Cidade>();
+    ArrayList<Cliente> clientes = new ArrayList<>();
+
     /**
      * Creates new form IfrCliente
      */
     public IfrCliente() {
         initComponents();
+
+        popularComboBoxCidades();
+        popularTabela();
+        
+        alterarBotoes();
     }
 
     /**
@@ -29,7 +43,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        TbpCliente = new javax.swing.JTabbedPane();
+        TbpPrincipal = new javax.swing.JTabbedPane();
         PnlClienteLista = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TblClientes = new javax.swing.JTable();
@@ -49,13 +63,19 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         TxtLogradouro = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         CbbCidade = new javax.swing.JComboBox<>();
-        BtnCadastrar = new javax.swing.JButton();
+        BtnSalvar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
         BtnAtualizar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
 
         setTitle("Cadastro: Clientes");
+
+        TbpPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbpPrincipalMouseClicked(evt);
+            }
+        });
 
         TblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,7 +135,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        TbpCliente.addTab("Listagem", PnlClienteLista);
+        TbpPrincipal.addTab("Listagem", PnlClienteLista);
 
         jLabel2.setText("Nome:");
 
@@ -208,12 +228,12 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addContainerGap(68, Short.MAX_VALUE))
         );
 
-        TbpCliente.addTab("Manutenção", PnlClienteManutencao);
+        TbpPrincipal.addTab("Manutenção", PnlClienteManutencao);
 
-        BtnCadastrar.setText("Salvar");
-        BtnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        BtnSalvar.setText("Salvar");
+        BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCadastrarActionPerformed(evt);
+                BtnSalvarActionPerformed(evt);
             }
         });
 
@@ -225,6 +245,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         });
 
         BtnBuscar.setText("Buscar");
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBuscarActionPerformed(evt);
+            }
+        });
 
         BtnAtualizar.setText("Atualizar");
 
@@ -238,7 +263,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(TbpCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
@@ -249,17 +274,17 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BtnCadastrar)))
+                        .addComponent(BtnSalvar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TbpCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BtnCadastrar)
+                    .addComponent(BtnSalvar)
                     .addComponent(BtnCancelar)
                     .addComponent(BtnBuscar)
                     .addComponent(BtnAtualizar)
@@ -274,29 +299,124 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
-    private void BtnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCadastrarActionPerformed
+    private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
+        if (CbbCidade.getSelectedIndex() > 0) {
+            
+            salvar();
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Você deve selecionar uma cidade da lista.");
+        }
+
+    }//GEN-LAST:event_BtnSalvarActionPerformed
+
+    private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
+        alterarBotoes();
+    }//GEN-LAST:event_TbpPrincipalMouseClicked
+
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        popularTabela();
+    }//GEN-LAST:event_BtnBuscarActionPerformed
+
+    private void salvar() {
+        Cliente cliente = criarCliente();
+            
+            ClienteDAO clienteDAO = new ClienteDAO();
+            if (clienteDAO.salvar(cliente) == null) {
+                limparRegistro();
+                JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao acadastrar Cliente.");
+            }
+    }
+    
+    private Cliente criarCliente() {
         String nome = TxtNome.getText();
         String email = TxtEmail.getText();
         String cpf = TxtCPF.getText();
         String telefone = TxtTelefone.getText();
         String logradouro = TxtLogradouro.getText();
-        int indexCidade = CbbCidade.getSelectedIndex();
+        int idCidade = cidades.get(CbbCidade.getSelectedIndex() - 1).getId();
+
+        return new Cliente(nome, email, cpf, telefone, logradouro, idCidade);
+    }
+    
+    private void limparRegistro() {
+        TxtNome.setText("");
+        TxtEmail.setText("");
+        TxtCPF.setText("");
+        TxtTelefone.setText("");
+        TxtLogradouro.setText("");
+        CbbCidade.setSelectedIndex(0);
         
+        TxtNome.requestFocus();
+    }
+
+    private void popularComboBoxCidades() {
+        CbbCidade.removeAllItems();
+
+        popularArrayCidades();
+
+        CbbCidade.addItem("--- Selecione a Cidade ---");
+        for (Cidade cidade : cidades) {
+            CbbCidade.addItem(cidade.getNome());
+        }
+    }
+    
+    private void alterarBotoes() {
+        BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
+        BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
+    }
+    
+    private void popularTabela() {
+        limparTabela();
         
-    }//GEN-LAST:event_BtnCadastrarActionPerformed
+        popularArrayClientes();
+        
+        DefaultTableModel model = (DefaultTableModel) TblClientes.getModel();
+        
+        CidadeDAO cidadeDAO = new CidadeDAO();
+               
+        for (Cliente cliente : clientes) {
+            String nome = cliente.getNome();
+            String cidade = cidadeDAO.consultarId(cliente.getCidade()).getNome();
+            String telefone = cliente.getTelefone();
+            
+            String[] row = {nome, cidade, telefone};
+            
+            model.addRow(row);
+        }
+        
+        TblClientes.setModel(model);
+    }
+    
+    private void limparTabela() {
+        DefaultTableModel model = (DefaultTableModel) TblClientes.getModel();
+        model.setRowCount(0);
+    }
+    
+    private void popularArrayClientes() {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        clientes = clienteDAO.consultarTodos();
+    }
+    
+    private void popularArrayCidades() {
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        cidades = cidadeDAO.consultarTodos();
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
     private javax.swing.JButton BtnBuscar;
-    private javax.swing.JButton BtnCadastrar;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnExcluir;
+    private javax.swing.JButton BtnSalvar;
     private javax.swing.JComboBox<String> CbbCidade;
     private javax.swing.JPanel PnlClienteLista;
     private javax.swing.JPanel PnlClienteManutencao;
     private javax.swing.JTable TblClientes;
-    private javax.swing.JTabbedPane TbpCliente;
+    private javax.swing.JTabbedPane TbpPrincipal;
     private javax.swing.JFormattedTextField TxtCPF;
     private javax.swing.JTextField TxtEmail;
     private javax.swing.JTextField TxtFiltroNome;
