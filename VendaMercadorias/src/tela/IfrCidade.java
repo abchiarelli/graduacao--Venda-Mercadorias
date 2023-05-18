@@ -23,6 +23,8 @@ public class IfrCidade extends javax.swing.JInternalFrame {
      */
     public IfrCidade() {
         initComponents();
+        
+        popularTabela();
     }
 
     /**

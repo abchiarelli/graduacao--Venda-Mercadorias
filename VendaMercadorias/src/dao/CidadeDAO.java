@@ -22,14 +22,14 @@ public class CidadeDAO implements IDAOT<Cidade> {
         try {
             Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
 
-            String sql = "INSERT INTO cidade VALUES ("
+            String dml = "INSERT INTO cidade VALUES ("
                     + "DEFAULT, "
                     + "'" + o.getNome()
                     + "');";
 
-            System.out.println("SQL: " + sql);
+            System.out.println("dml: " + dml);
 
-            int retorno = st.executeUpdate(sql);
+            int retorno = st.executeUpdate(dml);
 
             return null;
         } catch (Exception e) {
@@ -56,11 +56,11 @@ public class CidadeDAO implements IDAOT<Cidade> {
 
             Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
 
-            String sql = "SELECT * "
+            String dml = "SELECT * "
                     + "FROM cidade "
                     + "ORDER BY descricao;";
 
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(dml);
 
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -111,11 +111,11 @@ public class CidadeDAO implements IDAOT<Cidade> {
 
             Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
 
-            String sql = "SELECT * "
+            String dml = "SELECT * "
                     + "FROM cidade "
                     + "WHERE id = " + id + ";";
 
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(dml);
 
             while (rs.next()) {
                 String nome = rs.getString("descricao");
