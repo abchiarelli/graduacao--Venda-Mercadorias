@@ -17,6 +17,28 @@ public class Cliente {
     private String logradouro;
     private int cidade;
 
+    public Cliente(String nome, String email, String cpf, String telefone, String logradouro, int cidade) {
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.logradouro = logradouro;
+        this.cidade = cidade;
+    }
+
+    public Cliente(int id, String nome, String email, String cpf, String telefone, String logradouro, int cidade) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.logradouro = logradouro;
+        this.cidade = cidade;
+    }
+
+    
+    
+    
     public int getId() {
         return id;
     }
