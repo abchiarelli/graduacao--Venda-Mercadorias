@@ -4,17 +4,27 @@
  */
 package tela;
 
+import dao.ProdutoDAO;
+import entidade.Produto;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author artur
  */
 public class IfrProduto extends javax.swing.JInternalFrame {
 
+    ArrayList<Produto> produtos;
+    
     /**
      * Creates new form IfrProduto
      */
     public IfrProduto() {
         initComponents();
+        
+        //popularTabela();
     }
 
     /**
@@ -32,7 +42,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         TxtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TblListagem = new javax.swing.JTable();
         PnlCadastro = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -53,7 +63,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Filtro por nome:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TblListagem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -61,25 +71,18 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 "Descricao", "Valor", "Estoque (qtde.)"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class
-            };
             boolean[] canEdit = new boolean [] {
                 false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(150);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+        jScrollPane1.setViewportView(TblListagem);
+        if (TblListagem.getColumnModel().getColumnCount() > 0) {
+            TblListagem.getColumnModel().getColumn(0).setMinWidth(150);
+            TblListagem.getColumnModel().getColumn(0).setPreferredWidth(250);
         }
 
         javax.swing.GroupLayout PnlListagemLayout = new javax.swing.GroupLayout(PnlListagem);
@@ -147,18 +150,24 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(TxtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(TxtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(TxtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PnlCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(190, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastro", PnlCadastro);
 
         BtnSalvar.setText("Salvar");
+        BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSalvarActionPerformed(evt);
+            }
+        });
 
         BtnCancelar.setText("Cancelar");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -168,6 +177,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         });
 
         BtnBuscar.setText("Buscar");
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBuscarActionPerformed(evt);
+            }
+        });
 
         BtnExcluir.setText("Excluir");
 
@@ -215,6 +229,54 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
+    private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
+        String descricao = TxtDescricao.getText();
+        float valor = Float.parseFloat(TxtValor.getText());
+        float quantidade = Float.parseFloat(TxtQuantidade.getText());
+
+        Produto produto = new Produto(descricao, valor, quantidade);
+
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        if (produtoDao.salvar(produto) == null) {
+            JOptionPane.showMessageDialog(this, "Produto salvo com sucesso!");
+            limparRegistro();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar Produto.");
+        }
+    }//GEN-LAST:event_BtnSalvarActionPerformed
+
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        popularTabela();
+    }//GEN-LAST:event_BtnBuscarActionPerformed
+
+    public void limparRegistro() {
+        TxtDescricao.setText("");
+        TxtQuantidade.setText("");
+        TxtValor.setText("");
+        TxtDescricao.requestFocus();
+    }
+    
+    public void popularTabela() {
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        
+        produtos = produtoDAO.consultarTodos();
+        
+        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        model.setRowCount(0);
+        
+        for (Produto produto : produtos) {
+            String descricao = produto.getDescricao();
+            String valor = String.valueOf(produto.getValor());
+            String quantidade = String.valueOf(produto.getQuantidade());
+            
+            String[] row = {descricao, valor, quantidade};
+            
+            model.addRow(row);
+        }
+        
+        TblListagem.setModel(model);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
@@ -224,6 +286,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnSalvar;
     private javax.swing.JPanel PnlCadastro;
     private javax.swing.JPanel PnlListagem;
+    private javax.swing.JTable TblListagem;
     private javax.swing.JTextField TxtDescricao;
     private javax.swing.JTextField TxtFiltro;
     private javax.swing.JTextField TxtQuantidade;
@@ -235,6 +298,5 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

@@ -62,15 +62,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
             new String [] {
                 "ID", "Nome"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(TblListagem);
         if (TblListagem.getColumnModel().getColumnCount() > 0) {
             TblListagem.getColumnModel().getColumn(0).setMinWidth(1);
