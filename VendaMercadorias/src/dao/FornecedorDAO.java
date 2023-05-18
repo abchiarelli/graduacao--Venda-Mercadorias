@@ -24,12 +24,14 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
 
             String DML = "INSERT INTO fornecedor VALUES ("
                     + "DEFAULT, "
-                    + o.getNome() + ", "
-                    + o.getEmail() + ", "
-                    + o.getTelefone() + ", "
-                    + o.getCnpj()
+                    + "'" + o.getNome() + "', "
+                    + "'" + o.getEmail() + "', "
+                    + "'" + o.getTelefone() + "', "
+                    + "'" + o.getCnpj() + "'"
                     + ");";
 
+            System.out.println("DML: " + DML);
+            
             int retorno = st.executeUpdate(DML);
 
             return null;
@@ -51,12 +53,6 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
 
     @Override
     public ArrayList<Fornecedor> consultarTodos() {
-        //criar ARRAYLIST para retorno
-        //criar a conexão, obtendo o Statement
-        //Criar o DML para pesquisa de TODOS os resultados
-        //Obter o RESULTADO (ResultSet) a paratir do DML
-        //popular ARRAYLIST com dados obtidos
-        //retornar ARRAYLIST populada
 
         ArrayList<Fornecedor> fornecedores = new ArrayList<>();
 
@@ -79,6 +75,7 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
                 fornecedores.add(fornecedor);
             }
         } catch (Exception e) {
+            System.out.println("ERRO: " + e);
         }
 
         return fornecedores;
