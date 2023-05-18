@@ -24,7 +24,9 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     public IfrProduto() {
         initComponents();
         
-        //popularTabela();
+        alterarBotoes();
+        
+        popularTabela();
     }
 
     /**
@@ -37,7 +39,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        TbpPrincipal = new javax.swing.JTabbedPane();
         PnlListagem = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         TxtFiltro = new javax.swing.JTextField();
@@ -61,7 +63,13 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         setTitle("Cadastro: Produtos");
         setToolTipText("");
 
-        jLabel7.setText("Filtro por nome:");
+        TbpPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbpPrincipalMouseClicked(evt);
+            }
+        });
+
+        jLabel7.setText("Filtro por descricao:");
 
         TblListagem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -112,7 +120,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Listagem", PnlListagem);
+        TbpPrincipal.addTab("Listagem", PnlListagem);
 
         jLabel1.setText("Descrição:");
 
@@ -160,7 +168,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 .addContainerGap(190, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Cadastro", PnlCadastro);
+        TbpPrincipal.addTab("Cadastro", PnlCadastro);
 
         BtnSalvar.setText("Salvar");
         BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +202,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(TbpPrincipal)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
@@ -211,7 +219,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnSalvar)
@@ -230,11 +238,19 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        String descricao = TxtDescricao.getText();
-        float valor = Float.parseFloat(TxtValor.getText());
-        float quantidade = Float.parseFloat(TxtQuantidade.getText());
+        salvar();
+    }//GEN-LAST:event_BtnSalvarActionPerformed
 
-        Produto produto = new Produto(descricao, valor, quantidade);
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        popularTabela();
+    }//GEN-LAST:event_BtnBuscarActionPerformed
+
+    private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
+        alterarBotoes();
+    }//GEN-LAST:event_TbpPrincipalMouseClicked
+
+    private void salvar() {
+        Produto produto = criarProduto();
 
         ProdutoDAO produtoDao = new ProdutoDAO();
         if (produtoDao.salvar(produto) == null) {
@@ -243,12 +259,16 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao salvar Produto.");
         }
-    }//GEN-LAST:event_BtnSalvarActionPerformed
+    }
+    
+    private Produto criarProduto() {
+        String descricao = TxtDescricao.getText();
+        float valor = Float.parseFloat(TxtValor.getText());
+        float quantidade = Float.parseFloat(TxtQuantidade.getText());
 
-    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
-        popularTabela();
-    }//GEN-LAST:event_BtnBuscarActionPerformed
-
+        return new Produto(descricao, valor, quantidade);
+    }
+    
     public void limparRegistro() {
         TxtDescricao.setText("");
         TxtQuantidade.setText("");
@@ -257,12 +277,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     }
     
     public void popularTabela() {
-        ProdutoDAO produtoDAO = new ProdutoDAO();
+        popularArray();
         
-        produtos = produtoDAO.consultarTodos();
+        limparTabela();
         
         DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
-        model.setRowCount(0);
         
         for (Produto produto : produtos) {
             String descricao = produto.getDescricao();
@@ -277,6 +296,22 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         TblListagem.setModel(model);
     }
     
+    private void popularArray() {
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        
+        produtos = produtoDAO.consultarTodos();
+    }
+    
+    private void limparTabela() {
+        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        model.setRowCount(0);
+    }
+    
+    private void alterarBotoes() {
+        BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
+        BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
@@ -287,6 +322,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PnlCadastro;
     private javax.swing.JPanel PnlListagem;
     private javax.swing.JTable TblListagem;
+    private javax.swing.JTabbedPane TbpPrincipal;
     private javax.swing.JTextField TxtDescricao;
     private javax.swing.JTextField TxtFiltro;
     private javax.swing.JTextField TxtQuantidade;
@@ -297,6 +333,5 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

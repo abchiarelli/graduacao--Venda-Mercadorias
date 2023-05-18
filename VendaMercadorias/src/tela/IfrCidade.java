@@ -24,6 +24,8 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     public IfrCidade() {
         initComponents();
         
+        alterarBotoes();
+        
         popularTabela();
     }
 
@@ -36,7 +38,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        TbpPrincipal = new javax.swing.JTabbedPane();
         PnlListagem = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         TxtFiltroNome = new javax.swing.JTextField();
@@ -52,6 +54,12 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         BtnAtualizar = new javax.swing.JButton();
 
         setTitle("Cadastro: Cidades");
+
+        TbpPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbpPrincipalMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Filtro por nome:");
 
@@ -98,7 +106,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Listagem", PnlListagem);
+        TbpPrincipal.addTab("Listagem", PnlListagem);
 
         jLabel2.setText("Nome:");
 
@@ -123,7 +131,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap(205, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Manutenção", PnlManutencao);
+        TbpPrincipal.addTab("Manutenção", PnlManutencao);
 
         BtnSalvar.setText("Salvar");
         BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +166,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
@@ -176,7 +184,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnSalvar)
@@ -213,18 +221,21 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         popularTabela();
     }//GEN-LAST:event_BtnBuscarActionPerformed
 
+    private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
+        alterarBotoes();
+    }//GEN-LAST:event_TbpPrincipalMouseClicked
+
     private void limpaRegistro() {
         TxtNome.setText("");
         TxtNome.requestFocus();
     }
     
     private void popularTabela() {
-        CidadeDAO cidadeDAO = new CidadeDAO();
+        popularArray();
         
-        cidades = cidadeDAO.consultarTodos();
+        limparTabela();
         
         DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
-        model.setRowCount(0);
         
         for (Cidade cidade : cidades) {
             String[] row = {String.valueOf(cidade.getId()), cidade.getNome()};
@@ -232,6 +243,22 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         }
         
         TblListagem.setModel(model);
+    }
+    
+    private void popularArray() {
+        CidadeDAO cidadeDAO = new CidadeDAO();
+        
+        cidades = cidadeDAO.consultarTodos();
+    }
+    
+    private void limparTabela() {
+        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        model.setRowCount(0);
+    }
+    
+    private void alterarBotoes() {
+        BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
+        BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -243,11 +270,11 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PnlListagem;
     private javax.swing.JPanel PnlManutencao;
     private javax.swing.JTable TblListagem;
+    private javax.swing.JTabbedPane TbpPrincipal;
     private javax.swing.JTextField TxtFiltroNome;
     private javax.swing.JTextField TxtNome;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

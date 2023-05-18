@@ -15,14 +15,17 @@ import javax.swing.table.DefaultTableModel;
  * @author artur
  */
 public class IfrFornecedor extends javax.swing.JInternalFrame {
-
-    ArrayList<Fornecedor> fornecedores;
     
+    ArrayList<Fornecedor> fornecedores;
+
     /**
      * Creates new form IfrFornecedor
      */
     public IfrFornecedor() {
         initComponents();
+        
+        alterarBotoes();
+        popularTabela();
     }
 
     /**
@@ -34,7 +37,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        TbpPrincipal = new javax.swing.JTabbedPane();
         PnlFornecedorLista = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         TxtFiltroNome = new javax.swing.JTextField();
@@ -58,6 +61,12 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         setTitle("Cadastro: Fornecedores");
         setPreferredSize(new java.awt.Dimension(500, 408));
 
+        TbpPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbpPrincipalMouseClicked(evt);
+            }
+        });
+
         jLabel5.setText("Filtro por nome:");
 
         TblListagem.setModel(new javax.swing.table.DefaultTableModel(
@@ -76,6 +85,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
+        TblListagem.setEnabled(false);
         jScrollPane1.setViewportView(TblListagem);
         if (TblListagem.getColumnModel().getColumnCount() > 0) {
             TblListagem.getColumnModel().getColumn(0).setMinWidth(150);
@@ -109,7 +119,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Listagem", PnlFornecedorLista);
+        TbpPrincipal.addTab("Listagem", PnlFornecedorLista);
 
         jLabel1.setText("Nome:");
 
@@ -174,7 +184,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 .addContainerGap(168, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Manutenção", PnlFornecedorManutencao);
+        TbpPrincipal.addTab("Manutenção", PnlFornecedorManutencao);
 
         BtnBuscar.setText("Buscar");
         BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -184,8 +194,10 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         });
 
         BtnExcluir.setText("Excluir");
+        BtnExcluir.setEnabled(false);
 
         BtnAtualizar.setText("Atualizar");
+        BtnAtualizar.setEnabled(false);
 
         BtnSalvar.setText("Salvar");
         BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -208,7 +220,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(TbpPrincipal)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
@@ -225,7 +237,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnBuscar)
@@ -252,6 +264,10 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         popularTabela();
     }//GEN-LAST:event_BtnBuscarActionPerformed
 
+    private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
+        alterarBotoes();
+    }//GEN-LAST:event_TbpPrincipalMouseClicked
+    
     private Fornecedor criarFornecedor() {
         
         String nome = TxtNome.getText();
@@ -275,7 +291,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         Fornecedor fornecedor = criarFornecedor();
         
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
-        if(fornecedorDAO.salvar(fornecedor) == null) {
+        if (fornecedorDAO.salvar(fornecedor) == null) {
             JOptionPane.showMessageDialog(this, "Fornecedor salvo com Sucesso");
             limparRegistro();
         } else {
@@ -298,7 +314,6 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             model.addRow(row);
         }
         
-        
     }
     
     private void limparTabela() {
@@ -312,8 +327,11 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         fornecedores = fornecedorDAO.consultarTodos();
     }
     
-    
-    
+    private void alterarBotoes() {
+        BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
+        BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
@@ -324,6 +342,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PnlFornecedorLista;
     private javax.swing.JPanel PnlFornecedorManutencao;
     private javax.swing.JTable TblListagem;
+    private javax.swing.JTabbedPane TbpPrincipal;
     private javax.swing.JFormattedTextField TxtCnpj;
     private javax.swing.JTextField TxtEmail;
     private javax.swing.JTextField TxtFiltroNome;
@@ -335,6 +354,5 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
