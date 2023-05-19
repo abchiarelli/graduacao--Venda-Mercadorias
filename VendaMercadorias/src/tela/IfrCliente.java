@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author artur
  */
 public class IfrCliente extends javax.swing.JInternalFrame {
 
-    ArrayList<Cidade> cidades = new ArrayList<Cidade>();
+    ArrayList<Cidade> cidades = new ArrayList<>();
     ArrayList<Cliente> clientes = new ArrayList<>();
 
     /**
@@ -30,7 +29,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         popularComboBoxCidades();
         popularTabela();
-        
+
         alterarBotoes();
     }
 
@@ -49,6 +48,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         TblClientes = new javax.swing.JTable();
         TxtFiltroNome = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        BtnLimparFiltro = new javax.swing.JButton();
         PnlClienteManutencao = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -108,6 +108,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Filtro por nome:");
 
+        BtnLimparFiltro.setText("Limpar");
+
         javax.swing.GroupLayout PnlClienteListaLayout = new javax.swing.GroupLayout(PnlClienteLista);
         PnlClienteLista.setLayout(PnlClienteListaLayout);
         PnlClienteListaLayout.setHorizontalGroup(
@@ -120,6 +122,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnLimparFiltro)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -129,7 +133,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(PnlClienteListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(BtnLimparFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -301,9 +306,9 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
         if (CbbCidade.getSelectedIndex() > 0) {
-            
+
             salvar();
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Você deve selecionar uma cidade da lista.");
         }
@@ -320,16 +325,16 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
     private void salvar() {
         Cliente cliente = criarCliente();
-            
-            ClienteDAO clienteDAO = new ClienteDAO();
-            if (clienteDAO.salvar(cliente) == null) {
-                limparRegistro();
-                JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao acadastrar Cliente.");
-            }
+
+        ClienteDAO clienteDAO = new ClienteDAO();
+        if (clienteDAO.salvar(cliente) == null) {
+            limparRegistro();
+            JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao acadastrar Cliente.");
+        }
     }
-    
+
     private Cliente criarCliente() {
         String nome = TxtNome.getText();
         String email = TxtEmail.getText();
@@ -340,7 +345,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         return new Cliente(nome, email, cpf, telefone, logradouro, idCidade);
     }
-    
+
     private void limparRegistro() {
         TxtNome.setText("");
         TxtEmail.setText("");
@@ -348,7 +353,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         TxtTelefone.setText("");
         TxtLogradouro.setText("");
         CbbCidade.setSelectedIndex(0);
-        
+
         TxtNome.requestFocus();
     }
 
@@ -362,44 +367,54 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             CbbCidade.addItem(cidade.getNome());
         }
     }
-    
+
     private void alterarBotoes() {
         BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
         BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
     }
-    
+
     private void popularTabela() {
         limparTabela();
-        
+
         popularArrayClientes();
-        
+
         DefaultTableModel model = (DefaultTableModel) TblClientes.getModel();
-        
+
         CidadeDAO cidadeDAO = new CidadeDAO();
-               
+
         for (Cliente cliente : clientes) {
             String nome = cliente.getNome();
             String cidade = cidadeDAO.consultarId(cliente.getCidade()).getNome();
             String telefone = cliente.getTelefone();
-            
+
             String[] row = {nome, cidade, telefone};
-            
+
             model.addRow(row);
         }
-        
+
         TblClientes.setModel(model);
     }
-    
+
     private void limparTabela() {
         DefaultTableModel model = (DefaultTableModel) TblClientes.getModel();
         model.setRowCount(0);
     }
-    
+
     private void popularArrayClientes() {
         ClienteDAO clienteDAO = new ClienteDAO();
-        clientes = clienteDAO.consultarTodos();
+
+        if (TxtFiltroNome.getText().length() > 0) {
+            String DML = "SELECT * FROM cliente "
+                    + "WHERE nome ILIKE '%" + TxtFiltroNome.getText() + "%'"
+                    + "ORDER BY nome;";
+            
+            clientes = clienteDAO.consultar(DML);
+        } else {
+            clientes = clienteDAO.consultarTodos();
+        }
+
     }
-    
+
     private void popularArrayCidades() {
         CidadeDAO cidadeDAO = new CidadeDAO();
         cidades = cidadeDAO.consultarTodos();
@@ -411,6 +426,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnBuscar;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnExcluir;
+    private javax.swing.JButton BtnLimparFiltro;
     private javax.swing.JButton BtnSalvar;
     private javax.swing.JComboBox<String> CbbCidade;
     private javax.swing.JPanel PnlClienteLista;

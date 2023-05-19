@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author artur
  */
 public class IfrFornecedor extends javax.swing.JInternalFrame {
-    
+
     ArrayList<Fornecedor> fornecedores;
 
     /**
@@ -23,7 +23,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
      */
     public IfrFornecedor() {
         initComponents();
-        
+
         alterarBotoes();
         popularTabela();
     }
@@ -43,6 +43,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         TxtFiltroNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         TblListagem = new javax.swing.JTable();
+        BtnLimparFiltro = new javax.swing.JButton();
         PnlFornecedorManutencao = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -92,6 +93,13 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             TblListagem.getColumnModel().getColumn(0).setPreferredWidth(250);
         }
 
+        BtnLimparFiltro.setText("Limpar");
+        BtnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnLimparFiltroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PnlFornecedorListaLayout = new javax.swing.GroupLayout(PnlFornecedorLista);
         PnlFornecedorLista.setLayout(PnlFornecedorListaLayout);
         PnlFornecedorListaLayout.setHorizontalGroup(
@@ -99,12 +107,14 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             .addGroup(PnlFornecedorListaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PnlFornecedorListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                     .addGroup(PnlFornecedorListaLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 87, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnLimparFiltro)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         PnlFornecedorListaLayout.setVerticalGroup(
@@ -113,7 +123,8 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(PnlFornecedorListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnLimparFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -267,29 +278,35 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
         alterarBotoes();
     }//GEN-LAST:event_TbpPrincipalMouseClicked
-    
+
+    private void BtnLimparFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimparFiltroActionPerformed
+        TxtFiltroNome.setText("");
+
+        popularTabela();
+    }//GEN-LAST:event_BtnLimparFiltroActionPerformed
+
     private Fornecedor criarFornecedor() {
-        
+
         String nome = TxtNome.getText();
         String email = TxtEmail.getText();
         String telefone = TxtTelefone.getText();
         String cnpj = TxtCnpj.getText();
-        
+
         return new Fornecedor(nome, email, telefone, cnpj);
     }
-    
+
     private void limparRegistro() {
         TxtNome.setText("");
         TxtEmail.setText("");
         TxtTelefone.setText("");
         TxtCnpj.setText("");
-        
+
         TxtNome.requestFocus();
     }
-    
+
     private void salvar() {
         Fornecedor fornecedor = criarFornecedor();
-        
+
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
         if (fornecedorDAO.salvar(fornecedor) == null) {
             JOptionPane.showMessageDialog(this, "Fornecedor salvo com Sucesso");
@@ -298,35 +315,45 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Erro so salvar Fornecedor.");
         }
     }
-    
+
     private void popularTabela() {
         limparTabela();
-        
-        popularArray();
-        
+
+        popularArrayFornecedores();
+
         DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
-        
+
         for (Fornecedor fornecedor : fornecedores) {
             String nome = fornecedor.getNome();
             String telefone = fornecedor.getTelefone();
-            
+
             String[] row = {nome, telefone};
             model.addRow(row);
         }
-        
+
     }
-    
+
     private void limparTabela() {
         DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
         model.setRowCount(0);
         TblListagem.setModel(model);
     }
-    
-    private void popularArray() {
+
+    private void popularArrayFornecedores() {
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
-        fornecedores = fornecedorDAO.consultarTodos();
+
+        if (TxtFiltroNome.getText().length() > 0) {
+            String DML = "SELECT * FROM fornecedor "
+                    + "WHERE nome ILIKE '%" + TxtFiltroNome.getText() + "%' "
+                    + "ORDER BY nome;";
+            
+            fornecedores = fornecedorDAO.consultar(DML);
+        } else {
+            fornecedores = fornecedorDAO.consultarTodos();
+        }
+
     }
-    
+
     private void alterarBotoes() {
         BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
         BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
@@ -338,6 +365,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnBuscar;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnExcluir;
+    private javax.swing.JButton BtnLimparFiltro;
     private javax.swing.JButton BtnSalvar;
     private javax.swing.JPanel PnlFornecedorLista;
     private javax.swing.JPanel PnlFornecedorManutencao;

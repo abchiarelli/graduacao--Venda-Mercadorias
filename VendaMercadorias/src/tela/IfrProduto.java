@@ -17,15 +17,15 @@ import javax.swing.table.DefaultTableModel;
 public class IfrProduto extends javax.swing.JInternalFrame {
 
     ArrayList<Produto> produtos;
-    
+
     /**
      * Creates new form IfrProduto
      */
     public IfrProduto() {
         initComponents();
-        
+
         alterarBotoes();
-        
+
         popularTabela();
     }
 
@@ -45,6 +45,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         TxtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         TblListagem = new javax.swing.JTable();
+        BtnLimparFiltro = new javax.swing.JButton();
         PnlCadastro = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -93,6 +94,13 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             TblListagem.getColumnModel().getColumn(0).setPreferredWidth(250);
         }
 
+        BtnLimparFiltro.setText("Limpar");
+        BtnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnLimparFiltroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PnlListagemLayout = new javax.swing.GroupLayout(PnlListagem);
         PnlListagem.setLayout(PnlListagemLayout);
         PnlListagemLayout.setHorizontalGroup(
@@ -104,7 +112,9 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                     .addGroup(PnlListagemLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnLimparFiltro)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -114,7 +124,8 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(PnlListagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(TxtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnLimparFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -249,6 +260,12 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         alterarBotoes();
     }//GEN-LAST:event_TbpPrincipalMouseClicked
 
+    private void BtnLimparFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimparFiltroActionPerformed
+        TxtFiltro.setText("");
+
+        popularTabela();
+    }//GEN-LAST:event_BtnLimparFiltroActionPerformed
+
     private void salvar() {
         Produto produto = criarProduto();
 
@@ -260,7 +277,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Erro ao salvar Produto.");
         }
     }
-    
+
     private Produto criarProduto() {
         String descricao = TxtDescricao.getText();
         float valor = Float.parseFloat(TxtValor.getText());
@@ -268,56 +285,67 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         return new Produto(descricao, valor, quantidade);
     }
-    
+
     public void limparRegistro() {
         TxtDescricao.setText("");
         TxtQuantidade.setText("");
         TxtValor.setText("");
         TxtDescricao.requestFocus();
     }
-    
+
     public void popularTabela() {
-        popularArray();
-        
+        popularArrayProdutos();
+
         limparTabela();
-        
+
         DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
-        
+
         for (Produto produto : produtos) {
             String descricao = produto.getDescricao();
             String valor = String.valueOf(produto.getValor());
             String quantidade = String.valueOf(produto.getQuantidade());
-            
+
             String[] row = {descricao, valor, quantidade};
-            
+
             model.addRow(row);
         }
-        
+
         TblListagem.setModel(model);
     }
-    
-    private void popularArray() {
+
+    private void popularArrayProdutos() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        
-        produtos = produtoDAO.consultarTodos();
+
+        if (TxtFiltro.getText().length() > 0) {
+
+            String dml = "SELECT * FROM produto "
+                    + "WHERE descricao ILIKE '%" + TxtFiltro.getText() + "%' "
+                    + "ORDER BY descricao";
+
+            produtos = produtoDAO.consultar(dml);
+        } else {
+
+            produtos = produtoDAO.consultarTodos();
+        }
     }
-    
+
     private void limparTabela() {
         DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
         model.setRowCount(0);
     }
-    
+
     private void alterarBotoes() {
         BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
         BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
     private javax.swing.JButton BtnBuscar;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnExcluir;
+    private javax.swing.JButton BtnLimparFiltro;
     private javax.swing.JButton BtnSalvar;
     private javax.swing.JPanel PnlCadastro;
     private javax.swing.JPanel PnlListagem;
