@@ -83,7 +83,29 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
 
     @Override
     public ArrayList<Fornecedor> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Fornecedor> fornecedores = new ArrayList<>();
+
+        try {
+            Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
+
+            ResultSet rs = st.executeQuery(criterio);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String telefone = rs.getString("telefone");
+                String cnpj = rs.getString("cnpj");
+                
+                Fornecedor fornecedor = new Fornecedor(id, nome, email, telefone, cnpj);
+                
+                fornecedores.add(fornecedor);
+            }
+        } catch (Exception e) {
+            System.out.println("ERRO: " + e);
+        }
+
+        return fornecedores;
     }
 
     @Override
