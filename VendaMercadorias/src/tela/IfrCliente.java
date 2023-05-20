@@ -109,6 +109,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         jLabel9.setText("Filtro por nome:");
 
         BtnLimparFiltro.setText("Limpar");
+        BtnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnLimparFiltroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PnlClienteListaLayout = new javax.swing.GroupLayout(PnlClienteLista);
         PnlClienteLista.setLayout(PnlClienteListaLayout);
@@ -323,12 +328,18 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         popularTabela();
     }//GEN-LAST:event_BtnBuscarActionPerformed
 
+    private void BtnLimparFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimparFiltroActionPerformed
+        TxtFiltroNome.setText("");
+        popularTabela();
+    }//GEN-LAST:event_BtnLimparFiltroActionPerformed
+
     private void salvar() {
         Cliente cliente = criarCliente();
 
         ClienteDAO clienteDAO = new ClienteDAO();
         if (clienteDAO.salvar(cliente) == null) {
             limparRegistro();
+            popularTabela();
             JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao acadastrar Cliente.");
