@@ -45,12 +45,42 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public String atualizar(Cliente o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String dml = "UPDATE cliente SET "
+                + "nome = '" + o.getNome() + "', "
+                + "email = '" + o.getEmail() + "', "
+                + "telefone = '" + o.getTelefone() + "', "
+                + "cpf = '" + o.getCpf() + "', "
+                + "logradouro = '" + o.getLogradouro() + "', "
+                + "id_cidade = " + o.getCidade() + " "
+                + "WHERE id = " + o.getId() + ";";
+        
+        System.out.println("DML: " + dml);
+        
+        try {
+            Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
+            
+            int retorno = st.executeUpdate(dml);
+            
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar Cliente: " + e);
+            return e.toString();        }
     }
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String dml = "DELETE FROM cliente WHERE id = " + id;
+        
+        try {
+            Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
+            
+            int retorno = st.executeUpdate(dml);
+            
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Cliente: " + e);
+            return e.toString();
+        }
     }
 
     @Override
@@ -117,7 +147,32 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public Cliente consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Cliente cliente = null;
+        
+        try {
+            Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
+
+            String DML = "SELECT * FROM cliente WHERE id = " + id;
+
+            ResultSet rs = st.executeQuery(DML);
+
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String cpf = rs.getString("cpf");
+                String telefone = rs.getString("telefone");
+                String logradouro = rs.getString("logradouro");
+                int cidade = rs.getInt("id_cidade");
+
+                cliente = new Cliente(id, nome, email, cpf, telefone, logradouro, cidade);
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        }
+
+        return cliente;
     }
 
 }
