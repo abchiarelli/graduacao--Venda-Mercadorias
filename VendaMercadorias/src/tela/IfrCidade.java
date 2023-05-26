@@ -8,7 +8,9 @@ import dao.CidadeDAO;
 import entidade.Cidade;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -17,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrCidade extends javax.swing.JInternalFrame {
 
     ArrayList<Cidade> cidades = null;
+    Cidade cidadeSelecionada = null;
 
     /**
      * Creates new form IfrCidade
@@ -72,6 +75,11 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 "ID", "Nome"
             }
         ));
+        TblListagem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblListagemMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TblListagem);
         if (TblListagem.getColumnModel().getColumnCount() > 0) {
             TblListagem.getColumnModel().getColumn(0).setMinWidth(1);
@@ -94,11 +102,11 @@ public class IfrCidade extends javax.swing.JInternalFrame {
             .addGroup(PnlListagemLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PnlListagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
                     .addGroup(PnlListagemLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnLimparFiltro)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -130,7 +138,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         PnlManutencaoLayout.setVerticalGroup(
             PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,8 +174,20 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         });
 
         BtnExcluir.setText("Excluir");
+        BtnExcluir.setEnabled(false);
+        BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnExcluirActionPerformed(evt);
+            }
+        });
 
-        BtnAtualizar.setText("Atualiza");
+        BtnAtualizar.setText("Atualizar");
+        BtnAtualizar.setEnabled(false);
+        BtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAtualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,9 +197,9 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
                         .addComponent(BtnExcluir)
@@ -215,17 +235,28 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
         String nome = TxtNome.getText();
-
-        Cidade cidade = new Cidade(nome);
-
         CidadeDAO cidadeDAO = new CidadeDAO();
 
-        if (cidadeDAO.salvar(cidade) == null) {
-            JOptionPane.showMessageDialog(this, "Cidade salva com sucesso!");
-            limpaRegistro();
+        if (cidadeSelecionada == null) {
+            Cidade cidade = new Cidade(nome);
+            if (cidadeDAO.salvar(cidade) == null) {
+                JOptionPane.showMessageDialog(this, "Cidade salva com sucesso!");
+                limpaRegistro();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao salvar Cidade.");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar Cidade.");
+            cidadeSelecionada.setNome(nome);
+            if (cidadeDAO.atualizar(cidadeSelecionada) == null) {
+                JOptionPane.showMessageDialog(this, "Alteração em Cidade salva com sucesso!");
+                limpaRegistro();
+                cidadeSelecionada = null;
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao alterar Cidade.");
+            }
         }
+
+        popularTabela();
     }//GEN-LAST:event_BtnSalvarActionPerformed
 
     private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
@@ -242,24 +273,77 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         popularTabela();
     }//GEN-LAST:event_BtnLimparFiltroActionPerformed
 
+    private void TblListagemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblListagemMouseClicked
+        if (TblListagem.getSelectedRow() > -1) {
+            alteraBotoesUpdate(true);
+        }
+    }//GEN-LAST:event_TblListagemMouseClicked
+
+    private void BtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtualizarActionPerformed
+        int id = cidades.get(TblListagem.getSelectedRow()).getId();
+        
+        cidadeSelecionada = new CidadeDAO().consultarId(id);
+
+        TbpPrincipal.setSelectedIndex(1);
+
+        TxtNome.setText(cidadeSelecionada.getNome());
+        TxtNome.requestFocus();
+        
+        alterarBotoes();
+        alteraBotoesUpdate(false);
+    }//GEN-LAST:event_BtnAtualizarActionPerformed
+
+    private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
+        int id = cidades.get(TblListagem.getSelectedRow()).getId();
+        
+        if(new CidadeDAO().excluir(id) == null ) {
+            JOptionPane.showMessageDialog(this, "Cidade excluída com sucesso!");
+            
+            popularTabela();
+        }
+    }//GEN-LAST:event_BtnExcluirActionPerformed
+
     private void limpaRegistro() {
         TxtNome.setText("");
         TxtNome.requestFocus();
     }
 
     private void popularTabela() {
+        alteraBotoesUpdate(false);
         popularArrayCidades();
 
-        limparTabela();
-
-        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        String[] columnNames = {"ID", "Descrição"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         for (Cidade cidade : cidades) {
-            String[] row = {String.valueOf(cidade.getId()), cidade.getNome()};
+            Object[] row = {cidade.getId(), cidade.getNome()};
             model.addRow(row);
         }
 
         TblListagem.setModel(model);
+
+        TableColumn coluna = null;
+
+        for (int i = 0; i < TblListagem.getColumnCount(); i++) {
+            coluna = TblListagem.getColumnModel().getColumn(i);
+            coluna.setResizable(false);
+
+            switch (i) {
+                case 0:
+                    coluna.setMaxWidth(40);
+                    break;
+                case 1:
+                    coluna.setPreferredWidth(200);
+                    break;
+            }
+        }
+
+        TblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void popularArrayCidades() {
@@ -271,7 +355,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                     + "FROM cidade "
                     + "WHERE descricao ILIKE '%" + TxtFiltroNome.getText() + "%' "
                     + "ORDER BY descricao;";
-            
+
             cidades = cidadeDAO.consultar(DML);
         } else {
 
@@ -279,14 +363,14 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         }
     }
 
-    private void limparTabela() {
-        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
-        model.setRowCount(0);
-    }
-
     private void alterarBotoes() {
         BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
         BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
+    }
+
+    private void alteraBotoesUpdate(boolean setTo) {
+        BtnAtualizar.setEnabled(setTo);
+        BtnExcluir.setEnabled(setTo);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

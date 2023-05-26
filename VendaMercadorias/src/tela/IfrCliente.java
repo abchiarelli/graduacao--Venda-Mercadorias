@@ -385,11 +385,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }
 
     private void popularTabela() {
-        limparTabela();
-
         popularArrayClientes();
 
-        DefaultTableModel model = (DefaultTableModel) TblClientes.getModel();
+        Object[] cabecalho = {"Nome", "Cidade", "Telefone"};
+        
+        DefaultTableModel model = new DefaultTableModel(cabecalho, 0);
 
         CidadeDAO cidadeDAO = new CidadeDAO();
 
@@ -406,10 +406,6 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         TblClientes.setModel(model);
     }
 
-    private void limparTabela() {
-        DefaultTableModel model = (DefaultTableModel) TblClientes.getModel();
-        model.setRowCount(0);
-    }
 
     private void popularArrayClientes() {
         ClienteDAO clienteDAO = new ClienteDAO();
