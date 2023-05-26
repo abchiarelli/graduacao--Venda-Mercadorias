@@ -40,12 +40,38 @@ public class CidadeDAO implements IDAOT<Cidade> {
 
     @Override
     public String atualizar(Cidade o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String dml = "UPDATE cidade SET "
+                + "descricao = '" + o.getNome() + "' "
+                + "WHERE id = " + o.getId() + ";";
+
+        try {
+            Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
+
+            System.out.println(dml);
+
+            int resultado = st.executeUpdate(dml);
+
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao ALTERAR Cidade: " + e);
+            return e.toString();
+        }
     }
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String dml = "DELETE FROM cidade "
+                + "WHERE id = " + id + ";";
+        
+        try {
+            Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
+            int result = st.executeUpdate(dml);
+            
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Cidade: " + e);
+            return e.toString();
+        }
     }
 
     @Override
