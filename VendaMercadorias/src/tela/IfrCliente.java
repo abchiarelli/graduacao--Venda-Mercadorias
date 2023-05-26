@@ -11,6 +11,7 @@ import entidade.Cliente;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -20,6 +21,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
     ArrayList<Cidade> cidades = new ArrayList<>();
     ArrayList<Cliente> clientes = new ArrayList<>();
+    Cliente clienteSelecionado = null;
 
     /**
      * Creates new form IfrCliente
@@ -100,6 +102,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        TblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TblClientes);
         if (TblClientes.getColumnModel().getColumnCount() > 0) {
             TblClientes.getColumnModel().getColumn(0).setMinWidth(150);
@@ -122,7 +129,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             .addGroup(PnlClienteListaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PnlClienteListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                     .addGroup(PnlClienteListaLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -262,8 +269,20 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         });
 
         BtnAtualizar.setText("Atualizar");
+        BtnAtualizar.setEnabled(false);
+        BtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAtualizarActionPerformed(evt);
+            }
+        });
 
         BtnExcluir.setText("Excluir");
+        BtnExcluir.setEnabled(false);
+        BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -273,9 +292,9 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
                         .addComponent(BtnExcluir)
@@ -322,6 +341,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
     private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
         alterarBotoes();
+
+        if (TbpPrincipal.getSelectedIndex() == 0) {
+            limparRegistro();
+            clienteSelecionado = null;
+        }
     }//GEN-LAST:event_TbpPrincipalMouseClicked
 
     private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
@@ -333,16 +357,52 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         popularTabela();
     }//GEN-LAST:event_BtnLimparFiltroActionPerformed
 
+    private void TblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblClientesMouseClicked
+        alterarBotoesUpdate(TblClientes.getSelectedRow() > -1);
+    }//GEN-LAST:event_TblClientesMouseClicked
+
+    private void BtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtualizarActionPerformed
+        clienteSelecionado = new ClienteDAO().consultarId(clientes.get(TblClientes.getSelectedRow()).getId());
+
+        preencherRegistro();
+
+        TbpPrincipal.setSelectedIndex(1);
+
+        alterarBotoesUpdate(false);
+        alterarBotoes();
+    }//GEN-LAST:event_BtnAtualizarActionPerformed
+
+    private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
+        if(new ClienteDAO().excluir(clientes.get(TblClientes.getSelectedRow()).getId()) == null) {
+            JOptionPane.showMessageDialog(this, "Cliente Excluido com sucesso!");
+            popularTabela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao Excluir Cliente");
+        }
+    }//GEN-LAST:event_BtnExcluirActionPerformed
+
     private void salvar() {
         Cliente cliente = criarCliente();
 
         ClienteDAO clienteDAO = new ClienteDAO();
-        if (clienteDAO.salvar(cliente) == null) {
-            limparRegistro();
-            popularTabela();
-            JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+        if (clienteSelecionado == null) {
+            if (clienteDAO.salvar(cliente) == null) {
+                limparRegistro();
+                popularTabela();
+                JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao acadastrar Cliente.");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao acadastrar Cliente.");
+            if (clienteDAO.atualizar(cliente) == null) {
+                limparRegistro();
+                popularTabela();
+                JOptionPane.showMessageDialog(this, "Cliente alterado com sucesso!");
+                clienteSelecionado = null;
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao alterar Cliente.");
+            }
+
         }
     }
 
@@ -354,7 +414,12 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         String logradouro = TxtLogradouro.getText();
         int idCidade = cidades.get(CbbCidade.getSelectedIndex() - 1).getId();
 
-        return new Cliente(nome, email, cpf, telefone, logradouro, idCidade);
+        if (clienteSelecionado == null) {
+            return new Cliente(nome, email, cpf, telefone, logradouro, idCidade);
+
+        } else {
+            return new Cliente(clienteSelecionado.getId(), nome, email, cpf, telefone, logradouro, idCidade);
+        }
     }
 
     private void limparRegistro() {
@@ -364,6 +429,17 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         TxtTelefone.setText("");
         TxtLogradouro.setText("");
         CbbCidade.setSelectedIndex(0);
+
+        TxtNome.requestFocus();
+    }
+
+    private void preencherRegistro() {
+        TxtNome.setText(clienteSelecionado.getNome());
+        TxtEmail.setText(clienteSelecionado.getEmail());
+        TxtCPF.setText(clienteSelecionado.getCpf());
+        TxtTelefone.setText(clienteSelecionado.getTelefone());
+        TxtLogradouro.setText(clienteSelecionado.getLogradouro());
+        CbbCidade.setSelectedIndex(posicaoCidadeArray(clienteSelecionado.getCidade()) + 1);
 
         TxtNome.requestFocus();
     }
@@ -385,11 +461,17 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }
 
     private void popularTabela() {
+        alterarBotoesUpdate(false);
         popularArrayClientes();
 
         Object[] cabecalho = {"Nome", "Cidade", "Telefone"};
-        
-        DefaultTableModel model = new DefaultTableModel(cabecalho, 0);
+
+        DefaultTableModel model = new DefaultTableModel(cabecalho, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         CidadeDAO cidadeDAO = new CidadeDAO();
 
@@ -404,8 +486,26 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         }
 
         TblClientes.setModel(model);
-    }
 
+        TableColumn coluna = null;
+
+        for (int i = 0; i < TblClientes.getColumnCount(); i++) {
+            coluna = TblClientes.getColumnModel().getColumn(i);
+            coluna.setResizable(false);
+
+            switch (i) {
+                case 0:
+                    coluna.setPreferredWidth(200);
+                    break;
+                case 1:
+                    coluna.setPreferredWidth(100);
+                    break;
+                case 2:
+                    coluna.setPreferredWidth(50);
+                    break;
+            }
+        }
+    }
 
     private void popularArrayClientes() {
         ClienteDAO clienteDAO = new ClienteDAO();
@@ -414,7 +514,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             String DML = "SELECT * FROM cliente "
                     + "WHERE nome ILIKE '%" + TxtFiltroNome.getText() + "%'"
                     + "ORDER BY nome;";
-            
+
             clientes = clienteDAO.consultar(DML);
         } else {
             clientes = clienteDAO.consultarTodos();
@@ -425,6 +525,22 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     private void popularArrayCidades() {
         CidadeDAO cidadeDAO = new CidadeDAO();
         cidades = cidadeDAO.consultarTodos();
+    }
+
+    private void alterarBotoesUpdate(boolean setTo) {
+        BtnAtualizar.setEnabled(setTo);
+        BtnExcluir.setEnabled(setTo);
+    }
+
+    private int posicaoCidadeArray(int id) {
+        for (int i = 0; i < 10; i++) {
+            if (cidades.get(i).getId() == id) {
+                System.out.println("Posicao Array: " + i);
+                System.out.println("Cidade: " + cidades.get(i).getNome());
+                return i;
+            }
+        }
+        return -1;
     }
 
 
