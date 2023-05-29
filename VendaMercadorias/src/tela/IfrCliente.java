@@ -4,6 +4,9 @@
  */
 package tela;
 
+import apoio.ComboItem;
+import apoio.CombosDAO;
+import apoio.Formatacao;
 import dao.CidadeDAO;
 import dao.ClienteDAO;
 import entidade.Cidade;
@@ -19,7 +22,6 @@ import javax.swing.table.TableColumn;
  */
 public class IfrCliente extends javax.swing.JInternalFrame {
 
-    ArrayList<Cidade> cidades = new ArrayList<>();
     ArrayList<Cliente> clientes = new ArrayList<>();
     Cliente clienteSelecionado = null;
 
@@ -29,7 +31,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     public IfrCliente() {
         initComponents();
 
-        popularComboBoxCidades();
+        Formatacao.formatarCpf(tffCPF);
+        Formatacao.formatarData(tffNascimento);
+        Formatacao.formatarTelefone(tffTelefone);
+        
+        new CombosDAO().populerComboBox("cidade", cbbCidade);
         popularTabela();
 
         alterarBotoes();
@@ -58,13 +64,15 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        TxtNome = new javax.swing.JTextField();
-        TxtCPF = new javax.swing.JFormattedTextField();
-        TxtTelefone = new javax.swing.JFormattedTextField();
-        TxtEmail = new javax.swing.JTextField();
-        TxtLogradouro = new javax.swing.JTextField();
+        tfdNome = new javax.swing.JTextField();
+        tffCPF = new javax.swing.JFormattedTextField();
+        tffTelefone = new javax.swing.JFormattedTextField();
+        tfdEmail = new javax.swing.JTextField();
+        tfdLogradouro = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
-        CbbCidade = new javax.swing.JComboBox<>();
+        cbbCidade = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        tffNascimento = new javax.swing.JFormattedTextField();
         BtnSalvar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
@@ -129,7 +137,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             .addGroup(PnlClienteListaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PnlClienteListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
                     .addGroup(PnlClienteListaLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -149,7 +157,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                     .addComponent(BtnLimparFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TbpPrincipal.addTab("Listagem", PnlClienteLista);
@@ -166,54 +174,55 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Cidade:");
 
-        try {
-            TxtCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        tffTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
-        try {
-            TxtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        jLabel1.setText("Nascimento:");
+
+        tffNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         javax.swing.GroupLayout PnlClienteManutencaoLayout = new javax.swing.GroupLayout(PnlClienteManutencao);
         PnlClienteManutencao.setLayout(PnlClienteManutencaoLayout);
         PnlClienteManutencaoLayout.setHorizontalGroup(
             PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator2)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
                             .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
-                                        .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel5)
+                                .addComponent(jLabel7)
+                                .addGap(291, 291, 291))
+                            .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
+                                .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnlClienteManutencaoLayout.createSequentialGroup()
+                                        .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(TxtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(TxtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-                                    .addComponent(TxtEmail))))
-                        .addGap(108, 108, 108))
+                                        .addComponent(tfdLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
                         .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(CbbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnlClienteManutencaoLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TxtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tfdNome, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                                .addComponent(tfdEmail)
+                                .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
+                                    .addComponent(tffCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(tffNascimento)))
+                            .addComponent(tffTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         PnlClienteManutencaoLayout.setVerticalGroup(
             PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,28 +230,32 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(tffCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(tffNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(TxtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(tffTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(CbbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(TxtLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .addComponent(tfdLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TbpPrincipal.addTab("Manutenção", PnlClienteManutencao);
@@ -291,9 +304,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(TbpPrincipal)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
@@ -310,7 +321,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnSalvar)
@@ -329,7 +340,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        if (CbbCidade.getSelectedIndex() > 0) {
+        if (cbbCidade.getSelectedIndex() > 0) {
 
             salvar();
 
@@ -407,12 +418,13 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }
 
     private Cliente criarCliente() {
-        String nome = TxtNome.getText();
-        String email = TxtEmail.getText();
-        String cpf = TxtCPF.getText();
-        String telefone = TxtTelefone.getText();
-        String logradouro = TxtLogradouro.getText();
-        int idCidade = cidades.get(CbbCidade.getSelectedIndex() - 1).getId();
+        String nome = tfdNome.getText();
+        String email = tfdEmail.getText();
+        String cpf = tffCPF.getText();
+        String telefone = tffTelefone.getText();
+        String logradouro = tfdLogradouro.getText();
+        ComboItem item = (ComboItem) cbbCidade.getSelectedItem();
+        int idCidade = item.getId();
 
         if (clienteSelecionado == null) {
             return new Cliente(nome, email, cpf, telefone, logradouro, idCidade);
@@ -423,36 +435,25 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }
 
     private void limparRegistro() {
-        TxtNome.setText("");
-        TxtEmail.setText("");
-        TxtCPF.setText("");
-        TxtTelefone.setText("");
-        TxtLogradouro.setText("");
-        CbbCidade.setSelectedIndex(0);
+        tfdNome.setText("");
+        tfdEmail.setText("");
+        tffCPF.setText("");
+        tffTelefone.setText("");
+        tfdLogradouro.setText("");
+        cbbCidade.setSelectedIndex(0);
 
-        TxtNome.requestFocus();
+        tfdNome.requestFocus();
     }
 
     private void preencherRegistro() {
-        TxtNome.setText(clienteSelecionado.getNome());
-        TxtEmail.setText(clienteSelecionado.getEmail());
-        TxtCPF.setText(clienteSelecionado.getCpf());
-        TxtTelefone.setText(clienteSelecionado.getTelefone());
-        TxtLogradouro.setText(clienteSelecionado.getLogradouro());
-        CbbCidade.setSelectedIndex(posicaoCidadeArray(clienteSelecionado.getCidade()) + 1);
+        tfdNome.setText(clienteSelecionado.getNome());
+        tfdEmail.setText(clienteSelecionado.getEmail());
+        tffCPF.setText(clienteSelecionado.getCpf());
+        tffTelefone.setText(clienteSelecionado.getTelefone());
+        tfdLogradouro.setText(clienteSelecionado.getLogradouro());
+        cbbCidade.setSelectedIndex(posicaoCidadeArray(clienteSelecionado.getCidade()) + 1);
 
-        TxtNome.requestFocus();
-    }
-
-    private void popularComboBoxCidades() {
-        CbbCidade.removeAllItems();
-
-        popularArrayCidades();
-
-        CbbCidade.addItem("--- Selecione a Cidade ---");
-        for (Cidade cidade : cidades) {
-            CbbCidade.addItem(cidade.getNome());
-        }
+        tfdNome.requestFocus();
     }
 
     private void alterarBotoes() {
@@ -464,7 +465,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         alterarBotoesUpdate(false);
         popularArrayClientes();
 
-        Object[] cabecalho = {"Nome", "Cidade", "Telefone"};
+        Object[] cabecalho = {"Nome", "Telefone", "Nascimento", "Cidade", "Logradouro", "e-mail"};
 
         DefaultTableModel model = new DefaultTableModel(cabecalho, 0) {
             @Override
@@ -477,10 +478,14 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         for (Cliente cliente : clientes) {
             String nome = cliente.getNome();
-            String cidade = cidadeDAO.consultarId(cliente.getCidade()).getNome();
             String telefone = cliente.getTelefone();
+            String cidade = cidadeDAO.consultarId(cliente.getCidade()).getNome();
+            String logradouro = cliente.getLogradouro();
+            String email = cliente.getEmail();
+            
+            String nascimento = "TEM QUE IMPLEMENTAR";
 
-            String[] row = {nome, cidade, telefone};
+            String[] row = {nome, telefone, nascimento, cidade, logradouro, email};
 
             model.addRow(row);
         }
@@ -551,17 +556,13 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnLimparFiltro;
     private javax.swing.JButton BtnSalvar;
-    private javax.swing.JComboBox<String> CbbCidade;
     private javax.swing.JPanel PnlClienteLista;
     private javax.swing.JPanel PnlClienteManutencao;
     private javax.swing.JTable TblClientes;
     private javax.swing.JTabbedPane TbpPrincipal;
-    private javax.swing.JFormattedTextField TxtCPF;
-    private javax.swing.JTextField TxtEmail;
     private javax.swing.JTextField TxtFiltroNome;
-    private javax.swing.JTextField TxtLogradouro;
-    private javax.swing.JTextField TxtNome;
-    private javax.swing.JFormattedTextField TxtTelefone;
+    private javax.swing.JComboBox<String> cbbCidade;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -571,5 +572,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField tfdEmail;
+    private javax.swing.JTextField tfdLogradouro;
+    private javax.swing.JTextField tfdNome;
+    private javax.swing.JFormattedTextField tffCPF;
+    private javax.swing.JFormattedTextField tffNascimento;
+    private javax.swing.JFormattedTextField tffTelefone;
     // End of variables declaration//GEN-END:variables
 }
