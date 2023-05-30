@@ -13,6 +13,12 @@ import javax.swing.text.MaskFormatter;
  * @author artur
  */
 public class Formatacao {
+    
+    private String colorError = "#FF9191";
+
+    public String getColorError() {
+        return colorError;
+    }
 
     public static void formatarData(JFormattedTextField campo) {
         try {
@@ -61,10 +67,22 @@ public class Formatacao {
             mascara2.setPlaceholderCharacter(' ');
             
             campo.setFormatterFactory(null);
-            campo.setFormatterFactory(new DefaultFormatterFactory(mascara1, mascara2));
+            campo.setFormatterFactory(new DefaultFormatterFactory(mascara2));
             campo.setValue(null);
         } catch (Exception e) {
             System.err.println(e);
         }
+    }
+    
+    public static String removerFormatacao(String dadoFormatado) {
+        String retorno = "";
+        
+        for (int i = 0; i < dadoFormatado.length(); i++) {
+            if(dadoFormatado.charAt(i) != '.' && dadoFormatado.charAt(i) != '/' && dadoFormatado.charAt(i) != '-') {
+                retorno = retorno + dadoFormatado.charAt(i);
+            }
+        }
+        
+        return retorno;
     }
 }
