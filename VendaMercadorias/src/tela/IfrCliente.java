@@ -7,10 +7,12 @@ package tela;
 import apoio.ComboItem;
 import apoio.CombosDAO;
 import apoio.Formatacao;
+import apoio.Validacao;
 import dao.CidadeDAO;
 import dao.ClienteDAO;
 import entidade.Cidade;
 import entidade.Cliente;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +36,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         Formatacao.formatarCpf(tffCPF);
         Formatacao.formatarData(tffNascimento);
         Formatacao.formatarTelefone(tffTelefone);
-        
-        new CombosDAO().populerComboBox("cidade", cbbCidade);
+
+        new CombosDAO().popularComboBox("cidade", cbbCidade);
         popularTabela();
 
         alterarBotoes();
@@ -173,6 +175,12 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         jLabel6.setText("Logradouro:");
 
         jLabel7.setText("Cidade:");
+
+        tffCPF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffCPFFocusLost(evt);
+            }
+        });
 
         tffTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
@@ -384,13 +392,21 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnAtualizarActionPerformed
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        if(new ClienteDAO().excluir(clientes.get(TblClientes.getSelectedRow()).getId()) == null) {
+        if (new ClienteDAO().excluir(clientes.get(TblClientes.getSelectedRow()).getId()) == null) {
             JOptionPane.showMessageDialog(this, "Cliente Excluido com sucesso!");
             popularTabela();
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao Excluir Cliente");
         }
     }//GEN-LAST:event_BtnExcluirActionPerformed
+
+    private void tffCPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffCPFFocusLost
+        if (Validacao.validarCPF(Formatacao.removerFormatacao(tffCPF.getText()))) {
+            tffCPF.setBackground(Color.WHITE);
+        } else {
+            tffCPF.setBackground(Color.decode(new Formatacao().getColorError()));
+        }
+    }//GEN-LAST:event_tffCPFFocusLost
 
     private void salvar() {
         Cliente cliente = criarCliente();
@@ -451,7 +467,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         tffCPF.setText(clienteSelecionado.getCpf());
         tffTelefone.setText(clienteSelecionado.getTelefone());
         tfdLogradouro.setText(clienteSelecionado.getLogradouro());
-        cbbCidade.setSelectedIndex(posicaoCidadeArray(clienteSelecionado.getCidade()) + 1);
+
+        new CombosDAO().definirItemCombo(cbbCidade, clienteSelecionado.getCidade());
 
         tfdNome.requestFocus();
     }
@@ -482,7 +499,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             String cidade = cidadeDAO.consultarId(cliente.getCidade()).getNome();
             String logradouro = cliente.getLogradouro();
             String email = cliente.getEmail();
-            
+
             String nascimento = "TEM QUE IMPLEMENTAR";
 
             String[] row = {nome, telefone, nascimento, cidade, logradouro, email};
@@ -527,25 +544,9 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
     }
 
-    private void popularArrayCidades() {
-        CidadeDAO cidadeDAO = new CidadeDAO();
-        cidades = cidadeDAO.consultarTodos();
-    }
-
     private void alterarBotoesUpdate(boolean setTo) {
         BtnAtualizar.setEnabled(setTo);
         BtnExcluir.setEnabled(setTo);
-    }
-
-    private int posicaoCidadeArray(int id) {
-        for (int i = 0; i < 10; i++) {
-            if (cidades.get(i).getId() == id) {
-                System.out.println("Posicao Array: " + i);
-                System.out.println("Cidade: " + cidades.get(i).getNome());
-                return i;
-            }
-        }
-        return -1;
     }
 
 
