@@ -31,7 +31,7 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
                     + ");";
 
             System.out.println("DML: " + DML);
-            
+
             int retorno = st.executeUpdate(DML);
 
             return null;
@@ -43,12 +43,34 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
 
     @Override
     public String atualizar(Fornecedor o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String dml = "UPDATE fornecedor SET "
+                + "nome = '" + o.getNome() + "', "
+                + "email = '" + o.getEmail() + "', "
+                + "telefone = '" + o.getTelefone() + "', "
+                + "cnpj = '" + o.getCnpj() + "' "
+                + "WHERE id = " + o.getId()
+                + ";";
+        
+        try {
+            int retorno = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao executar update: " + e);
+            return e.toString();
+        }
     }
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String dml = "DELETE FROM fornecedor WHERE id = " + id;
+        
+        try {
+            int retorno = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar: " + e);
+            return e.toString();
+        }
     }
 
     @Override
@@ -69,9 +91,9 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
                 String email = rs.getString("email");
                 String telefone = rs.getString("telefone");
                 String cnpj = rs.getString("cnpj");
-                
+
                 Fornecedor fornecedor = new Fornecedor(id, nome, email, telefone, cnpj);
-                
+
                 fornecedores.add(fornecedor);
             }
         } catch (Exception e) {
@@ -96,9 +118,9 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
                 String email = rs.getString("email");
                 String telefone = rs.getString("telefone");
                 String cnpj = rs.getString("cnpj");
-                
+
                 Fornecedor fornecedor = new Fornecedor(id, nome, email, telefone, cnpj);
-                
+
                 fornecedores.add(fornecedor);
             }
         } catch (Exception e) {
