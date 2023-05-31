@@ -13,25 +13,6 @@ import java.util.regex.Pattern;
  */
 public class Validacao {
 
-    public boolean nome(String nome) {
-        String regex = "^[[a-zA-Z]\\s]+$";
-
-        return verificaString(regex, nome);
-    }
-
-    public boolean email(String email) {
-        String regex = "\\w+@[a-z0-9]+[.][a-z]{2,3}";
-
-        return verificaString(regex, email);
-    }
-
-    private boolean verificaString(String regex, String termo) {
-        Pattern patter = Pattern.compile(regex);
-        Matcher matcher = patter.matcher(termo);
-
-        return matcher.matches();
-    }
-
     private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
     private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
@@ -61,5 +42,18 @@ public class Validacao {
         Integer digito1 = calcularDigito(cnpj.substring(0, 12), pesoCNPJ);
         Integer digito2 = calcularDigito(cnpj.substring(0, 12) + digito1, pesoCNPJ);
         return cnpj.equals(cnpj.substring(0, 12) + digito1.toString() + digito2.toString());
+    }
+
+    public static boolean validarEmail(String email) {
+        String regex = "\\w+@[a-z0-9]+[.][a-z]{2,3}$";
+
+        return verificaString(regex, email);
+    }
+
+    private static boolean verificaString(String regex, String termo) {
+        Pattern patter = Pattern.compile(regex);
+        Matcher matcher = patter.matcher(termo);
+
+        return matcher.matches();
     }
 }
