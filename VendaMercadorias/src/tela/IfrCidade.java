@@ -67,14 +67,6 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Filtro por nome:");
 
-        TblListagem.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nome"
-            }
-        ));
         TblListagem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblListagemMouseClicked(evt);
@@ -312,7 +304,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         alteraBotoesUpdate(false);
         popularArrayCidades();
 
-        String[] columnNames = {"ID", "Descrição"};
+        String[] columnNames = {"Descrição"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -321,7 +313,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         };
 
         for (Cidade cidade : cidades) {
-            Object[] row = {cidade.getId(), cidade.getNome()};
+            Object[] row = {cidade.getNome()};
             model.addRow(row);
         }
 
@@ -332,15 +324,6 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         for (int i = 0; i < TblListagem.getColumnCount(); i++) {
             coluna = TblListagem.getColumnModel().getColumn(i);
             coluna.setResizable(false);
-
-            switch (i) {
-                case 0:
-                    coluna.setMaxWidth(40);
-                    break;
-                case 1:
-                    coluna.setPreferredWidth(200);
-                    break;
-            }
         }
 
         TblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
