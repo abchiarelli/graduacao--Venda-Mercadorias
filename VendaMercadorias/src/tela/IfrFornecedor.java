@@ -4,11 +4,16 @@
  */
 package tela;
 
+import apoio.Formatacao;
+import apoio.Validacao;
 import dao.FornecedorDAO;
 import entidade.Fornecedor;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -23,6 +28,9 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
      */
     public IfrFornecedor() {
         initComponents();
+        
+        Formatacao.formatarCnpj(TxtCnpj);
+        Formatacao.formatarTelefone(TxtTelefone);
 
         alterarBotoes();
         popularTabela();
@@ -41,9 +49,9 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         PnlFornecedorLista = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         TxtFiltroNome = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TblListagem = new javax.swing.JTable();
         BtnLimparFiltro = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TblListagem = new javax.swing.JTable();
         PnlFornecedorManutencao = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -60,7 +68,6 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         BtnCancelar = new javax.swing.JButton();
 
         setTitle("Cadastro: Fornecedores");
-        setPreferredSize(new java.awt.Dimension(500, 408));
 
         TbpPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -70,35 +77,25 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Filtro por nome:");
 
-        TblListagem.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nome", "Telefone"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        TblListagem.setEnabled(false);
-        jScrollPane1.setViewportView(TblListagem);
-        if (TblListagem.getColumnModel().getColumnCount() > 0) {
-            TblListagem.getColumnModel().getColumn(0).setMinWidth(150);
-            TblListagem.getColumnModel().getColumn(0).setPreferredWidth(250);
-        }
-
         BtnLimparFiltro.setText("Limpar");
         BtnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnLimparFiltroActionPerformed(evt);
             }
         });
+
+        TblListagem.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(TblListagem);
 
         javax.swing.GroupLayout PnlFornecedorListaLayout = new javax.swing.GroupLayout(PnlFornecedorLista);
         PnlFornecedorLista.setLayout(PnlFornecedorListaLayout);
@@ -107,7 +104,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             .addGroup(PnlFornecedorListaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PnlFornecedorListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
                     .addGroup(PnlFornecedorListaLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -126,8 +123,8 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnLimparFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         TbpPrincipal.addTab("Listagem", PnlFornecedorLista);
@@ -140,40 +137,42 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         jLabel4.setText("CNPJ:");
 
-        try {
-            TxtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        TxtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TxtEmailFocusLost(evt);
+            }
+        });
 
-        try {
-            TxtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        TxtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+
+        TxtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        TxtCnpj.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TxtCnpjFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout PnlFornecedorManutencaoLayout = new javax.swing.GroupLayout(PnlFornecedorManutencao);
         PnlFornecedorManutencao.setLayout(PnlFornecedorManutencaoLayout);
         PnlFornecedorManutencaoLayout.setHorizontalGroup(
             PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PnlFornecedorManutencaoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(19, 19, 19)
+                .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(TxtNome)
-                        .addComponent(TxtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
+                    .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PnlFornecedorManutencaoLayout.createSequentialGroup()
-                        .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                        .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(322, Short.MAX_VALUE))
         );
         PnlFornecedorManutencaoLayout.setVerticalGroup(
             PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,15 +183,15 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4)
+                    .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(168, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         TbpPrincipal.addTab("Manutenção", PnlFornecedorManutencao);
@@ -231,7 +230,9 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TbpPrincipal)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
@@ -248,15 +249,15 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnBuscar)
                     .addComponent(BtnExcluir)
                     .addComponent(BtnAtualizar)
                     .addComponent(BtnSalvar)
                     .addComponent(BtnCancelar))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -284,6 +285,22 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         popularTabela();
     }//GEN-LAST:event_BtnLimparFiltroActionPerformed
+
+    private void TxtCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtCnpjFocusLost
+        if(!new Validacao().validarCNPJ(Formatacao.removerFormatacao(TxtCnpj.getText()))) {
+            TxtCnpj.setBackground(Color.decode("#FF9191"));
+        } else {
+            TxtCnpj.setBackground(Color.decode("#91FF91"));
+        }
+    }//GEN-LAST:event_TxtCnpjFocusLost
+
+    private void TxtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtEmailFocusLost
+        if(TxtEmail.getText().trim().length() > 0 && Validacao.validarEmail(TxtEmail.getText())) {
+            TxtEmail.setBackground(Color.decode("#91FF91"));
+        } else {
+            TxtEmail.setBackground(Color.decode("#FF9191"));
+        }
+    }//GEN-LAST:event_TxtEmailFocusLost
 
     private Fornecedor criarFornecedor() {
 
@@ -317,26 +334,61 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }
 
     private void popularTabela() {
-        limparTabela();
-
         popularArrayFornecedores();
 
-        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        Object[] cabecalho = {
+            "Nome",
+            "CNPJ",
+            "Telefone",
+            "e-mail"
+        };
+        
+        DefaultTableModel model = new DefaultTableModel(cabecalho, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         for (Fornecedor fornecedor : fornecedores) {
             String nome = fornecedor.getNome();
+            String cnpj = fornecedor.getCnpj();
             String telefone = fornecedor.getTelefone();
+            String email = fornecedor.getEmail();
 
-            String[] row = {nome, telefone};
+            String[] row = {
+                nome,
+                cnpj,
+                telefone,
+                email
+            };
+            
             model.addRow(row);
         }
 
-    }
-
-    private void limparTabela() {
-        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
-        model.setRowCount(0);
         TblListagem.setModel(model);
+        TblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        TableColumn coluna = null;
+        for (int i = 0; i < TblListagem.getColumnCount(); i++) {
+            coluna = TblListagem.getColumnModel().getColumn(i);
+            coluna.setResizable(false);
+            
+            switch (i) {
+                case 0:
+                    coluna.setMaxWidth(650);
+                    break;
+                case 1:
+                    coluna.setMaxWidth(300);
+                    break;
+                case 2:
+                    coluna.setMaxWidth(250);
+                    break;
+                case 3:
+                    coluna.setMaxWidth(600);
+                    break;
+            }
+        }
     }
 
     private void popularArrayFornecedores() {
@@ -381,6 +433,6 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
