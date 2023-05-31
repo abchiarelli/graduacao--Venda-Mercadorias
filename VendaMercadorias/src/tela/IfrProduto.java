@@ -8,7 +8,9 @@ import dao.ProdutoDAO;
 import entidade.Produto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -17,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class IfrProduto extends javax.swing.JInternalFrame {
 
     ArrayList<Produto> produtos;
+    Produto produtoSelecionado = null;
 
     /**
      * Creates new form IfrProduto
@@ -72,20 +75,9 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Filtro por descricao:");
 
-        TblListagem.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Descricao", "Valor", "Estoque (qtde.)"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        TblListagem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblListagemMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(TblListagem);
@@ -203,8 +195,20 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         });
 
         BtnExcluir.setText("Excluir");
+        BtnExcluir.setEnabled(false);
+        BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnExcluirActionPerformed(evt);
+            }
+        });
 
         BtnAtualizar.setText("Atualizar");
+        BtnAtualizar.setEnabled(false);
+        BtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAtualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -258,6 +262,14 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
     private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
         alterarBotoes();
+        alterarBotoesEdicao(false);
+
+        if (TbpPrincipal.getSelectedIndex() == 1) {
+            TxtFiltro.setText("");
+        } else {
+            limparRegistro();
+            produtoSelecionado = null;
+        }
     }//GEN-LAST:event_TbpPrincipalMouseClicked
 
     private void BtnLimparFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimparFiltroActionPerformed
@@ -266,16 +278,59 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         popularTabela();
     }//GEN-LAST:event_BtnLimparFiltroActionPerformed
 
+    private void BtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtualizarActionPerformed
+        produtoSelecionado = produtos.get(TblListagem.getSelectedRow());
+
+        TxtDescricao.setText(produtoSelecionado.getDescricao());
+        TxtQuantidade.setText(String.valueOf(produtoSelecionado.getQuantidade()));
+        TxtValor.setText(String.valueOf(produtoSelecionado.getValor()));
+
+        TbpPrincipal.setSelectedIndex(1);
+
+        TxtDescricao.requestFocus();
+
+        alterarBotoesEdicao(false);
+        TxtFiltro.setText("");
+        
+        alterarBotoes();
+    }//GEN-LAST:event_BtnAtualizarActionPerformed
+
+    private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
+        if(new ProdutoDAO().excluir(produtos.get(TblListagem.getSelectedRow()).getId()) == null) {
+            JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
+            TxtFiltro.setText("");
+            popularTabela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir produto.");
+        }
+    }//GEN-LAST:event_BtnExcluirActionPerformed
+
+    private void TblListagemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblListagemMouseClicked
+        if(TblListagem.getSelectedRow() > -1) {
+            alterarBotoesEdicao(true);
+        }
+    }//GEN-LAST:event_TblListagemMouseClicked
+
     private void salvar() {
         Produto produto = criarProduto();
 
-        ProdutoDAO produtoDao = new ProdutoDAO();
-        if (produtoDao.salvar(produto) == null) {
-            JOptionPane.showMessageDialog(this, "Produto salvo com sucesso!");
-            limparRegistro();
+        if (produtoSelecionado == null) {
+            if (new ProdutoDAO().salvar(produto) == null) {
+                JOptionPane.showMessageDialog(this, "Produto salvo com sucesso!");
+                limparRegistro();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao salvar Produto.");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar Produto.");
+            if (new ProdutoDAO().atualizar(produto) == null) {
+                JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
+                limparRegistro();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar Produto.");
+            }
         }
+        
+        popularTabela();
     }
 
     private Produto criarProduto() {
@@ -283,7 +338,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         float valor = Float.parseFloat(TxtValor.getText());
         float quantidade = Float.parseFloat(TxtQuantidade.getText());
 
-        return new Produto(descricao, valor, quantidade);
+        if (produtoSelecionado == null) {
+            return new Produto(descricao, valor, quantidade);
+        } else {
+            return new Produto(produtoSelecionado.getId(), descricao, valor, quantidade);
+        }
     }
 
     public void limparRegistro() {
@@ -294,23 +353,54 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     }
 
     public void popularTabela() {
+        alterarBotoesEdicao(false);
+
         popularArrayProdutos();
 
-        limparTabela();
+        Object[] cabecalho = {
+            "Descricao",
+            "Valor",
+            "Estoque"
+        };
 
-        DefaultTableModel model = (DefaultTableModel) TblListagem.getModel();
+        DefaultTableModel model = new DefaultTableModel(cabecalho, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         for (Produto produto : produtos) {
             String descricao = produto.getDescricao();
             String valor = String.valueOf(produto.getValor());
             String quantidade = String.valueOf(produto.getQuantidade());
 
-            String[] row = {descricao, valor, quantidade};
+            Object[] row = {descricao, valor, quantidade};
 
             model.addRow(row);
         }
 
         TblListagem.setModel(model);
+        
+        TblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        TableColumn coluna = null;
+        for (int i = 0; i < TblListagem.getColumnCount(); i++) {
+            coluna = TblListagem.getColumnModel().getColumn(i);
+            coluna.setResizable(false);
+
+            switch (i) {
+                case 0:
+                    coluna.setMaxWidth(400);
+                    break;
+                case 1:
+                    coluna.setMaxWidth(150);
+                    break;
+                case 2:
+                    coluna.setMaxWidth(150);
+                    break;
+            }
+        }
     }
 
     private void popularArrayProdutos() {
@@ -337,6 +427,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private void alterarBotoes() {
         BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
         BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
+    }
+
+    private void alterarBotoesEdicao(boolean setTo) {
+        BtnAtualizar.setEnabled(setTo);
+        BtnExcluir.setEnabled(setTo);
     }
 
 
