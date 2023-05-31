@@ -11,7 +11,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="MenCadastro">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cadastro"/>
+            <Property name="text" type="java.lang.String" value="Listagem"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MitCliente">
