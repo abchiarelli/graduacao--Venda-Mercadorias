@@ -59,7 +59,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGap(0, 617, Short.MAX_VALUE)
         );
 
-        MenCadastro.setText("Cadastro");
+        MenCadastro.setText("Listagem");
 
         MitCliente.setText("Cliente");
         MitCliente.addActionListener(new java.awt.event.ActionListener() {
