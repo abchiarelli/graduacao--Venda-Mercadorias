@@ -22,13 +22,14 @@ import javax.swing.table.TableColumn;
 public class IfrFornecedor extends javax.swing.JInternalFrame {
 
     ArrayList<Fornecedor> fornecedores;
+    Fornecedor fornecedorSelecionado = null;
 
     /**
      * Creates new form IfrFornecedor
      */
     public IfrFornecedor() {
         initComponents();
-        
+
         Formatacao.formatarCnpj(TxtCnpj);
         Formatacao.formatarTelefone(TxtTelefone);
 
@@ -95,6 +96,11 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TblListagem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblListagemMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(TblListagem);
 
         javax.swing.GroupLayout PnlFornecedorListaLayout = new javax.swing.GroupLayout(PnlFornecedorLista);
@@ -205,9 +211,19 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         BtnExcluir.setText("Excluir");
         BtnExcluir.setEnabled(false);
+        BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnExcluirActionPerformed(evt);
+            }
+        });
 
         BtnAtualizar.setText("Atualizar");
         BtnAtualizar.setEnabled(false);
+        BtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAtualizarActionPerformed(evt);
+            }
+        });
 
         BtnSalvar.setText("Salvar");
         BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -278,6 +294,12 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
     private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
         alterarBotoes();
+        if (TbpPrincipal.getSelectedIndex() == 0) {
+            limparRegistro();
+            fornecedorSelecionado = null;
+        } else {
+            TxtFiltroNome.setText("");
+        }
     }//GEN-LAST:event_TbpPrincipalMouseClicked
 
     private void BtnLimparFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimparFiltroActionPerformed
@@ -287,7 +309,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnLimparFiltroActionPerformed
 
     private void TxtCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtCnpjFocusLost
-        if(!new Validacao().validarCNPJ(Formatacao.removerFormatacao(TxtCnpj.getText()))) {
+        if (!new Validacao().validarCNPJ(Formatacao.removerFormatacao(TxtCnpj.getText()))) {
             TxtCnpj.setBackground(Color.decode("#FF9191"));
         } else {
             TxtCnpj.setBackground(Color.decode("#91FF91"));
@@ -295,12 +317,42 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtCnpjFocusLost
 
     private void TxtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtEmailFocusLost
-        if(TxtEmail.getText().trim().length() > 0 && Validacao.validarEmail(TxtEmail.getText())) {
+        if (TxtEmail.getText().trim().length() > 0 && Validacao.validarEmail(TxtEmail.getText())) {
             TxtEmail.setBackground(Color.decode("#91FF91"));
         } else {
             TxtEmail.setBackground(Color.decode("#FF9191"));
         }
     }//GEN-LAST:event_TxtEmailFocusLost
+
+    private void BtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtualizarActionPerformed
+        fornecedorSelecionado = fornecedores.get(TblListagem.getSelectedRow());
+
+        TxtNome.setText(fornecedorSelecionado.getNome());
+        TxtCnpj.setText(fornecedorSelecionado.getCnpj());
+        TxtTelefone.setText(fornecedorSelecionado.getTelefone());
+        TxtEmail.setText(fornecedorSelecionado.getEmail());
+
+        TbpPrincipal.setSelectedIndex(1);
+
+        TxtNome.requestFocus();
+
+        ativarBotoesEdicao(false);
+        alterarBotoes();
+    }//GEN-LAST:event_BtnAtualizarActionPerformed
+
+    private void TblListagemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblListagemMouseClicked
+        if (TblListagem.getSelectedRow() > -1) {
+            ativarBotoesEdicao(true);
+        }
+    }//GEN-LAST:event_TblListagemMouseClicked
+
+    private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
+        if(new FornecedorDAO().excluir(fornecedores.get(TblListagem.getSelectedRow()).getId()) == null) {
+            JOptionPane.showMessageDialog(this, "Fornecedor ecluído com sucesso!");
+            popularTabela();
+            ativarBotoesEdicao(false);
+        }
+    }//GEN-LAST:event_BtnExcluirActionPerformed
 
     private Fornecedor criarFornecedor() {
 
@@ -309,7 +361,11 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         String telefone = TxtTelefone.getText();
         String cnpj = TxtCnpj.getText();
 
-        return new Fornecedor(nome, email, telefone, cnpj);
+        if (fornecedorSelecionado == null) {
+            return new Fornecedor(nome, email, telefone, cnpj);
+        } else {
+            return new Fornecedor(fornecedorSelecionado.getId(), nome, email, telefone, cnpj);
+        }
     }
 
     private void limparRegistro() {
@@ -324,12 +380,22 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private void salvar() {
         Fornecedor fornecedor = criarFornecedor();
 
-        FornecedorDAO fornecedorDAO = new FornecedorDAO();
-        if (fornecedorDAO.salvar(fornecedor) == null) {
-            JOptionPane.showMessageDialog(this, "Fornecedor salvo com Sucesso");
-            limparRegistro();
+        if (fornecedorSelecionado == null) {
+            if (new FornecedorDAO().salvar(fornecedor) == null) {
+                JOptionPane.showMessageDialog(this, "Fornecedor salvo com Sucesso");
+                limparRegistro();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro so salvar Fornecedor.");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro so salvar Fornecedor.");
+            if (new FornecedorDAO().atualizar(fornecedor) == null) {
+                JOptionPane.showMessageDialog(this, "Fornecedor atualizado com Sucesso");
+                limparRegistro();
+                fornecedorSelecionado = null;
+                popularTabela();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro so atualizar Fornecedor.");
+            }
         }
     }
 
@@ -342,7 +408,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             "Telefone",
             "e-mail"
         };
-        
+
         DefaultTableModel model = new DefaultTableModel(cabecalho, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -362,18 +428,18 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 telefone,
                 email
             };
-            
+
             model.addRow(row);
         }
 
         TblListagem.setModel(model);
         TblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
         TableColumn coluna = null;
         for (int i = 0; i < TblListagem.getColumnCount(); i++) {
             coluna = TblListagem.getColumnModel().getColumn(i);
             coluna.setResizable(false);
-            
+
             switch (i) {
                 case 0:
                     coluna.setMaxWidth(650);
@@ -398,7 +464,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             String DML = "SELECT * FROM fornecedor "
                     + "WHERE nome ILIKE '%" + TxtFiltroNome.getText() + "%' "
                     + "ORDER BY nome;";
-            
+
             fornecedores = fornecedorDAO.consultar(DML);
         } else {
             fornecedores = fornecedorDAO.consultarTodos();
@@ -409,6 +475,11 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private void alterarBotoes() {
         BtnBuscar.setEnabled(TbpPrincipal.getSelectedIndex() == 0);
         BtnSalvar.setEnabled(TbpPrincipal.getSelectedIndex() == 1);
+    }
+
+    private void ativarBotoesEdicao(boolean setTo) {
+        BtnExcluir.setEnabled(setTo);
+        BtnAtualizar.setEnabled(setTo);
     }
 
 
