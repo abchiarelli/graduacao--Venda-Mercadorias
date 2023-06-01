@@ -4,6 +4,7 @@
  */
 package vendamercadorias;
 
+import tela.DlgLogin;
 import tela.FrmPrincipal;
 
 /**
@@ -17,7 +18,7 @@ public class VendaMercadorias {
      */
     public static void main(String[] args) {
         
-        new FrmPrincipal().setVisible(true);
+        new DlgLogin(null, true).setVisible(true);
         
     }
     
