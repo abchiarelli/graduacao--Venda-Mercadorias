@@ -5,10 +5,12 @@
 package dao;
 
 import apoio.ConexaoBD;
+import apoio.Formatacao;
 import apoio.IDAOT;
 import entidade.Cliente;
 import java.util.ArrayList;
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  *
@@ -27,7 +29,8 @@ public class ClienteDAO implements IDAOT<Cliente> {
                     + "'" + o.getTelefone() + "', "
                     + "'" + o.getCpf() + "', "
                     + "'" + o.getLogradouro() + "', "
-                    + o.getCidade()
+                    + o.getCidade() + ", "
+                    + "'" + Formatacao.localDateToString(o.getNascimento()) + "'"
                     + ");";
 
             System.out.println("DML: " + DML);
@@ -53,29 +56,30 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 + "logradouro = '" + o.getLogradouro() + "', "
                 + "id_cidade = " + o.getCidade() + " "
                 + "WHERE id = " + o.getId() + ";";
-        
+
         System.out.println("DML: " + dml);
-        
+
         try {
             Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
-            
+
             int retorno = st.executeUpdate(dml);
-            
+
             return null;
         } catch (Exception e) {
             System.out.println("Erro ao atualizar Cliente: " + e);
-            return e.toString();        }
+            return e.toString();
+        }
     }
 
     @Override
     public String excluir(int id) {
         String dml = "DELETE FROM cliente WHERE id = " + id;
-        
+
         try {
             Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
-            
+
             int retorno = st.executeUpdate(dml);
-            
+
             return null;
         } catch (Exception e) {
             System.out.println("Erro ao excluir Cliente: " + e);
@@ -102,8 +106,10 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 String telefone = rs.getString("telefone");
                 String logradouro = rs.getString("logradouro");
                 int cidade = rs.getInt("id_cidade");
+                String dataDB = rs.getString("data_nascimento");
+                LocalDate nascimento = Formatacao.stringToLocalDate(Formatacao.ajustaDataDMA(dataDB));
 
-                Cliente cliente = new Cliente(id, nome, email, cpf, telefone, logradouro, cidade);
+                Cliente cliente = new Cliente(id, nome, email, cpf, telefone, logradouro, cidade, nascimento);
 
                 clientes.add(cliente);
             }
@@ -132,8 +138,10 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 String telefone = rs.getString("telefone");
                 String logradouro = rs.getString("logradouro");
                 int cidade = rs.getInt("id_cidade");
+                String dataDB = rs.getString("data_nascimento");
+                LocalDate nascimento = Formatacao.stringToLocalDate(Formatacao.ajustaDataDMA(dataDB));
 
-                Cliente cliente = new Cliente(id, nome, email, cpf, telefone, logradouro, cidade);
+                Cliente cliente = new Cliente(id, nome, email, cpf, telefone, logradouro, cidade, nascimento);
 
                 clientes.add(cliente);
             }
@@ -148,7 +156,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
     @Override
     public Cliente consultarId(int id) {
         Cliente cliente = null;
-        
+
         try {
             Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
 
@@ -163,8 +171,10 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 String telefone = rs.getString("telefone");
                 String logradouro = rs.getString("logradouro");
                 int cidade = rs.getInt("id_cidade");
+                String dataDB = rs.getString("data_nascimento");
+                LocalDate nascimento = Formatacao.stringToLocalDate(Formatacao.ajustaDataDMA(dataDB));
 
-                cliente = new Cliente(id, nome, email, cpf, telefone, logradouro, cidade);
+                cliente = new Cliente(id, nome, email, cpf, telefone, logradouro, cidade, nascimento);
 
             }
 
