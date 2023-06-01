@@ -10,11 +10,12 @@ import apoio.Formatacao;
 import apoio.Validacao;
 import dao.CidadeDAO;
 import dao.ClienteDAO;
-import entidade.Cidade;
 import entidade.Cliente;
 import java.awt.Color;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -82,6 +83,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         BtnExcluir = new javax.swing.JButton();
 
         setTitle("Cadastro: Clientes");
+        setPreferredSize(new java.awt.Dimension(960, 375));
 
         TbpPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -139,7 +141,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             .addGroup(PnlClienteListaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PnlClienteListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
                     .addGroup(PnlClienteListaLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -187,6 +189,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         jLabel1.setText("Nascimento:");
 
         tffNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        tffNascimento.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffNascimentoFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout PnlClienteManutencaoLayout = new javax.swing.GroupLayout(PnlClienteManutencao);
         PnlClienteManutencao.setLayout(PnlClienteManutencaoLayout);
@@ -197,19 +204,16 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                     .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
                             .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addComponent(jLabel7)
-                                .addGap(291, 291, 291))
-                            .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
-                                .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(cbbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnlClienteManutencaoLayout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfdLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel7))
+                            .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(cbbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PnlClienteManutencaoLayout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(tfdLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(PnlClienteManutencaoLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(PnlClienteManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -364,6 +368,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         if (TbpPrincipal.getSelectedIndex() == 0) {
             limparRegistro();
             clienteSelecionado = null;
+        } else {
+            alterarBotoesUpdate(false);
         }
     }//GEN-LAST:event_TbpPrincipalMouseClicked
 
@@ -402,11 +408,19 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
     private void tffCPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffCPFFocusLost
         if (Validacao.validarCPF(Formatacao.removerFormatacao(tffCPF.getText()))) {
-            tffCPF.setBackground(Color.WHITE);
+            tffCPF.setBackground(Color.decode("#91ff91"));
         } else {
-            tffCPF.setBackground(Color.decode(new Formatacao().getColorError()));
+            tffCPF.setBackground(Color.decode("#ff9191"));
         }
     }//GEN-LAST:event_tffCPFFocusLost
+
+    private void tffNascimentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffNascimentoFocusLost
+        if(Validacao.validarDataFormatada(tffNascimento.getText())) {
+            tffNascimento.setBackground(Color.decode("#91FF91"));
+        } else {
+            tffNascimento.setBackground(Color.decode("#FF9191"));
+        }
+    }//GEN-LAST:event_tffNascimentoFocusLost
 
     private void salvar() {
         Cliente cliente = criarCliente();
@@ -441,12 +455,13 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         String logradouro = tfdLogradouro.getText();
         ComboItem item = (ComboItem) cbbCidade.getSelectedItem();
         int idCidade = item.getId();
+        LocalDate nascimento = new Formatacao().stringToLocalDate(tffNascimento.getText());
 
         if (clienteSelecionado == null) {
-            return new Cliente(nome, email, cpf, telefone, logradouro, idCidade);
+            return new Cliente(nome, email, cpf, telefone, logradouro, idCidade, nascimento);
 
         } else {
-            return new Cliente(clienteSelecionado.getId(), nome, email, cpf, telefone, logradouro, idCidade);
+            return new Cliente(clienteSelecionado.getId(), nome, email, cpf, telefone, logradouro, idCidade, nascimento);
         }
     }
 
@@ -457,6 +472,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         tffTelefone.setText("");
         tfdLogradouro.setText("");
         cbbCidade.setSelectedIndex(0);
+        tffNascimento.setText("");
 
         tfdNome.requestFocus();
     }
@@ -467,6 +483,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         tffCPF.setText(clienteSelecionado.getCpf());
         tffTelefone.setText(clienteSelecionado.getTelefone());
         tfdLogradouro.setText(clienteSelecionado.getLogradouro());
+        tffNascimento.setText(new Formatacao().localDateToString(clienteSelecionado.getNascimento()));
 
         new CombosDAO().definirItemCombo(cbbCidade, clienteSelecionado.getCidade());
 
@@ -500,7 +517,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             String logradouro = cliente.getLogradouro();
             String email = cliente.getEmail();
 
-            String nascimento = "TEM QUE IMPLEMENTAR";
+            String nascimento = new Formatacao().localDateToString(cliente.getNascimento());
 
             String[] row = {nome, telefone, nascimento, cidade, logradouro, email};
 
@@ -508,6 +525,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         }
 
         TblClientes.setModel(model);
+        TblClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         TableColumn coluna = null;
 
@@ -516,14 +534,23 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             coluna.setResizable(false);
 
             switch (i) {
-                case 0:
-                    coluna.setPreferredWidth(200);
+                case 0: //Nome
+                    coluna.setMaxWidth(400);
                     break;
-                case 1:
-                    coluna.setPreferredWidth(100);
+                case 1: //Telefone
+                    coluna.setMaxWidth(150);
                     break;
-                case 2:
-                    coluna.setPreferredWidth(50);
+                case 2: //Nascimento
+                    coluna.setMaxWidth(80);
+                    break;
+                case 3: //Cidade
+                    coluna.setMaxWidth(200);
+                    break;
+                case 4: //Logradouro
+                    coluna.setMaxWidth(300);
+                    break;
+                case 5: //e-mail
+                    coluna.setMaxWidth(200);
                     break;
             }
         }
