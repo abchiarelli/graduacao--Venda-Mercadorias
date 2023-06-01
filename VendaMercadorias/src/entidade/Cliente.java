@@ -4,6 +4,8 @@
  */
 package entidade;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author artur
@@ -16,17 +18,19 @@ public class Cliente {
     private String telefone;
     private String logradouro;
     private int cidade;
+    private LocalDate nascimento;
 
-    public Cliente(String nome, String email, String cpf, String telefone, String logradouro, int cidade) {
+    public Cliente(String nome, String email, String cpf, String telefone, String logradouro, int cidade, LocalDate nascimento) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.telefone = telefone;
         this.logradouro = logradouro;
         this.cidade = cidade;
+        this.nascimento = nascimento;
     }
 
-    public Cliente(int id, String nome, String email, String cpf, String telefone, String logradouro, int cidade) {
+    public Cliente(int id, String nome, String email, String cpf, String telefone, String logradouro, int cidade, LocalDate nascimento) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -34,6 +38,7 @@ public class Cliente {
         this.telefone = telefone;
         this.logradouro = logradouro;
         this.cidade = cidade;
+        this.nascimento = nascimento;
     }
 
     
@@ -93,6 +98,14 @@ public class Cliente {
 
     public void setCidade(int cidade) {
         this.cidade = cidade;
+    }
+
+    public LocalDate getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(LocalDate nascimento) {
+        this.nascimento = nascimento;
     }
     
     
