@@ -37,6 +37,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         MitProduto = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         MitCidade = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         MenSair = new javax.swing.JMenuItem();
@@ -95,6 +98,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
         MenCadastro.add(MitCidade);
 
         jMenuBar1.add(MenCadastro);
+
+        jMenu1.setText("Financeiro");
+
+        jMenuItem2.setText("Cadastrar Pedido");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Nova Compra");
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Ajuda");
         jMenu2.add(jSeparator2);
@@ -167,6 +185,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         frameCidade.setVisible(true);
     }//GEN-LAST:event_MitCidadeActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        IfrPedido frmPedido = new IfrPedido();
+        
+        DtpPrincipal.add(frmPedido);
+        
+        frmPedido.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -210,9 +236,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MitCliente;
     private javax.swing.JMenuItem MitFornecedor;
     private javax.swing.JMenuItem MitProduto;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
