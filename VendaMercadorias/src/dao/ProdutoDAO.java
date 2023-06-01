@@ -57,7 +57,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
     @Override
     public String excluir(int id) {
         String dml = "DELETE FROM produto WHERE id = " + id;
-        
+
         try {
             int resultado = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
             return null;
@@ -124,7 +124,25 @@ public class ProdutoDAO implements IDAOT<Produto> {
 
     @Override
     public Produto consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Produto produto = null;
+
+        try {
+            String dml = "SELECT * FROM produto WHERE id = " + id;
+
+            ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
+
+            while (rs.next()) {
+                String descricao = rs.getString("descricao");
+                float valor = rs.getFloat("valor");
+                float quantidade = rs.getFloat("quantidade");
+
+                produto = new Produto(id, descricao, valor, quantidade);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar PRODUTOS: " + e);
+        }
+        
+        return produto;
     }
 
 }
