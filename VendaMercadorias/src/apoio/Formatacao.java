@@ -4,6 +4,11 @@
  */
 package apoio;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -84,5 +89,46 @@ public class Formatacao {
         }
         
         return retorno;
+    }
+    
+    public static String ajustaDataDMA(String data) {
+        String dataFormatada = null;
+        try {
+            Date dataAMD = new SimpleDateFormat("yyyy-MM-dd").parse(data);
+            dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(dataAMD);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return (dataFormatada);
+    }
+
+    public static String ajustaDataAMD(String data) {
+        String dataFormatada = null;
+        try {
+            Date dataDMA = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+            dataFormatada = new SimpleDateFormat("yyyy-MM-dd").format(dataDMA);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return (dataFormatada);
+    }
+    
+    public static String getDataAtual() {
+        Date now = new Date();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String dataHoje = df.format(now);
+
+        return dataHoje;
+    }
+    
+    public static LocalDate stringToLocalDate(String dataDMA) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate data = LocalDate.parse(dataDMA, format);
+        return data;
+    }
+    
+    public static String localDateToString(LocalDate data) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return data.format(format);
     }
 }
