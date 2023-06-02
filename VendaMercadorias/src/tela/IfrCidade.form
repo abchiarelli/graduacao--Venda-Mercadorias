@@ -90,7 +90,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="TxtFiltroNome" min="-2" pref="185" max="-2" attributes="0"/>
+                              <Component id="tfdFiltroNome" min="-2" pref="185" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="BtnLimparFiltro" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -106,7 +106,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TxtFiltroNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfdFiltroNome" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="BtnLimparFiltro" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -122,7 +122,7 @@
                 <Property name="text" type="java.lang.String" value="Filtro por nome:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="TxtFiltroNome">
+            <Component class="javax.swing.JTextField" name="tfdFiltroNome">
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -183,7 +183,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TxtNome" min="-2" pref="285" max="-2" attributes="0"/>
+                      <Component id="tfdNome" min="-2" pref="285" max="-2" attributes="0"/>
                       <EmptySpace pref="116" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -194,7 +194,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TxtNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfdNome" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="205" max="32767" attributes="0"/>
                   </Group>
@@ -207,7 +207,10 @@
                 <Property name="text" type="java.lang.String" value="Nome:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="TxtNome">
+            <Component class="javax.swing.JTextField" name="tfdNome">
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfdNomeFocusLost"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

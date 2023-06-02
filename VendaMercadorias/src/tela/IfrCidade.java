@@ -4,6 +4,8 @@
  */
 package tela;
 
+import apoio.Automatizar;
+import apoio.Formatacao;
 import dao.CidadeDAO;
 import entidade.Cidade;
 import java.util.ArrayList;
@@ -44,13 +46,13 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         TbpPrincipal = new javax.swing.JTabbedPane();
         PnlListagem = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        TxtFiltroNome = new javax.swing.JTextField();
+        tfdFiltroNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         TblListagem = new javax.swing.JTable();
         BtnLimparFiltro = new javax.swing.JButton();
         PnlManutencao = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        TxtNome = new javax.swing.JTextField();
+        tfdNome = new javax.swing.JTextField();
         BtnSalvar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
@@ -98,7 +100,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                     .addGroup(PnlListagemLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfdFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnLimparFiltro)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -110,7 +112,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(PnlListagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(TxtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnLimparFiltro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -121,6 +123,12 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Nome:");
 
+        tfdNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdNomeFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout PnlManutencaoLayout = new javax.swing.GroupLayout(PnlManutencao);
         PnlManutencao.setLayout(PnlManutencaoLayout);
         PnlManutencaoLayout.setHorizontalGroup(
@@ -129,7 +137,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(116, Short.MAX_VALUE))
         );
         PnlManutencaoLayout.setVerticalGroup(
@@ -138,7 +146,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(PnlManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(205, Short.MAX_VALUE))
         );
 
@@ -226,25 +234,16 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        String nome = TxtNome.getText();
-        CidadeDAO cidadeDAO = new CidadeDAO();
+        String msg = "Confirmar cadastro?";
+        if (cidadeSelecionada != null) {
+            msg = "Confirmar alteração?";
+        }
 
-        if (cidadeSelecionada == null) {
-            Cidade cidade = new Cidade(nome);
-            if (cidadeDAO.salvar(cidade) == null) {
-                JOptionPane.showMessageDialog(this, "Cidade salva com sucesso!");
-                limpaRegistro();
+        if (JOptionPane.showConfirmDialog(this, msg, "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+            if (verificarCampos()) {
+                JOptionPane.showMessageDialog(this, "Há campo(s) com erro.");
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao salvar Cidade.");
-            }
-        } else {
-            cidadeSelecionada.setNome(nome);
-            if (cidadeDAO.atualizar(cidadeSelecionada) == null) {
-                JOptionPane.showMessageDialog(this, "Alteração em Cidade salva com sucesso!");
-                limpaRegistro();
-                cidadeSelecionada = null;
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao alterar Cidade.");
+                salvar();
             }
         }
 
@@ -260,7 +259,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TbpPrincipalMouseClicked
 
     private void BtnLimparFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLimparFiltroActionPerformed
-        TxtFiltroNome.setText("");
+        tfdFiltroNome.setText("");
 
         popularTabela();
     }//GEN-LAST:event_BtnLimparFiltroActionPerformed
@@ -273,31 +272,37 @@ public class IfrCidade extends javax.swing.JInternalFrame {
 
     private void BtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtualizarActionPerformed
         int id = cidades.get(TblListagem.getSelectedRow()).getId();
-        
+
         cidadeSelecionada = new CidadeDAO().consultarId(id);
 
         TbpPrincipal.setSelectedIndex(1);
 
-        TxtNome.setText(cidadeSelecionada.getNome());
-        TxtNome.requestFocus();
-        
+        tfdNome.setText(cidadeSelecionada.getNome());
+        tfdNome.requestFocus();
+
         alterarBotoes();
         alteraBotoesUpdate(false);
     }//GEN-LAST:event_BtnAtualizarActionPerformed
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        int id = cidades.get(TblListagem.getSelectedRow()).getId();
-        
-        if(new CidadeDAO().excluir(id) == null ) {
-            JOptionPane.showMessageDialog(this, "Cidade excluída com sucesso!");
-            
-            popularTabela();
+        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+            int id = cidades.get(TblListagem.getSelectedRow()).getId();
+            if (new CidadeDAO().excluir(id) == null) {
+                JOptionPane.showMessageDialog(this, "Cidade excluída com sucesso!");
+                popularTabela();
+            }
         }
     }//GEN-LAST:event_BtnExcluirActionPerformed
 
+    private void tfdNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomeFocusLost
+        Automatizar.nome(tfdNome, false);
+    }//GEN-LAST:event_tfdNomeFocusLost
+
     private void limpaRegistro() {
-        TxtNome.setText("");
-        TxtNome.requestFocus();
+        tfdNome.setText("");
+        tfdNome.requestFocus();
+        
+        tfdNome.setBackground(Formatacao.colorNeutral());
     }
 
     private void popularTabela() {
@@ -332,11 +337,11 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     private void popularArrayCidades() {
         CidadeDAO cidadeDAO = new CidadeDAO();
 
-        if (TxtFiltroNome.getText().length() > 0) {
+        if (tfdFiltroNome.getText().length() > 0) {
 
             String DML = "SELECT * "
                     + "FROM cidade "
-                    + "WHERE descricao ILIKE '%" + TxtFiltroNome.getText() + "%' "
+                    + "WHERE descricao ILIKE '%" + tfdFiltroNome.getText() + "%' "
                     + "ORDER BY descricao;";
 
             cidades = cidadeDAO.consultar(DML);
@@ -356,6 +361,37 @@ public class IfrCidade extends javax.swing.JInternalFrame {
         BtnExcluir.setEnabled(setTo);
     }
 
+    private boolean verificarCampos() {
+        Automatizar.nome(tfdNome, false);
+
+        if (Automatizar.nome(tfdNome, false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void salvar() {
+        if (cidadeSelecionada == null) {
+            Cidade cidade = new Cidade(tfdNome.getText());
+            if (new CidadeDAO().salvar(cidade) == null) {
+                JOptionPane.showMessageDialog(this, "Cidade salva com sucesso!");
+                limpaRegistro();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao salvar Cidade.");
+            }
+        } else {
+            cidadeSelecionada.setNome(tfdNome.getText());
+            if (new CidadeDAO().atualizar(cidadeSelecionada) == null) {
+                JOptionPane.showMessageDialog(this, "Alteração em Cidade salva com sucesso!");
+                limpaRegistro();
+                cidadeSelecionada = null;
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao alterar Cidade.");
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
     private javax.swing.JButton BtnBuscar;
@@ -367,10 +403,10 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PnlManutencao;
     private javax.swing.JTable TblListagem;
     private javax.swing.JTabbedPane TbpPrincipal;
-    private javax.swing.JTextField TxtFiltroNome;
-    private javax.swing.JTextField TxtNome;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField tfdFiltroNome;
+    private javax.swing.JTextField tfdNome;
     // End of variables declaration//GEN-END:variables
 }
