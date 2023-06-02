@@ -54,6 +54,26 @@ public class Automatizar {
             }
         }
     }
+    
+    public static boolean cnpj(JFormattedTextField campo, boolean podeSerVazio) {
+        if (campo.getText().trim().equals(".   .   /    -")) {
+            if (podeSerVazio) {
+                campo.setBackground(Formatacao.colorPassed());
+                return false;
+            } else {
+                campo.setBackground(Formatacao.colorError());
+                return true;
+            }
+        } else {
+            if (Validacao.validarCNPJ(Formatacao.removerFormatacao(campo.getText()))) {
+                campo.setBackground(Formatacao.colorPassed());
+                return false;
+            } else {
+                campo.setBackground(Formatacao.colorError());
+                return true;
+            }
+        }
+    }
 
     public static boolean email(JTextField campo, boolean podeSerVazio) {
         if (campo.getText().trim().length() == 0) {
