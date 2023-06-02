@@ -4,11 +4,13 @@
  */
 package apoio;
 
+import java.awt.Color;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -130,5 +132,17 @@ public class Formatacao {
     public static String localDateToString(LocalDate data) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return data.format(format);
+    }
+    
+    public static Color colorPassed() {
+        return Color.decode("#91FF91");
+    }
+    
+    public static Color colorError() {
+        return Color.decode("#FF9191");
+    }
+    
+    public static Color colorNeutral() {
+        return Color.WHITE;
     }
 }
