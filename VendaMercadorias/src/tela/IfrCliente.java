@@ -4,16 +4,16 @@
  */
 package tela;
 
+import apoio.Automatizar;
 import apoio.ComboItem;
 import apoio.CombosDAO;
 import apoio.Formatacao;
-import apoio.Validacao;
 import dao.CidadeDAO;
 import dao.ClienteDAO;
 import entidade.Cliente;
-import java.awt.Color;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -25,8 +25,8 @@ import javax.swing.table.TableColumn;
  */
 public class IfrCliente extends javax.swing.JInternalFrame {
 
-    ArrayList<Cliente> clientes = new ArrayList<>();
-    Cliente clienteSelecionado = null;
+    private ArrayList<Cliente> clientes = new ArrayList<>();
+    private Cliente clienteSelecionado = null;
 
     /**
      * Creates new form IfrCliente
@@ -178,6 +178,12 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Cidade:");
 
+        tfdNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdNomeFocusLost(evt);
+            }
+        });
+
         tffCPF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 tffCPFFocusLost(evt);
@@ -185,6 +191,29 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         });
 
         tffTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        tffTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffTelefoneFocusLost(evt);
+            }
+        });
+
+        tfdEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdEmailFocusLost(evt);
+            }
+        });
+
+        tfdLogradouro.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfdLogradouroFocusLost(evt);
+            }
+        });
+
+        cbbCidade.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cbbCidadeFocusLost(evt);
+            }
+        });
 
         jLabel1.setText("Nascimento:");
 
@@ -352,14 +381,19 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        if (cbbCidade.getSelectedIndex() > 0) {
-
-            salvar();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Você deve selecionar uma cidade da lista.");
+        String msg = "Confirmar cadastro?";
+        if (clienteSelecionado != null) {
+            msg = "Confirmar alteração?";
         }
 
+        if (JOptionPane.showConfirmDialog(this, msg, "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+
+            if (verificarCampos()) {
+                JOptionPane.showMessageDialog(this, "Há campo(s) com erro de preenchimento");
+            } else {
+                salvar();
+            }
+        }
     }//GEN-LAST:event_BtnSalvarActionPerformed
 
     private void TbpPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbpPrincipalMouseClicked
@@ -398,29 +432,43 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnAtualizarActionPerformed
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        if (new ClienteDAO().excluir(clientes.get(TblClientes.getSelectedRow()).getId()) == null) {
-            JOptionPane.showMessageDialog(this, "Cliente Excluido com sucesso!");
-            popularTabela();
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao Excluir Cliente");
+        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão do cliente?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+            if (new ClienteDAO().excluir(clientes.get(TblClientes.getSelectedRow()).getId()) == null) {
+                JOptionPane.showMessageDialog(this, "Cliente Excluido com sucesso!");
+                popularTabela();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao Excluir Cliente");
+            }
         }
     }//GEN-LAST:event_BtnExcluirActionPerformed
 
     private void tffCPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffCPFFocusLost
-        if (Validacao.validarCPF(Formatacao.removerFormatacao(tffCPF.getText()))) {
-            tffCPF.setBackground(Color.decode("#91ff91"));
-        } else {
-            tffCPF.setBackground(Color.decode("#ff9191"));
-        }
+        Automatizar.cpf(tffCPF, false);
     }//GEN-LAST:event_tffCPFFocusLost
 
     private void tffNascimentoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffNascimentoFocusLost
-        if(Validacao.validarDataFormatada(tffNascimento.getText())) {
-            tffNascimento.setBackground(Color.decode("#91FF91"));
-        } else {
-            tffNascimento.setBackground(Color.decode("#FF9191"));
-        }
+        Automatizar.data(tffNascimento, false);
     }//GEN-LAST:event_tffNascimentoFocusLost
+
+    private void tfdEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdEmailFocusLost
+        Automatizar.email(tfdEmail, true);
+    }//GEN-LAST:event_tfdEmailFocusLost
+
+    private void tfdNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomeFocusLost
+        Automatizar.nome(tfdNome, false);
+    }//GEN-LAST:event_tfdNomeFocusLost
+
+    private void tfdLogradouroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdLogradouroFocusLost
+        Automatizar.logradouro(tfdLogradouro, false);
+    }//GEN-LAST:event_tfdLogradouroFocusLost
+
+    private void tffTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffTelefoneFocusLost
+        Automatizar.telefone(tffTelefone, false);
+    }//GEN-LAST:event_tffTelefoneFocusLost
+
+    private void cbbCidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbbCidadeFocusLost
+        Automatizar.comboBox(cbbCidade, false);
+    }//GEN-LAST:event_cbbCidadeFocusLost
 
     private void salvar() {
         Cliente cliente = criarCliente();
@@ -443,7 +491,6 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao alterar Cliente.");
             }
-
         }
     }
 
@@ -475,6 +522,14 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         tffNascimento.setText("");
 
         tfdNome.requestFocus();
+
+        tffNascimento.setBackground(Formatacao.colorNeutral());
+        tffNascimento.setBackground(Formatacao.colorNeutral());
+        tffNascimento.setBackground(Formatacao.colorNeutral());
+        tffNascimento.setBackground(Formatacao.colorNeutral());
+        tffNascimento.setBackground(Formatacao.colorNeutral());
+        cbbCidade.setBorder(BorderFactory.createLineBorder(Formatacao.colorNeutral(), 0));
+        tffNascimento.setBackground(Formatacao.colorNeutral());
     }
 
     private void preencherRegistro() {
@@ -574,6 +629,28 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     private void alterarBotoesUpdate(boolean setTo) {
         BtnAtualizar.setEnabled(setTo);
         BtnExcluir.setEnabled(setTo);
+    }
+
+    private boolean verificarCampos() {
+        Automatizar.cpf(tffCPF, false);
+        Automatizar.data(tffNascimento, false);
+        Automatizar.email(tfdEmail, true);
+        Automatizar.nome(tfdNome, false);
+        Automatizar.logradouro(tfdLogradouro, false);
+        Automatizar.telefone(tffTelefone, false);
+        Automatizar.comboBox(cbbCidade, false);
+
+        if (Automatizar.cpf(tffCPF, false)
+                || Automatizar.data(tffNascimento, false)
+                || Automatizar.email(tfdEmail, true)
+                || Automatizar.nome(tfdNome, false)
+                || Automatizar.logradouro(tfdLogradouro, false)
+                || Automatizar.telefone(tffTelefone, false)
+                || Automatizar.comboBox(cbbCidade, false)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
