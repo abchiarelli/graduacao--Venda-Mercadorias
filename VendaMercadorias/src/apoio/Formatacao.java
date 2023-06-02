@@ -145,4 +145,8 @@ public class Formatacao {
     public static Color colorNeutral() {
         return Color.WHITE;
     }
+    
+    public static String mensagemErroPreenchimento() {
+        return "Há campo(s) com erro de preenchimento.";
+    }
 }
