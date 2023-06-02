@@ -285,7 +285,7 @@ public class IfrCidade extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnAtualizarActionPerformed
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão da cidade?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
             int id = cidades.get(TblListagem.getSelectedRow()).getId();
             if (new CidadeDAO().excluir(id) == null) {
                 JOptionPane.showMessageDialog(this, "Cidade excluída com sucesso!");
