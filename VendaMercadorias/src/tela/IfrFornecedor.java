@@ -4,6 +4,7 @@
  */
 package tela;
 
+import apoio.Automatizar;
 import apoio.Formatacao;
 import apoio.Validacao;
 import dao.FornecedorDAO;
@@ -30,8 +31,8 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     public IfrFornecedor() {
         initComponents();
 
-        Formatacao.formatarCnpj(TxtCnpj);
-        Formatacao.formatarTelefone(TxtTelefone);
+        Formatacao.formatarCnpj(tffCnpj);
+        Formatacao.formatarTelefone(tffTelefone);
 
         alterarBotoes();
         popularTabela();
@@ -58,10 +59,10 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        TxtNome = new javax.swing.JTextField();
-        TxtEmail = new javax.swing.JTextField();
-        TxtTelefone = new javax.swing.JFormattedTextField();
-        TxtCnpj = new javax.swing.JFormattedTextField();
+        tfdNome = new javax.swing.JTextField();
+        tfdEmail = new javax.swing.JTextField();
+        tffTelefone = new javax.swing.JFormattedTextField();
+        tffCnpj = new javax.swing.JFormattedTextField();
         BtnBuscar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnAtualizar = new javax.swing.JButton();
@@ -143,18 +144,29 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         jLabel4.setText("CNPJ:");
 
-        TxtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+        tfdNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                TxtEmailFocusLost(evt);
+                tfdNomeFocusLost(evt);
             }
         });
 
-        TxtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
-
-        TxtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
-        TxtCnpj.addFocusListener(new java.awt.event.FocusAdapter() {
+        tfdEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                TxtCnpjFocusLost(evt);
+                tfdEmailFocusLost(evt);
+            }
+        });
+
+        tffTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        tffTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffTelefoneFocusLost(evt);
+            }
+        });
+
+        tffCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        tffCnpj.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tffCnpjFocusLost(evt);
             }
         });
 
@@ -170,14 +182,14 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PnlFornecedorManutencaoLayout.createSequentialGroup()
-                        .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tffCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tffTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(322, Short.MAX_VALUE))
         );
         PnlFornecedorManutencaoLayout.setVerticalGroup(
@@ -186,17 +198,17 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(TxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(TxtCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tffCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tffTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PnlFornecedorManutencaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(TxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
 
@@ -285,7 +297,18 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        salvar();
+        String msg = "Confirmar cadastro?";
+        if (fornecedorSelecionado != null) {
+            msg = "Confirmar alteração?";
+        }
+
+        if (JOptionPane.showConfirmDialog(this, msg, "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+            if (verificarCampos()) {
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemErroPreenchimento());
+            } else {
+                salvar();
+            }
+        }
     }//GEN-LAST:event_BtnSalvarActionPerformed
 
     private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
@@ -308,33 +331,25 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         popularTabela();
     }//GEN-LAST:event_BtnLimparFiltroActionPerformed
 
-    private void TxtCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtCnpjFocusLost
-        if (!new Validacao().validarCNPJ(Formatacao.removerFormatacao(TxtCnpj.getText()))) {
-            TxtCnpj.setBackground(Color.decode("#FF9191"));
-        } else {
-            TxtCnpj.setBackground(Color.decode("#91FF91"));
-        }
-    }//GEN-LAST:event_TxtCnpjFocusLost
+    private void tffCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffCnpjFocusLost
+        Automatizar.cnpj(tffCnpj, false);
+    }//GEN-LAST:event_tffCnpjFocusLost
 
-    private void TxtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtEmailFocusLost
-        if (TxtEmail.getText().trim().length() > 0 && Validacao.validarEmail(TxtEmail.getText())) {
-            TxtEmail.setBackground(Color.decode("#91FF91"));
-        } else {
-            TxtEmail.setBackground(Color.decode("#FF9191"));
-        }
-    }//GEN-LAST:event_TxtEmailFocusLost
+    private void tfdEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdEmailFocusLost
+        Automatizar.email(tfdEmail, true);
+    }//GEN-LAST:event_tfdEmailFocusLost
 
     private void BtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtualizarActionPerformed
         fornecedorSelecionado = fornecedores.get(TblListagem.getSelectedRow());
 
-        TxtNome.setText(fornecedorSelecionado.getNome());
-        TxtCnpj.setText(fornecedorSelecionado.getCnpj());
-        TxtTelefone.setText(fornecedorSelecionado.getTelefone());
-        TxtEmail.setText(fornecedorSelecionado.getEmail());
+        tfdNome.setText(fornecedorSelecionado.getNome());
+        tffCnpj.setText(fornecedorSelecionado.getCnpj());
+        tffTelefone.setText(fornecedorSelecionado.getTelefone());
+        tfdEmail.setText(fornecedorSelecionado.getEmail());
 
         TbpPrincipal.setSelectedIndex(1);
 
-        TxtNome.requestFocus();
+        tfdNome.requestFocus();
 
         ativarBotoesEdicao(false);
         alterarBotoes();
@@ -347,19 +362,28 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TblListagemMouseClicked
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        if(new FornecedorDAO().excluir(fornecedores.get(TblListagem.getSelectedRow()).getId()) == null) {
-            JOptionPane.showMessageDialog(this, "Fornecedor ecluído com sucesso!");
-            popularTabela();
-            ativarBotoesEdicao(false);
+        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão do fornecedor?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+            if (new FornecedorDAO().excluir(fornecedores.get(TblListagem.getSelectedRow()).getId()) == null) {
+                JOptionPane.showMessageDialog(this, "Fornecedor ecluído com sucesso!");
+                popularTabela();
+                ativarBotoesEdicao(false);
+            }
         }
     }//GEN-LAST:event_BtnExcluirActionPerformed
 
-    private Fornecedor criarFornecedor() {
+    private void tfdNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfdNomeFocusLost
+        Automatizar.nome(tfdNome, false);
+    }//GEN-LAST:event_tfdNomeFocusLost
 
-        String nome = TxtNome.getText();
-        String email = TxtEmail.getText();
-        String telefone = TxtTelefone.getText();
-        String cnpj = TxtCnpj.getText();
+    private void tffTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tffTelefoneFocusLost
+        Automatizar.telefone(tffTelefone, false);
+    }//GEN-LAST:event_tffTelefoneFocusLost
+
+    private Fornecedor criarFornecedor() {
+        String nome = tfdNome.getText();
+        String email = tfdEmail.getText();
+        String telefone = tffTelefone.getText();
+        String cnpj = tffCnpj.getText();
 
         if (fornecedorSelecionado == null) {
             return new Fornecedor(nome, email, telefone, cnpj);
@@ -369,12 +393,17 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }
 
     private void limparRegistro() {
-        TxtNome.setText("");
-        TxtEmail.setText("");
-        TxtTelefone.setText("");
-        TxtCnpj.setText("");
+        tfdNome.setText("");
+        tfdEmail.setText("");
+        tffTelefone.setText("");
+        tffCnpj.setText("");
 
-        TxtNome.requestFocus();
+        tfdNome.requestFocus();
+
+        tffCnpj.setBackground(Formatacao.colorNeutral());
+        tffCnpj.setBackground(Formatacao.colorNeutral());
+        tffCnpj.setBackground(Formatacao.colorNeutral());
+        tffCnpj.setBackground(Formatacao.colorNeutral());
     }
 
     private void salvar() {
@@ -482,6 +511,18 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         BtnAtualizar.setEnabled(setTo);
     }
 
+    private boolean verificarCampos() {
+        Automatizar.nome(tfdNome, false);
+        Automatizar.cnpj(tffCnpj, false);
+        Automatizar.telefone(tffTelefone, false);
+        Automatizar.email(tfdEmail, true);
+
+        return (Automatizar.nome(tfdNome, false)
+                || Automatizar.cnpj(tffCnpj, false)
+                || Automatizar.telefone(tffTelefone, false)
+                || Automatizar.email(tfdEmail, true));
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtualizar;
@@ -494,16 +535,16 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PnlFornecedorManutencao;
     private javax.swing.JTable TblListagem;
     private javax.swing.JTabbedPane TbpPrincipal;
-    private javax.swing.JFormattedTextField TxtCnpj;
-    private javax.swing.JTextField TxtEmail;
     private javax.swing.JTextField TxtFiltroNome;
-    private javax.swing.JTextField TxtNome;
-    private javax.swing.JFormattedTextField TxtTelefone;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField tfdEmail;
+    private javax.swing.JTextField tfdNome;
+    private javax.swing.JFormattedTextField tffCnpj;
+    private javax.swing.JFormattedTextField tffTelefone;
     // End of variables declaration//GEN-END:variables
 }

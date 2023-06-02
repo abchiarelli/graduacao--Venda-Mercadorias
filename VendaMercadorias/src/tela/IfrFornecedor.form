@@ -179,15 +179,15 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="TxtNome" alignment="0" min="-2" pref="285" max="-2" attributes="0"/>
+                          <Component id="tfdNome" alignment="0" min="-2" pref="285" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="TxtCnpj" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="tffCnpj" min="-2" pref="125" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="TxtTelefone" min="-2" pref="115" max="-2" attributes="0"/>
+                              <Component id="tffTelefone" min="-2" pref="115" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="TxtEmail" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
+                          <Component id="tfdEmail" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="322" max="32767" attributes="0"/>
                   </Group>
@@ -199,19 +199,19 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TxtNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfdNome" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TxtCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TxtTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tffCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tffTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TxtEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfdEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="123" max="32767" attributes="0"/>
                   </Group>
@@ -239,28 +239,34 @@
                 <Property name="text" type="java.lang.String" value="CNPJ:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="TxtNome">
-            </Component>
-            <Component class="javax.swing.JTextField" name="TxtEmail">
+            <Component class="javax.swing.JTextField" name="tfdNome">
               <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="TxtEmailFocusLost"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfdNomeFocusLost"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="TxtTelefone">
-              <Properties>
-                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format subtype="0" type="0"/>
-                </Property>
-              </Properties>
+            <Component class="javax.swing.JTextField" name="tfdEmail">
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfdEmailFocusLost"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="TxtCnpj">
+            <Component class="javax.swing.JFormattedTextField" name="tffTelefone">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
                   <Format subtype="0" type="0"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="TxtCnpjFocusLost"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tffTelefoneFocusLost"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="tffCnpj">
+              <Properties>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                  <Format subtype="0" type="0"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tffCnpjFocusLost"/>
               </Events>
             </Component>
           </SubComponents>
