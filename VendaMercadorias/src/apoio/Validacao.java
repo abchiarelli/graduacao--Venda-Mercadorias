@@ -49,6 +49,18 @@ public class Validacao {
 
         return verificaString(regex, email);
     }
+    
+    public static boolean validaValorDecimal(String valor) {
+        String regex = "^[\\d]+[.,]{0,1}[\\d]{0,2}]{0,3}$";
+        
+        return verificaString(regex, valor);
+    }
+    
+    public static boolean validaValorQuantidade(String valor) {
+        String regex = "^[\\d]+[.,]{0,1}[\\d]{0,4}]{0,3}$";
+        
+        return verificaString(regex, valor);
+    }
 
     private static boolean verificaString(String regex, String termo) {
         Pattern patter = Pattern.compile(regex);
