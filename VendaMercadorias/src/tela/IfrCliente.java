@@ -387,7 +387,6 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         }
 
         if (JOptionPane.showConfirmDialog(this, msg, "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
-
             if (verificarCampos()) {
                 JOptionPane.showMessageDialog(this, "Há campo(s) com erro de preenchimento");
             } else {
