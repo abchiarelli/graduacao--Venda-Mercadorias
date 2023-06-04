@@ -54,7 +54,7 @@ public class Automatizar {
             }
         }
     }
-    
+
     public static boolean cnpj(JFormattedTextField campo, boolean podeSerVazio) {
         if (campo.getText().trim().equals(".   .   /    -")) {
             if (podeSerVazio) {
@@ -152,6 +152,46 @@ public class Automatizar {
         } else {
             campo.setBorder(BorderFactory.createLineBorder(Formatacao.colorNeutral(), 0));
             return false;
+        }
+    }
+
+    public static boolean valorDecimal(JTextField campo, boolean podeSerVazio) {
+        if (campo.getText().trim().length() == 0) {
+            if (podeSerVazio) {
+                campo.setBackground(Formatacao.colorPassed());
+                return false;
+            } else {
+                campo.setBackground(Formatacao.colorError());
+                return true;
+            }
+        } else {
+            if (Validacao.validaValorDecimal(campo.getText())) {
+                campo.setBackground(Formatacao.colorPassed());
+                return false;
+            } else {
+                campo.setBackground(Formatacao.colorError());
+                return true;
+            }
+        }
+    }
+    
+    public static boolean valorQuantidade(JTextField campo, boolean podeSerVazio) {
+        if (campo.getText().trim().length() == 0) {
+            if (podeSerVazio) {
+                campo.setBackground(Formatacao.colorPassed());
+                return false;
+            } else {
+                campo.setBackground(Formatacao.colorError());
+                return true;
+            }
+        } else {
+            if (Validacao.validaValorQuantidade(campo.getText())) {
+                campo.setBackground(Formatacao.colorPassed());
+                return false;
+            } else {
+                campo.setBackground(Formatacao.colorError());
+                return true;
+            }
         }
     }
 }
