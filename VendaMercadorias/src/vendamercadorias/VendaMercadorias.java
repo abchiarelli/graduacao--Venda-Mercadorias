@@ -5,7 +5,6 @@
 package vendamercadorias;
 
 import tela.DlgLogin;
-import tela.FrmPrincipal;
 
 /**
  *
@@ -17,7 +16,7 @@ public class VendaMercadorias {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         new DlgLogin(null, true).setVisible(true);
         
     }
