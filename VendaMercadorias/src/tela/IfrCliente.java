@@ -24,6 +24,8 @@ import javax.swing.table.TableColumn;
  * @author artur
  */
 public class IfrCliente extends javax.swing.JInternalFrame {
+    
+    final String titulo = "Cliente";
 
     private ArrayList<Cliente> clientes = new ArrayList<>();
     private Cliente clienteSelecionado = null;
@@ -127,6 +129,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Filtro por nome:");
 
+        BtnLimparFiltro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/broom.png"))); // NOI18N
         BtnLimparFiltro.setText("Limpar");
         BtnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,6 +304,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         TbpPrincipal.addTab("Manutenção", PnlClienteManutencao);
 
+        BtnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add-file.png"))); // NOI18N
         BtnSalvar.setText("Salvar");
         BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -308,6 +312,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cross.png"))); // NOI18N
         BtnCancelar.setText("Cancelar");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,6 +320,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loupe.png"))); // NOI18N
         BtnBuscar.setText("Buscar");
         BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -322,7 +328,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        BtnAtualizar.setText("Atualizar");
+        BtnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pencil.png"))); // NOI18N
+        BtnAtualizar.setText("Editar");
         BtnAtualizar.setEnabled(false);
         BtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,6 +337,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/trash-bin.png"))); // NOI18N
         BtnExcluir.setText("Excluir");
         BtnExcluir.setEnabled(false);
         BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -345,7 +353,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TbpPrincipal)
+                    .addComponent(TbpPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnBuscar)
                         .addGap(18, 18, 18)
@@ -353,9 +361,9 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnAtualizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnCancelar)
+                        .addComponent(BtnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BtnSalvar)))
+                        .addComponent(BtnCancelar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -381,14 +389,14 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        String msg = "Confirmar cadastro?";
+        String msg = Formatacao.mensagemConfirmacaoSalvar(this.titulo);
         if (clienteSelecionado != null) {
-            msg = "Confirmar alteração?";
+            msg = Formatacao.mensagemConfirmacaoAtualizar(this.titulo);
         }
 
         if (JOptionPane.showConfirmDialog(this, msg, "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
             if (verificarCampos()) {
-                JOptionPane.showMessageDialog(this, "Há campo(s) com erro de preenchimento");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemErroPreenchimento());
             } else {
                 salvar();
             }
@@ -431,12 +439,12 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnAtualizarActionPerformed
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão do cliente?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+        if (JOptionPane.showConfirmDialog(this, Formatacao.mensagemConfirmacaoExclusao(this.titulo), "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
             if (new ClienteDAO().excluir(clientes.get(TblClientes.getSelectedRow()).getId()) == null) {
-                JOptionPane.showMessageDialog(this, "Cliente Excluido com sucesso!");
                 popularTabela();
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoSucess(this.titulo));
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao Excluir Cliente");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoError(this.titulo));
             }
         }
     }//GEN-LAST:event_BtnExcluirActionPerformed
@@ -477,18 +485,20 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             if (clienteDAO.salvar(cliente) == null) {
                 limparRegistro();
                 popularTabela();
-                JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarSucess(this.titulo));
+                TbpPrincipal.setSelectedIndex(0);
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao acadastrar Cliente.");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarError(this.titulo));
             }
         } else {
             if (clienteDAO.atualizar(cliente) == null) {
                 limparRegistro();
                 popularTabela();
-                JOptionPane.showMessageDialog(this, "Cliente alterado com sucesso!");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarSucess(this.titulo));
                 clienteSelecionado = null;
+                TbpPrincipal.setSelectedIndex(0);
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao alterar Cliente.");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarError(this.titulo));
             }
         }
     }
@@ -522,11 +532,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         tfdNome.requestFocus();
 
-        tffNascimento.setBackground(Formatacao.colorNeutral());
-        tffNascimento.setBackground(Formatacao.colorNeutral());
-        tffNascimento.setBackground(Formatacao.colorNeutral());
-        tffNascimento.setBackground(Formatacao.colorNeutral());
-        tffNascimento.setBackground(Formatacao.colorNeutral());
+        tfdNome.setBackground(Formatacao.colorNeutral());
+        tfdEmail.setBackground(Formatacao.colorNeutral());
+        tffCPF.setBackground(Formatacao.colorNeutral());
+        tffTelefone.setBackground(Formatacao.colorNeutral());
+        tfdLogradouro.setBackground(Formatacao.colorNeutral());
         cbbCidade.setBorder(BorderFactory.createLineBorder(Formatacao.colorNeutral(), 0));
         tffNascimento.setBackground(Formatacao.colorNeutral());
     }
