@@ -142,4 +142,40 @@ public class Formatacao {
     public static String mensagemErroPreenchimento() {
         return "Há campo(s) com erro de preenchimento.";
     }
+    
+    public static String mensagemSalvarSucess(String Entidade) {
+        return Entidade + " foi criado(a) com sucesso!";
+    }
+    
+    public static String mensagemSalvarError(String Entidade) {
+        return "Erro ao salvar " + Entidade + ".";
+    }
+    
+    public static String mensagemAtualizarSucess(String Entidade) {
+        return Entidade + " foi alterado(a) com sucesso!";
+    }
+    
+    public static String mensagemAtualizarError(String Entidade) {
+        return "Erro ao atualizar " + Entidade + ".";
+    }
+    
+    public static String mensagemConfirmacaoSalvar(String Entidade) {
+        return "Confirmar cadastro de " + Entidade + "?";
+    }
+    
+    public static String mensagemConfirmacaoAtualizar(String Entidade) {
+        return "Confirmar atualização de " + Entidade + "?";
+    }
+    
+    public static String mensagemConfirmacaoExclusao(String Entidade) {
+        return "Confirmar exclusão de " + Entidade + "?";
+    }
+    
+    public static String mensagemExclusaoSucess(String Entidade) {
+        return Entidade + " excluído(a) com sucesso!";
+    }
+    
+    public static String mensagemExclusaoError (String Entidade) {
+        return "Erro ao excluir " + Entidade + ".";
+    }
 }
