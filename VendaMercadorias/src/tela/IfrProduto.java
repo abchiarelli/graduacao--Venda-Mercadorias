@@ -6,7 +6,6 @@ package tela;
 
 import apoio.Automatizar;
 import apoio.Formatacao;
-import apoio.Validacao;
 import dao.ProdutoDAO;
 import entidade.Produto;
 import java.util.ArrayList;
@@ -20,6 +19,8 @@ import javax.swing.table.TableColumn;
  * @author artur
  */
 public class IfrProduto extends javax.swing.JInternalFrame {
+    
+    final String titulo = "Produto";
 
     ArrayList<Produto> produtos;
     Produto produtoSelecionado = null;
@@ -59,11 +60,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         tfdDescricao = new javax.swing.JTextField();
         tfdValor = new javax.swing.JTextField();
         tfdQuantidade = new javax.swing.JTextField();
-        BtnSalvar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnBuscar = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         BtnAtualizar = new javax.swing.JButton();
+        BtnSalvar = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -89,6 +90,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             TblListagem.getColumnModel().getColumn(0).setPreferredWidth(250);
         }
 
+        BtnLimparFiltro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/broom.png"))); // NOI18N
         BtnLimparFiltro.setText("Limpar");
         BtnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,13 +194,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         TbpPrincipal.addTab("Cadastro", PnlCadastro);
 
-        BtnSalvar.setText("Salvar");
-        BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnSalvarActionPerformed(evt);
-            }
-        });
-
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cross.png"))); // NOI18N
         BtnCancelar.setText("Cancelar");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,6 +202,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loupe.png"))); // NOI18N
         BtnBuscar.setText("Buscar");
         BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,6 +210,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/trash-bin.png"))); // NOI18N
         BtnExcluir.setText("Excluir");
         BtnExcluir.setEnabled(false);
         BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -221,11 +219,20 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             }
         });
 
-        BtnAtualizar.setText("Atualizar");
+        BtnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pencil.png"))); // NOI18N
+        BtnAtualizar.setText("Editar");
         BtnAtualizar.setEnabled(false);
         BtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAtualizarActionPerformed(evt);
+            }
+        });
+
+        BtnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add-file.png"))); // NOI18N
+        BtnSalvar.setText("Salvar");
+        BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSalvarActionPerformed(evt);
             }
         });
 
@@ -244,9 +251,9 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnAtualizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnCancelar)
+                        .addComponent(BtnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BtnSalvar)))
+                        .addComponent(BtnCancelar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -256,11 +263,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 .addComponent(TbpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BtnSalvar)
                     .addComponent(BtnCancelar)
                     .addComponent(BtnBuscar)
                     .addComponent(BtnExcluir)
-                    .addComponent(BtnAtualizar))
+                    .addComponent(BtnAtualizar)
+                    .addComponent(BtnSalvar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -272,9 +279,9 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        String msg = "Confirmar cadastro?";
+        String msg = Formatacao.mensagemConfirmacaoSalvar(this.titulo);
         if (produtoSelecionado != null) {
-            msg = "Confirmar alteração?";
+            msg = Formatacao.mensagemConfirmacaoAtualizar(this.titulo);
         }
 
         if (JOptionPane.showConfirmDialog(this, msg, "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
@@ -326,13 +333,13 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnAtualizarActionPerformed
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão do produto?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+        if (JOptionPane.showConfirmDialog(this, Formatacao.mensagemConfirmacaoExclusao(this.titulo), "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
             if (new ProdutoDAO().excluir(produtos.get(TblListagem.getSelectedRow()).getId()) == null) {
-                JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoSucess(this.titulo));
                 TxtFiltro.setText("");
                 popularTabela();
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao excluir produto.");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoError(this.titulo));
             }
         }
     }//GEN-LAST:event_BtnExcluirActionPerformed
@@ -360,17 +367,21 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         if (produtoSelecionado == null) {
             if (new ProdutoDAO().salvar(produto) == null) {
-                JOptionPane.showMessageDialog(this, "Produto salvo com sucesso!");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarSucess(this.titulo));
                 limparRegistro();
+                popularTabela();
+                TbpPrincipal.setSelectedIndex(0);
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao salvar Produto.");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarError(this.titulo));
             }
         } else {
             if (new ProdutoDAO().atualizar(produto) == null) {
-                JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarSucess(this.titulo));
                 limparRegistro();
+                popularTabela();
+                TbpPrincipal.setSelectedIndex(0);
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao atualizar Produto.");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarError(this.titulo));
             }
         }
 
@@ -379,8 +390,8 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
     private Produto criarProduto() {
         String descricao = tfdDescricao.getText();
-        float valor = Float.parseFloat(tfdValor.getText());
-        float quantidade = Float.parseFloat(tfdQuantidade.getText());
+        float valor = Float.parseFloat(tfdValor.getText().replace(',', '.'));
+        float quantidade = Float.parseFloat(tfdQuantidade.getText().replace(',', '.'));
 
         if (produtoSelecionado == null) {
             return new Produto(descricao, valor, quantidade);
@@ -393,6 +404,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         tfdDescricao.setText("");
         tfdQuantidade.setText("");
         tfdValor.setText("");
+        
+        tfdDescricao.setBackground(Formatacao.colorNeutral());
+        tfdQuantidade.setBackground(Formatacao.colorNeutral());
+        tfdValor.setBackground(Formatacao.colorNeutral());
+        
         tfdDescricao.requestFocus();
     }
 
