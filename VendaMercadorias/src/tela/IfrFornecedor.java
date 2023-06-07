@@ -6,10 +6,8 @@ package tela;
 
 import apoio.Automatizar;
 import apoio.Formatacao;
-import apoio.Validacao;
 import dao.FornecedorDAO;
 import entidade.Fornecedor;
-import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -21,6 +19,8 @@ import javax.swing.table.TableColumn;
  * @author artur
  */
 public class IfrFornecedor extends javax.swing.JInternalFrame {
+    
+    final String titulo = "Fornecedor";
 
     ArrayList<Fornecedor> fornecedores;
     Fornecedor fornecedorSelecionado = null;
@@ -79,6 +79,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Filtro por nome:");
 
+        BtnLimparFiltro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/broom.png"))); // NOI18N
         BtnLimparFiltro.setText("Limpar");
         BtnLimparFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +215,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         TbpPrincipal.addTab("Manutenção", PnlFornecedorManutencao);
 
+        BtnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loupe.png"))); // NOI18N
         BtnBuscar.setText("Buscar");
         BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,6 +223,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/trash-bin.png"))); // NOI18N
         BtnExcluir.setText("Excluir");
         BtnExcluir.setEnabled(false);
         BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -229,7 +232,8 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
-        BtnAtualizar.setText("Atualizar");
+        BtnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pencil.png"))); // NOI18N
+        BtnAtualizar.setText("Editar");
         BtnAtualizar.setEnabled(false);
         BtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,6 +241,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add-file.png"))); // NOI18N
         BtnSalvar.setText("Salvar");
         BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +249,7 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cross.png"))); // NOI18N
         BtnCancelar.setText("Cancelar");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,9 +274,9 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnAtualizar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnCancelar)
+                        .addComponent(BtnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BtnSalvar)))
+                        .addComponent(BtnCancelar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -297,9 +303,9 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-        String msg = "Confirmar cadastro?";
+        String msg = Formatacao.mensagemConfirmacaoSalvar(this.titulo);
         if (fornecedorSelecionado != null) {
-            msg = "Confirmar alteração?";
+            msg = Formatacao.mensagemConfirmacaoAtualizar(this.titulo);
         }
 
         if (JOptionPane.showConfirmDialog(this, msg, "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
@@ -362,11 +368,13 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TblListagemMouseClicked
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        if (JOptionPane.showConfirmDialog(this, "Confirmar exclusão do fornecedor?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+        if (JOptionPane.showConfirmDialog(this, Formatacao.mensagemConfirmacaoExclusao(this.titulo), "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
             if (new FornecedorDAO().excluir(fornecedores.get(TblListagem.getSelectedRow()).getId()) == null) {
-                JOptionPane.showMessageDialog(this, "Fornecedor ecluído com sucesso!");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoSucess(this.titulo));
                 popularTabela();
                 ativarBotoesEdicao(false);
+            } else {
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoError(this.titulo));
             }
         }
     }//GEN-LAST:event_BtnExcluirActionPerformed
@@ -411,19 +419,22 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
 
         if (fornecedorSelecionado == null) {
             if (new FornecedorDAO().salvar(fornecedor) == null) {
-                JOptionPane.showMessageDialog(this, "Fornecedor salvo com Sucesso");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarSucess(this.titulo));
                 limparRegistro();
+                popularTabela();
+                TbpPrincipal.setSelectedIndex(0);
             } else {
-                JOptionPane.showMessageDialog(this, "Erro so salvar Fornecedor.");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarError(this.titulo));
             }
         } else {
             if (new FornecedorDAO().atualizar(fornecedor) == null) {
-                JOptionPane.showMessageDialog(this, "Fornecedor atualizado com Sucesso");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarSucess(this.titulo));
                 limparRegistro();
                 fornecedorSelecionado = null;
                 popularTabela();
+                TbpPrincipal.setSelectedIndex(0);
             } else {
-                JOptionPane.showMessageDialog(this, "Erro so atualizar Fornecedor.");
+                JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarError(this.titulo));
             }
         }
     }
@@ -498,7 +509,6 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         } else {
             fornecedores = fornecedorDAO.consultarTodos();
         }
-
     }
 
     private void alterarBotoes() {
