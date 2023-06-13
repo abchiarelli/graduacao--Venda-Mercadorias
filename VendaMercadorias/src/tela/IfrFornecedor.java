@@ -6,8 +6,10 @@ package tela;
 
 import apoio.Automatizar;
 import apoio.Formatacao;
+import apoio.Validacao;
 import dao.FornecedorDAO;
 import entidade.Fornecedor;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
