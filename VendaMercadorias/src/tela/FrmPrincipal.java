@@ -4,6 +4,17 @@
  */
 package tela;
 
+import apoio.ConexaoBD;
+import apoio.Relatorios;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author artur
@@ -15,7 +26,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
-        
+
         this.setExtendedState(MAXIMIZED_BOTH);
     }
 
@@ -40,6 +51,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        mitRelatorioListagemClientes = new javax.swing.JMenuItem();
+        mitRelatorioListagemProdutos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         MenSair = new javax.swing.JMenuItem();
@@ -59,7 +74,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
         DtpPrincipalLayout.setVerticalGroup(
             DtpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 617, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         MenCadastro.setText("Listagem");
@@ -114,6 +129,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu3.setText("Relatórios");
+
+        jMenu4.setText("Listagem");
+
+        mitRelatorioListagemClientes.setText("Clientes");
+        mitRelatorioListagemClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitRelatorioListagemClientesActionPerformed(evt);
+            }
+        });
+        jMenu4.add(mitRelatorioListagemClientes);
+
+        mitRelatorioListagemProdutos.setText("Produtos");
+        mitRelatorioListagemProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitRelatorioListagemProdutosActionPerformed(evt);
+            }
+        });
+        jMenu4.add(mitRelatorioListagemProdutos);
+
+        jMenu3.add(jMenu4);
+
+        jMenuBar1.add(jMenu3);
+
         jMenu2.setText("Ajuda");
         jMenu2.add(jSeparator2);
 
@@ -155,44 +194,54 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void MitClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitClienteActionPerformed
         IfrCliente frameCliente = new IfrCliente();
-        
+
         DtpPrincipal.add(frameCliente);
-        
+
         frameCliente.setVisible(true);
     }//GEN-LAST:event_MitClienteActionPerformed
 
     private void MitFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitFornecedorActionPerformed
         IfrFornecedor frameFornecedor = new IfrFornecedor();
-        
+
         DtpPrincipal.add(frameFornecedor);
-        
+
         frameFornecedor.setVisible(true);
     }//GEN-LAST:event_MitFornecedorActionPerformed
 
     private void MitProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitProdutoActionPerformed
         IfrProduto frameProduto = new IfrProduto();
-        
+
         DtpPrincipal.add(frameProduto);
-        
+
         frameProduto.setVisible(true);
     }//GEN-LAST:event_MitProdutoActionPerformed
 
     private void MitCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MitCidadeActionPerformed
         IfrCidade frameCidade = new IfrCidade();
-        
+
         DtpPrincipal.add(frameCidade);
-        
+
         frameCidade.setVisible(true);
     }//GEN-LAST:event_MitCidadeActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         IfrPedido frmPedido = new IfrPedido();
-        
+
         DtpPrincipal.add(frmPedido);
-        
+
         frmPedido.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void mitRelatorioListagemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRelatorioListagemClientesActionPerformed
+        new Relatorios().gerarRelatorio("/relatorios/venda_mercadorias_listagem_clientes.jrxml");
+    }//GEN-LAST:event_mitRelatorioListagemClientesActionPerformed
+
+    private void mitRelatorioListagemProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRelatorioListagemProdutosActionPerformed
+        new Relatorios().gerarRelatorio("/relatorios/venda_mercadorias_listagem_produtos.jrxml");
+    }//GEN-LAST:event_mitRelatorioListagemProdutosActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -238,11 +287,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MitProduto;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem mitRelatorioListagemClientes;
+    private javax.swing.JMenuItem mitRelatorioListagemProdutos;
     // End of variables declaration//GEN-END:variables
 }
