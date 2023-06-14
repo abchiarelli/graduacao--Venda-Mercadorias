@@ -4,6 +4,7 @@
  */
 package tela;
 
+import apoio.Formatacao;
 import apoio.IItemPesquisa;
 import dao.CidadeDAO;
 import dao.ClienteDAO;
@@ -11,6 +12,7 @@ import dao.ProdutoDAO;
 import entidade.Cliente;
 import entidade.Produto;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -44,7 +46,6 @@ public class DlgLocalizar extends javax.swing.JDialog {
         setTitle();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -172,8 +173,6 @@ public class DlgLocalizar extends javax.swing.JDialog {
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         selecionar();
-        this.dispose();
-
     }//GEN-LAST:event_btnSelecionarActionPerformed
 
     private void setTitle() {
@@ -265,8 +264,8 @@ public class DlgLocalizar extends javax.swing.JDialog {
         for (int i = 0; i < produtos.size(); i++) {
             Object[] row = {
                 produtos.get(i).getDescricao(),
-                produtos.get(i).getValor(),
-                produtos.get(i).getQuantidade()
+                Formatacao.formatarCasasDecimais(produtos.get(i).getValor(), 2),
+                Formatacao.formatarCasasDecimais(produtos.get(i).getQuantidade(), 3)
             };
 
             model.addRow(row);
@@ -275,29 +274,35 @@ public class DlgLocalizar extends javax.swing.JDialog {
         tblListagem.setModel(model);
         tblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-    
+
     private void selecionar() {
         switch (tipo) {
             case "cliente":
                 ArrayList<Cliente> clientes = (ArrayList<Cliente>) data[0];
                 Cliente cliente = clientes.get(tblListagem.getSelectedRow());
                 idRetorno = cliente.getId();
+                origem.definirValor(idRetorno, tipo);
+                this.dispose();
                 break;
             case "produto":
                 ArrayList<Produto> produtos = (ArrayList<Produto>) data[0];
                 Produto produto = produtos.get(tblListagem.getSelectedRow());
-                idRetorno = produto.getId();
+                if (produto.getQuantidade() > 0) {
+                    idRetorno = produto.getId();
+                    origem.definirValor(idRetorno, tipo);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Produto selecionado está fora de estoque!");
+                }
                 break;
             case "fornecedor":
                 this.setTitle("Selecionar: Fornecedor");
                 lblTitulo.setText("Fornecedor");
-                break;
-            default:
+                origem.definirValor(idRetorno, tipo);
                 this.dispose();
                 break;
         }
 
-        origem.definirValor(idRetorno, tipo);
     }
 
     /**
