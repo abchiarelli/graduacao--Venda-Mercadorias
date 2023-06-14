@@ -49,8 +49,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         MitCidade = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        mitPedidoCadastrar = new javax.swing.JMenuItem();
+        mitPedidoListar = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        mitCompraCadastrar = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         mitRelatorioListagemClientes = new javax.swing.JMenuItem();
@@ -65,6 +68,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setTitle("Venda de Mercadorias");
         setMaximumSize(new java.awt.Dimension(1920, 1080));
         setMinimumSize(new java.awt.Dimension(1280, 720));
+        setState(1);
 
         javax.swing.GroupLayout DtpPrincipalLayout = new javax.swing.GroupLayout(DtpPrincipal);
         DtpPrincipal.setLayout(DtpPrincipalLayout);
@@ -116,16 +120,27 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Financeiro");
 
-        jMenuItem2.setText("Cadastrar Pedido");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenu5.setText("Pedido");
+
+        mitPedidoCadastrar.setText("Cadastro");
+        mitPedidoCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mitPedidoCadastrarActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu5.add(mitPedidoCadastrar);
 
-        jMenuItem3.setText("Nova Compra");
-        jMenu1.add(jMenuItem3);
+        mitPedidoListar.setText("Listagem");
+        jMenu5.add(mitPedidoListar);
+
+        jMenu1.add(jMenu5);
+
+        jMenu6.setText("Compra");
+
+        mitCompraCadastrar.setText("Cadastrar");
+        jMenu6.add(mitCompraCadastrar);
+
+        jMenu1.add(jMenu6);
 
         jMenuBar1.add(jMenu1);
 
@@ -224,13 +239,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         frameCidade.setVisible(true);
     }//GEN-LAST:event_MitCidadeActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mitPedidoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPedidoCadastrarActionPerformed
         IfrPedido frmPedido = new IfrPedido();
 
         DtpPrincipal.add(frmPedido);
-
+        
+        frmPedido.setFocus(1);
         frmPedido.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mitPedidoCadastrarActionPerformed
 
     private void mitRelatorioListagemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRelatorioListagemClientesActionPerformed
         new Relatorios().gerarRelatorio("/relatorios/venda_mercadorias_listagem_clientes.jrxml");
@@ -289,12 +305,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem mitCompraCadastrar;
+    private javax.swing.JMenuItem mitPedidoCadastrar;
+    private javax.swing.JMenuItem mitPedidoListar;
     private javax.swing.JMenuItem mitRelatorioListagemClientes;
     private javax.swing.JMenuItem mitRelatorioListagemProdutos;
     // End of variables declaration//GEN-END:variables
