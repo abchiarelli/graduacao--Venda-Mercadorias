@@ -5,6 +5,7 @@
 package dao;
 
 import apoio.ConexaoBD;
+import apoio.Formatacao;
 import apoio.IDAOT;
 import entidade.Pedido;
 import java.util.ArrayList;
@@ -26,10 +27,9 @@ public class PedidoDAO implements IDAOT<Pedido> {
                     + "'" + o.getData() + "', "
                     + "'" + o.getEndereco() + "', "
                     + "'" + o.getObservacao() + "', "
-                    + o.getIdCliente()
+                    + o.getIdCliente() + ", "
+                    + o.getValorTotal()
                     + ") returning id;";
-
-            System.out.println("Pedidos > salvar() DML: " + dml);
 
             ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
 
@@ -66,12 +66,60 @@ public class PedidoDAO implements IDAOT<Pedido> {
 
     @Override
     public ArrayList<Pedido> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        
+        try {
+            String dml = "SELECT * FROM pedido ORDER BY data";
+            
+            ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
+            
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String data = Formatacao.ajustaDataDMA(rs.getString("data"));
+                    String endereco = rs.getString("endereco_entrega");
+                    String observacao = rs.getString("observacao");
+                    int idCliente = rs.getInt("cliente_id");
+                    Double valor = rs.getDouble("valor_total");
+                    
+                    Pedido pedido = new Pedido(id, data, endereco, observacao, idCliente, valor);
+                    
+                    pedidos.add(pedido);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Pedido > consultarTodos() ERROR: " + e);
+            return null;
+        }
+        return pedidos;
     }
 
     @Override
     public ArrayList<Pedido> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        
+        try {
+            ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(criterio);
+            
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String data = Formatacao.ajustaDataDMA(rs.getString("data"));
+                    String endereco = rs.getString("endereco_entrega");
+                    String observacao = rs.getString("observacao");
+                    int idCliente = rs.getInt("cliente_id");
+                    Double valor = rs.getDouble("valor_total");
+                    
+                    Pedido pedido = new Pedido(id, data, endereco, observacao, idCliente, valor);
+                    
+                    pedidos.add(pedido);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Pedido > consultarTodos() ERROR: " + e);
+            return null;
+        }
+        return pedidos;
     }
 
     @Override
@@ -80,23 +128,24 @@ public class PedidoDAO implements IDAOT<Pedido> {
 
         try {
             String dml = "SELECT * FROM pedido WHERE id = " + id + ";";
-            
+
             ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
-            
-            if(rs.isBeforeFirst()) {
+
+            if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     String data = rs.getString("data");
                     String endereco = rs.getString("endereco_entrega");
                     String observacao = rs.getString("observacao");
                     int idCliente = rs.getInt("cliente_id");
-                    
-                    pedido = new Pedido(id, data, endereco, observacao, idCliente);
+                    Double valorTotal = rs.getDouble("valor_total");
+
+                    pedido = new Pedido(id, data, endereco, observacao, idCliente, valorTotal);
                 }
             }
         } catch (Exception e) {
             System.out.println("Pedido > consultarId() ERROR: " + e);
         }
-        
+
         return pedido;
     }
 
