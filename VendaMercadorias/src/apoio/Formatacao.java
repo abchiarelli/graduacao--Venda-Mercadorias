@@ -6,6 +6,7 @@ package apoio;
 
 import java.awt.Color;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -177,5 +178,16 @@ public class Formatacao {
     
     public static String mensagemExclusaoError (String Entidade) {
         return "Erro ao excluir " + Entidade + ".";
+    }
+    
+    public static String formatarCasasDecimais(double valor, int numeroCasas) {
+        String format = "0.";
+        for (int i = 0; i < numeroCasas; i++) {
+            format += "0";
+        }
+        
+        DecimalFormat df = new DecimalFormat(format);
+        
+        return df.format(valor).replace(".", ",");
     }
 }
