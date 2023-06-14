@@ -4,6 +4,7 @@
  */
 package apoio;
 
+import dao.ProdutoDAO;
 import entidade.ItemPedido;
 import java.util.ArrayList;
 import java.sql.*;
@@ -23,9 +24,11 @@ public class ItemPedidoDAO implements IDAOT<ItemPedido> {
                     + o.getQuantidade() + ", "
                     + o.getValor()
                     + ");";
-            
+
             int resultado = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
-            
+
+            new ProdutoDAO().diminuirQuantidade(o.getIdProduto(), o.getQuantidade());
+
             return null;
         } catch (Exception e) {
             System.out.println("ItemPedido > salvar() ERROR: " + e);
@@ -42,10 +45,10 @@ public class ItemPedidoDAO implements IDAOT<ItemPedido> {
         try {
             String dml = "DELETE FROM item_pedido WHERE "
                     + "produto_id = " + idProduto
-                    + "AND pedido_id = " +idPedido + ";";
-            
+                    + "AND pedido_id = " + idPedido + ";";
+
             int resultado = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
-            
+
             return null;
         } catch (Exception e) {
             System.out.println("ItemPedido > excluir() ERROR: " + e);
@@ -57,29 +60,29 @@ public class ItemPedidoDAO implements IDAOT<ItemPedido> {
     public ArrayList<ItemPedido> consultarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     public ArrayList<ItemPedido> consultarTodos(int idPedido) {
         ArrayList<ItemPedido> itens = new ArrayList<>();
-        
+
         try {
             String dml = "SELECT * FROM item_pedido WHERE pedido_id = " + idPedido + ";";
-            
+
             ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
-            
-            if(rs.isBeforeFirst()) {
+
+            if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     int idProduto = rs.getInt("produto_id");
                     double qtde = rs.getDouble("qtde");
                     double valor = rs.getDouble("valor_item");
-                    
+
                     ItemPedido item = new ItemPedido(idPedido, idProduto, valor, qtde);
-                    
+
                     itens.add(item);
                 }
             }
         } catch (Exception e) {
         }
-        
+
         return itens;
     }
 
@@ -98,14 +101,18 @@ public class ItemPedidoDAO implements IDAOT<ItemPedido> {
         try {
             String dml = "DELETE FROM item_pedido WHERE "
                     + "pedido_id = " + idPedido + ";";
-            
+
+            ArrayList<ItemPedido> itens = new ItemPedidoDAO().consultarTodos(idPedido);
+            for (ItemPedido item : itens) {
+                new ProdutoDAO().somarQuantidade(item.getIdProduto(), item.getQuantidade());
+            }
+
             int resultado = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
-            
+
             return null;
         } catch (Exception e) {
             System.out.println("ItemPedido > excluir() ERROR: " + e);
             return e.toString();
         }
     }
-    
 }
