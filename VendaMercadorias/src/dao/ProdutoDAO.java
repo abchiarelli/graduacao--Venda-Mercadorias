@@ -141,8 +141,37 @@ public class ProdutoDAO implements IDAOT<Produto> {
         } catch (Exception e) {
             System.out.println("Erro ao consultar PRODUTOS: " + e);
         }
-        
+
         return produto;
     }
 
+    public String somarQuantidade(int idProduto, Double quantidade) {
+        try {
+            String dml = "UPDATE produto SET "
+                    + "quantidade = quantidade + " + quantidade + " "
+                    + "WHERE id = " + idProduto;
+
+            int retorno = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
+            
+            return null;
+        } catch (Exception e) {
+            System.out.println("Produto > somarQuantidade() ERROR: " + e);
+            return e.toString();
+        }
+    }
+    
+    public String diminuirQuantidade(int id, Double quantidade) {
+        try {
+            String dml = "UPDATE produto SET "
+                    + "quantidade = quantidade - " + quantidade + " "
+                    + "WHERE id = " + id;
+
+            int retorno = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
+            
+            return null;
+        } catch (Exception e) {
+            System.out.println("Produto > somarQuantidade() ERROR: " + e);
+            return e.toString();
+        }
+    }
 }
