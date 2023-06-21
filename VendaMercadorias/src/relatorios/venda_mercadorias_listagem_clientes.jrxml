@@ -72,23 +72,31 @@ WHERE cli.id_cidade = cid.id]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="20" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="40" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<staticText>
-				<reportElement x="-11" y="0" width="40" height="30" uuid="a4aa0ea8-ae81-4ecc-9d3d-a182dfcc21da">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement x="0" y="0" width="40" height="30" uuid="a4aa0ea8-ae81-4ecc-9d3d-a182dfcc21da"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="29" y="0" width="120" height="30" uuid="f1031444-ac67-4909-af4a-e7c8da7e86f4">
+				<reportElement x="40" y="0" width="120" height="30" uuid="f1031444-ac67-4909-af4a-e7c8da7e86f4">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -98,6 +106,11 @@ WHERE cli.id_cidade = cid.id]]>
 				<reportElement x="310" y="0" width="120" height="30" uuid="b22a196a-bb21-4015-a5e9-7f838cb4f6d0">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -107,6 +120,11 @@ WHERE cli.id_cidade = cid.id]]>
 				<reportElement x="430" y="0" width="82" height="30" uuid="b0a2864a-8443-49e7-855e-916dc017abcb">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -116,6 +134,11 @@ WHERE cli.id_cidade = cid.id]]>
 				<reportElement x="512" y="0" width="120" height="30" uuid="01f84610-b669-4877-8179-8daf77f85efd">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -125,20 +148,35 @@ WHERE cli.id_cidade = cid.id]]>
 				<reportElement x="632" y="0" width="170" height="30" uuid="81255edf-4bce-4451-b666-604e106abddf">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Logradouro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="149" y="0" width="60" height="30" uuid="6299b4ec-e326-4fe8-872e-3c5a73305627"/>
+				<reportElement x="160" y="0" width="60" height="30" uuid="6299b4ec-e326-4fe8-872e-3c5a73305627"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nasc.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="209" y="0" width="100" height="30" uuid="8e4afb6c-11ca-4da5-b5f2-b889d31b6357"/>
+				<reportElement x="220" y="0" width="90" height="30" uuid="8e4afb6c-11ca-4da5-b5f2-b889d31b6357"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -147,62 +185,119 @@ WHERE cli.id_cidade = cid.id]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="42" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="-10" y="0" width="39" height="30" uuid="5d7e02ba-0fc0-4c9d-82b5-077fb7fa2283">
+				<reportElement x="0" y="0" width="40" height="20" uuid="5d7e02ba-0fc0-4c9d-82b5-077fb7fa2283">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c86b2d91-9e6d-457e-85dc-fa92b941f2e2"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="29" y="0" width="120" height="30" uuid="6fb24247-a7b2-4c0e-9fa4-e0074ad0b588">
+				<reportElement x="40" y="0" width="120" height="20" uuid="6fb24247-a7b2-4c0e-9fa4-e0074ad0b588">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3c6286cf-e4a0-4d6b-90e7-e878aabf6761"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="149" y="0" width="60" height="30" uuid="4b6f8b96-8537-424b-a5db-27b963853db0">
+				<reportElement x="160" y="0" width="60" height="20" uuid="4b6f8b96-8537-424b-a5db-27b963853db0">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f3e28d3-52db-4fee-bd00-c9490f7d2178"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{data_nascimento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="209" y="0" width="100" height="30" uuid="23feb460-3d68-448e-9207-4ee9fd0398bc">
+				<reportElement x="220" y="0" width="90" height="20" uuid="23feb460-3d68-448e-9207-4ee9fd0398bc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3806e4b6-c2f5-4780-9be1-c00f4dcd6ff7"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="310" y="0" width="120" height="30" uuid="3a07297a-ebe9-4a04-b014-6a3b9bd36b37">
+				<reportElement x="310" y="0" width="120" height="20" uuid="3a07297a-ebe9-4a04-b014-6a3b9bd36b37">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d783c1c9-ec06-4b5c-a065-e84bba2e8a6f"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="430" y="0" width="82" height="30" uuid="96ce0d6d-8ccd-4fc8-bf38-46ec5f294770">
+				<reportElement x="430" y="0" width="82" height="20" uuid="96ce0d6d-8ccd-4fc8-bf38-46ec5f294770">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d1e41e8a-9e48-4b7c-b80b-98231d87f023"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="512" y="0" width="120" height="30" uuid="6099c272-7cd1-476b-ae8a-0a3c11e94893">
+				<reportElement x="512" y="0" width="120" height="20" uuid="6099c272-7cd1-476b-ae8a-0a3c11e94893">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff975e47-8e7b-4dc2-b371-499f0c28b138"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="632" y="0" width="170" height="30" uuid="ab550513-ccfa-4b2e-99bd-ca1f2037a0a4">
+				<reportElement x="632" y="0" width="170" height="20" uuid="ab550513-ccfa-4b2e-99bd-ca1f2037a0a4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9135f003-b5c4-4a0f-bd1e-5f9222c879a7"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{logradouro}]]></textFieldExpression>
 			</textField>
@@ -212,7 +307,38 @@ WHERE cli.id_cidade = cid.id]]>
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="750" y="0" width="100" height="20" uuid="cd21759f-8501-446e-8cf7-cf9da0b76ac1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="0" width="100" height="20" uuid="eb2afd6c-7671-455a-a953-5d5b64731c1f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="90" y="0" width="90" height="20" uuid="e6406ff0-c6bb-4e0c-b245-15ede5433056">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="90" height="20" uuid="1464b899-6e51-4717-a310-a6ef4c9a37fe">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Lista gerada em:]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>
