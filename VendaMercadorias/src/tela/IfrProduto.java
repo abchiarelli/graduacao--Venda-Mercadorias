@@ -390,8 +390,8 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
     private Produto criarProduto() {
         String descricao = tfdDescricao.getText();
-        float valor = Float.parseFloat(tfdValor.getText().replace(',', '.'));
-        float quantidade = Float.parseFloat(tfdQuantidade.getText().replace(',', '.'));
+        double valor = Double.parseDouble(Formatacao.formatarCasasDecimais(Double.parseDouble(tfdValor.getText()), 2).replace(',', '.'));
+        double quantidade = Double.parseDouble(Formatacao.formatarCasasDecimais(Double.parseDouble(tfdQuantidade.getText()), 3).replace(',', '.'));
 
         if (produtoSelecionado == null) {
             return new Produto(descricao, valor, quantidade);
@@ -432,8 +432,8 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         for (Produto produto : produtos) {
             String descricao = produto.getDescricao();
-            String valor = String.valueOf(produto.getValor());
-            String quantidade = String.valueOf(produto.getQuantidade());
+            String valor = Formatacao.formatarCasasDecimais(produto.getValor(), 2).replace('.', ',');
+            String quantidade = Formatacao.formatarCasasDecimais(produto.getQuantidade(), 3).replace('.', ',');
 
             Object[] row = {descricao, valor, quantidade};
 
