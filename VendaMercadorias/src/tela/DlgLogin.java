@@ -128,7 +128,7 @@ public class DlgLogin extends javax.swing.JDialog {
                 && String.valueOf(pfdPass.getPassword()).trim().length() > 0) {
             Usuario user = new Usuario(tfdUser.getText(), String.valueOf(pfdPass.getPassword()));
             if(new UsuarioDAO().autenticar(user)) {
-                this.dispose();;
+                this.dispose();
                 new FrmPrincipal().setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Usuário ou senha incorreto.");
