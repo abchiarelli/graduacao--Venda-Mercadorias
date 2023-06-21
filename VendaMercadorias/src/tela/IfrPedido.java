@@ -8,7 +8,7 @@ import apoio.Automatizar;
 import apoio.CombosDAO;
 import apoio.Formatacao;
 import apoio.IItemPesquisa;
-import apoio.ItemPedidoDAO;
+import dao.ItemPedidoDAO;
 import dao.CidadeDAO;
 import dao.ClienteDAO;
 import dao.PedidoDAO;
@@ -33,6 +33,8 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
 
     private int idPedido = 0;
     private double valor = 0.00;
+
+    private ArrayList<ItemPedido> listaProdutos = new ArrayList<>();
 
     private ArrayList<Pedido> pedidos = new ArrayList<>();
 
@@ -129,6 +131,11 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         jLabel12.setText("Data Até:");
 
         btnLimparFiltros.setText("Limpar");
+        btnLimparFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparFiltrosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -382,7 +389,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
             }
         });
 
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setText("Fechar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -398,9 +405,19 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
 
         btnEditar.setText("Editar");
         btnEditar.setEnabled(false);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
         btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -415,9 +432,9 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSalvarPedido)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancelar)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -438,17 +455,23 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        if (idPedido != 0) {
-            if (JOptionPane.showConfirmDialog(this, "Cancelar irá excluir o pedido em andamento.\n\nRealmente deseja continuar?\n", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
-                if (new ItemPedidoDAO().excluir(idPedido) == null && new PedidoDAO().excluir(idPedido) == null) {
-                    JOptionPane.showMessageDialog(this, "Pedido em andamento excluído!");
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoError("Pedido"));
+        if (pedidoSelecionado == null) {
+            if (idPedido != 0) {
+                if (JOptionPane.showConfirmDialog(this, "Fechar irá excluir o pedido em andamento.\n\nRealmente deseja continuar?\n", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+                    if (new PedidoDAO().excluir(idPedido) == null) {
+                        JOptionPane.showMessageDialog(this, "Pedido em andamento excluído!");
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoError("Pedido"));
+                    }
                 }
+            } else {
+                this.dispose();
             }
         } else {
-            this.dispose();
+            if (JOptionPane.showConfirmDialog(this, "Fechar não salvará as alterações feitas no pedido.\n\nRealmente deseja continuar?\n", "Confirmação", JOptionPane.YES_NO_OPTION) == 0) {
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -489,57 +512,71 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
     }//GEN-LAST:event_btnCriarPedidoActionPerformed
 
     private void btnAdicionarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarItemActionPerformed
-        if (Automatizar.valorQuantidade(tfdQuantidade, false)) {
+        if (Automatizar.valorDecimal(tfdQuantidade, false)) {
             JOptionPane.showMessageDialog(this, Formatacao.mensagemErroPreenchimento());
         } else {
-            Produto p = new ProdutoDAO().consultarId(produto.getId());
-            if (Double.parseDouble(tfdQuantidade.getText().replace(',', '.')) > p.getQuantidade()) {
-                JOptionPane.showMessageDialog(this, "Quantidade inserida ultrapassa estoque do produto.");
-                tfdQuantidade.setBackground(Formatacao.colorError());
-            } else {
-                ItemPedido itemPedido = new ItemPedido(idPedido, produto.getId(), produto.getValor(), Double.parseDouble(tfdQuantidade.getText().replace(',', '.')));
-                if (new ItemPedidoDAO().salvar(itemPedido) == null) {
-                    valor += itemPedido.getQuantidade() * produto.getValor();
-                    tfdValorTotal.setText(Formatacao.formatarCasasDecimais(valor, 2));
+            double quantidade = Double.parseDouble(tfdQuantidade.getText().replace(',', '.'));
+            Produto tempProduto = new ProdutoDAO().consultarId(produto.getId());
+            if (tempProduto.getQuantidade() >= quantidade) {
+                int indexCadastro = itemJaCadastrado(produto.getId());
+                if (indexCadastro >= 0) {
+                    ItemPedido tempItem = listaProdutos.get(indexCadastro);
+                    tempItem.setQuantidade(tempItem.getQuantidade() + quantidade);
+                    listaProdutos.set(indexCadastro, tempItem);
+                    valor += tempItem.getValor() * quantidade;
+                    tfdValorTotal.setText(Formatacao.formatarCasasDecimais(valor, 2).replace('.', ','));
+                    popularTabelaItensPedido();
+                    limparProduto();
+                } else {
+                    ItemPedido tempItem = new ItemPedido(idPedido, produto.getId(), produto.getValor(), quantidade);
+                    listaProdutos.add(tempItem);
+                    valor += Double.parseDouble(Formatacao.formatarCasasDecimais((tempItem.getValor() * tempItem.getQuantidade()), 2).replace(',', '.'));
+                    tfdValorTotal.setText("R$ " + Formatacao.formatarCasasDecimais(valor, 2).replace('.', ','));
                     popularTabelaItensPedido();
                     limparProduto();
                 }
+            } else {
+                tfdQuantidade.setBackground(Formatacao.colorError());
+                JOptionPane.showMessageDialog(this, "Quantidade inserida ultrapassa estoque do produto.");
             }
         }
-
 
     }//GEN-LAST:event_btnAdicionarItemActionPerformed
 
     private void btnSalvarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPedidoActionPerformed
-        if (pedidoSelecionado == null) {
-            Pedido pedido = new PedidoDAO().consultarId(idPedido);
-            pedido.setObservacao(tfdObservacao.getText());
-            pedido.setValorTotal(Double.valueOf(tfdValorTotal.getText().replace(',', '.')));
-            if (new PedidoDAO().atualizar(pedido) == null) {
-                JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarSucess("Pedido"));
-                limparCadastro();
-            }
+        if (Automatizar.data(tffDataPedido, false)) {
+            JOptionPane.showMessageDialog(this, Formatacao.mensagemErroPreenchimento());
         } else {
-            //implementar edição
+            if (pedidoSelecionado == null) {
+                if (salvarLista() && finalizarPedido()) {
+                    limparCadastro();
+                    popularTabelaPedidos();
+                    JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarSucess("Pedido"));
+                    tbpPrincipal.setSelectedIndex(0);
+                    alterarBotoes();
+                } else {
+                    JOptionPane.showMessageDialog(this, Formatacao.mensagemSalvarError("Pedido"));
+                }
+            } else {
+                if (atualizarLista() && finalizarPedido()) {
+                    limparCadastro();
+                    popularTabelaPedidos();
+                    JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarSucess("Pedido"));
+                    tbpPrincipal.setSelectedIndex(0);
+                    alterarBotoes();
+                } else {
+                    JOptionPane.showMessageDialog(this, Formatacao.mensagemAtualizarError("Pedido"));
+                }
+            }
         }
-
     }//GEN-LAST:event_btnSalvarPedidoActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
-        ArrayList<ItemPedido> itens = new ItemPedidoDAO().consultarTodos(idPedido);
-
-        ItemPedido item = itens.get(tblItensCadastrados.getSelectedRow());
-
-        if (new ProdutoDAO().somarQuantidade(item.getIdProduto(), item.getQuantidade()) == null
-                && new ItemPedidoDAO().excluir(item.getIdPedido(), item.getIdProduto()) == null) {
-            popularTabelaItensPedido();
-            
-            valor -= item.getQuantidade() * item.getValor();
-            tfdValorTotal.setText(Formatacao.formatarCasasDecimais(valor, 2));
-            
-            JOptionPane.showMessageDialog(this, "Item removido da lista de compra!");
-        }
-
+        ItemPedido tempProduto = listaProdutos.get(tblItensCadastrados.getSelectedRow());
+        listaProdutos.remove(tblItensCadastrados.getSelectedRow());
+        valor -= Double.parseDouble(Formatacao.formatarCasasDecimais((tempProduto.getValor() * tempProduto.getQuantidade()), 2).replace(',', '.'));
+        tfdValorTotal.setText(Formatacao.formatarCasasDecimais(valor, 2).replace('.', ','));
+        popularTabelaItensPedido();
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void tblItensCadastradosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItensCadastradosMouseClicked
@@ -567,9 +604,47 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         popularTabelaPedidos();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void popularTabelaItensPedido() {
-        ArrayList<ItemPedido> itens = new ItemPedidoDAO().consultarTodos(idPedido);
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        pedidoSelecionado = pedidos.get(tblPedidos.getSelectedRow());
+        cliente = new ClienteDAO().consultarId(pedidoSelecionado.getIdCliente());
+        idPedido = pedidoSelecionado.getId();
+        valor = pedidoSelecionado.getValorTotal();
 
+        listaProdutos = new ItemPedidoDAO().consultarTodos(idPedido);
+
+        tfdNumPedido.setText(String.valueOf(idPedido));
+        imprimirCliente();
+        btnSelecionarCliente.setEnabled(true);
+        btnCriarPedido.setEnabled(false);
+        btnSelecionarProduto.setEnabled(true);
+
+        popularTabelaItensPedido();
+
+        tfdValorTotal.setText(Formatacao.formatarCasasDecimais(valor, 2).replace('.', ','));
+        tfdObservacao.setText(pedidoSelecionado.getObservacao());
+        tfdObservacao.setEnabled(true);
+
+        tbpPrincipal.setSelectedIndex(1);
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        Pedido tempPedido = pedidos.get(tblPedidos.getSelectedRow());
+        if (new ItemPedidoDAO().excluir(tempPedido.getId()) == null
+                && new PedidoDAO().excluir(tempPedido.getId()) == null) {
+            popularTabelaPedidos();
+            JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoSucess("Pedido"));
+        } else {
+            JOptionPane.showMessageDialog(this, Formatacao.mensagemExclusaoError("Pedido"));
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnLimparFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparFiltrosActionPerformed
+        tffDataDe.setText("");
+        tffDataAte.setText("");
+        popularTabelaPedidos();
+    }//GEN-LAST:event_btnLimparFiltrosActionPerformed
+
+    private void popularTabelaItensPedido() {
         Object[] cabecalho = {
             "Produto",
             "Valor",
@@ -583,14 +658,14 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
             }
         };
 
-        for (ItemPedido item : itens) {
-            String produto = new ProdutoDAO().consultarId(item.getIdProduto()).getDescricao();
-            String valor = Formatacao.formatarCasasDecimais(item.getValor(), 2);
-            String qtd = Formatacao.formatarCasasDecimais(item.getQuantidade(), 3);
+        for (ItemPedido item : listaProdutos) {
+            String tempProduto = new ProdutoDAO().consultarId(item.getIdProduto()).getDescricao();
+            String tempValor = "R$ " + Formatacao.formatarCasasDecimais(item.getValor(), 2).replace('.', ',');
+            String qtd = Formatacao.formatarCasasDecimais(item.getQuantidade(), 3).replace('.', ',');
 
             Object[] row = {
-                produto,
-                valor,
+                tempProduto,
+                tempValor,
                 qtd
             };
 
@@ -608,6 +683,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
     private void limparCadastro() {
         cliente = null;
         produto = null;
+        pedidoSelecionado = null;
         idPedido = 0;
         valor = 0.00;
 
@@ -617,6 +693,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
 
         tfdNumPedido.setText("");
         tffDataPedido.setText(Formatacao.getDataAtual());
+        tffDataPedido.setBackground(Formatacao.colorNeutral());
         tfdObservacao.setText("");
         tfdProduto.setText("");
         tfdValorProduto.setText("");
@@ -652,13 +729,13 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         String dml = "SELECT * FROM pedido WHERE id IS NOT NULL ";
 
         if (!tffDataDe.getText().trim().equals("/  /")) {
-            String add = "AND data > '" + tffDataDe.getText() + "' ";
+            String add = "AND data >= '" + tffDataDe.getText() + "' ";
             if (!tffDataAte.getText().trim().equals("/  /")) {
                 add = "AND data BETWEEN '" + tffDataDe.getText() + "' AND '" + tffDataAte.getText() + "' ";
             }
             dml += add;
         } else if (!tffDataAte.getText().trim().equals("/  /")) {
-            String add = "AND data < '" + tffDataAte.getText() + "' ";
+            String add = "AND data =< '" + tffDataAte.getText() + "' ";
             dml += add;
         }
 
@@ -683,7 +760,6 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         };
 
         for (Pedido pedido : pedidos) {
-
             int id = pedido.getId();
             String data = pedido.getData();
             String valorTotal = Formatacao.formatarCasasDecimais(pedido.getValorTotal(), 2);
@@ -713,6 +789,47 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
 
     public void setFocus(int index) {
         tbpPrincipal.setSelectedIndex(index);
+        alterarBotoes();
+    }
+
+    private Integer itemJaCadastrado(int idProduto) {
+        for (int i = 0; i < listaProdutos.size(); i++) {
+            ItemPedido tempItem = listaProdutos.get(i);
+            if (idProduto == tempItem.getIdProduto()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean salvarLista() {
+        boolean salvar = true;
+        for (ItemPedido tempItem : listaProdutos) {
+            if (new ItemPedidoDAO().salvar(tempItem) != null) {
+                salvar = false;
+            }
+        }
+        return salvar;
+    }
+
+    private boolean atualizarLista() {
+        boolean atualizar = true;
+        if (new ItemPedidoDAO().excluir(idPedido) == null) {
+            atualizar = salvarLista();
+        } else {
+            atualizar = false;
+        }
+        return atualizar;
+    }
+
+    private boolean finalizarPedido() {
+        Pedido tempPedido = new PedidoDAO().consultarId(idPedido);
+        tempPedido.setData(tffDataPedido.getText());
+        tempPedido.setIdCliente(cliente.getId());
+        tempPedido.setEndereco("Logradouro: " + cliente.getLogradouro() + " | Cidade: " + new CidadeDAO().consultarId(cliente.getCidade()).getNome());
+        tempPedido.setObservacao(tfdObservacao.getText());
+        tempPedido.setValorTotal(valor);
+        return new PedidoDAO().atualizar(tempPedido) == null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -767,12 +884,11 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         if (itemPesquisa.equals("cliente")) {
             if (idSelecionado > 0) {
                 cliente = new ClienteDAO().consultarId(idSelecionado);
-                tfdClienteNome.setText(cliente.getNome());
-                tfdEndereco.setText(cliente.getLogradouro());
-                new CombosDAO().popularComboBox("cidade", cmbCidade);
-                new CombosDAO().definirItemCombo(cmbCidade, cliente.getCidade());
+                imprimirCliente();
 
-                btnCriarPedido.setEnabled(true);
+                if (pedidoSelecionado == null) {
+                    btnCriarPedido.setEnabled(true);
+                }
             } else {
                 btnCriarPedido.setEnabled(false);
             }
@@ -780,8 +896,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
             if (idSelecionado > 0) {
                 produto = new ProdutoDAO().consultarId(idSelecionado);
 
-                tfdProduto.setText(produto.getDescricao());
-                tfdValorProduto.setText(Formatacao.formatarCasasDecimais(produto.getValor(), 2));
+                imprimirProduto();
 
                 btnAdicionarItem.setEnabled(true);
                 tfdQuantidade.setEnabled(true);
@@ -792,4 +907,15 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         }
     }
 
+    private void imprimirCliente() {
+        tfdClienteNome.setText(cliente.getNome());
+        tfdEndereco.setText(cliente.getLogradouro());
+        new CombosDAO().popularComboBox("cidade", cmbCidade);
+        new CombosDAO().definirItemCombo(cmbCidade, cliente.getCidade());
+    }
+
+    private void imprimirProduto() {
+        tfdProduto.setText(produto.getDescricao());
+        tfdValorProduto.setText(Formatacao.formatarCasasDecimais(produto.getValor(), 2));
+    }
 }
