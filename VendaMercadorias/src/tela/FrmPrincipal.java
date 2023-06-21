@@ -6,6 +6,7 @@ package tela;
 
 import apoio.ConexaoBD;
 import apoio.Relatorios;
+import dao.ClienteDAO;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -54,12 +55,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mitPedidoListar = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         mitCompraCadastrar = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         mitRelatorioListagemClientes = new javax.swing.JMenuItem();
         mitRelatorioListagemProdutos = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         MenSair = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
@@ -131,6 +137,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu5.add(mitPedidoCadastrar);
 
         mitPedidoListar.setText("Listagem");
+        mitPedidoListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitPedidoListarActionPerformed(evt);
+            }
+        });
         jMenu5.add(mitPedidoListar);
 
         jMenu1.add(jMenu5);
@@ -138,7 +149,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu6.setText("Compra");
 
         mitCompraCadastrar.setText("Cadastrar");
+        mitCompraCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitCompraCadastrarActionPerformed(evt);
+            }
+        });
         jMenu6.add(mitCompraCadastrar);
+
+        jMenuItem2.setText("Listagem");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem2);
 
         jMenu1.add(jMenu6);
 
@@ -166,10 +190,35 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jMenu3.add(jMenu4);
 
+        jMenuItem4.setText("Vendas");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuItem3.setText("Compras");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
+
         jMenuBar1.add(jMenu3);
 
-        jMenu2.setText("Ajuda");
+        jMenu2.setText("Sistema");
         jMenu2.add(jSeparator2);
+
+        jMenuItem5.setText("Exportar CSV Clientes");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+        jMenu2.add(jSeparator3);
 
         MenSair.setText("Sair");
         MenSair.addActionListener(new java.awt.event.ActionListener() {
@@ -249,12 +298,51 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mitPedidoCadastrarActionPerformed
 
     private void mitRelatorioListagemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRelatorioListagemClientesActionPerformed
-        new Relatorios().gerarRelatorio("/relatorios/venda_mercadorias_listagem_clientes.jrxml");
+        new Relatorios().gerarListagem("/relatorios/venda_mercadorias_listagem_clientes.jrxml");
     }//GEN-LAST:event_mitRelatorioListagemClientesActionPerformed
 
     private void mitRelatorioListagemProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitRelatorioListagemProdutosActionPerformed
-        new Relatorios().gerarRelatorio("/relatorios/venda_mercadorias_listagem_produtos.jrxml");
+        new Relatorios().gerarListagem("/relatorios/venda_mercadorias_listagem_produtos.jrxml");
     }//GEN-LAST:event_mitRelatorioListagemProdutosActionPerformed
+
+    private void mitPedidoListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPedidoListarActionPerformed
+        IfrPedido frmPedido = new IfrPedido();
+        
+        DtpPrincipal.add(frmPedido);
+        
+        frmPedido.setFocus(0);
+        frmPedido.setVisible(true);
+    }//GEN-LAST:event_mitPedidoListarActionPerformed
+
+    private void mitCompraCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitCompraCadastrarActionPerformed
+        IfrCompra ifrCompra = new IfrCompra();
+        
+        DtpPrincipal.add(ifrCompra);
+        
+        ifrCompra.setFocus(1);
+        ifrCompra.setVisible(true);
+    }//GEN-LAST:event_mitCompraCadastrarActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        IfrCompra ifrCompra = new IfrCompra();
+        
+        DtpPrincipal.add(ifrCompra);
+        
+        ifrCompra.setFocus(0);
+        ifrCompra.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        new DlgRelatorioData(this, false, 0).setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        new DlgRelatorioData(this, false, 1).setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        new ClienteDAO().gerarCSV();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     
     
@@ -309,8 +397,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuItem mitCompraCadastrar;
     private javax.swing.JMenuItem mitPedidoCadastrar;
     private javax.swing.JMenuItem mitPedidoListar;
