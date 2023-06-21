@@ -8,8 +8,10 @@ import apoio.Formatacao;
 import apoio.IItemPesquisa;
 import dao.CidadeDAO;
 import dao.ClienteDAO;
+import dao.FornecedorDAO;
 import dao.ProdutoDAO;
 import entidade.Cliente;
+import entidade.Fornecedor;
 import entidade.Produto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -74,14 +76,25 @@ public class DlgLocalizar extends javax.swing.JDialog {
         jLabel1.setText("Filtro (descrição):");
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel2.setText("Selecionar:");
         jLabel2.setToolTipText("");
 
         btnSelecionar.setText("Selecionar");
+        btnSelecionar.setEnabled(false);
         btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelecionarActionPerformed(evt);
@@ -109,6 +122,11 @@ public class DlgLocalizar extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblListagem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblListagemMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblListagem);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -165,6 +183,7 @@ public class DlgLocalizar extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -174,6 +193,43 @@ public class DlgLocalizar extends javax.swing.JDialog {
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         selecionar();
     }//GEN-LAST:event_btnSelecionarActionPerformed
+
+    private void tblListagemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListagemMouseClicked
+        alterarBotaoSelecionar();
+    }//GEN-LAST:event_tblListagemMouseClicked
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        switch (tipo) {
+            case "cliente":
+                popularTabelaCliente();
+                break;
+            case "produto":
+                popularTabelaProduto();
+                break;
+            case "fornecedor":
+                popularTabelaFornecedor();
+                break;
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        tfdFiltro.setText("");
+        switch (tipo) {
+            case "cliente":
+                popularTabelaCliente();
+                break;
+            case "produto":
+                popularTabelaProduto();
+                break;
+            case "fornecedor":
+                popularTabelaFornecedor();
+                break;
+        }
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void alterarBotaoSelecionar() {
+        btnSelecionar.setEnabled(tblListagem.getSelectedRow() >= 0);
+    }
 
     private void setTitle() {
         switch (tipo) {
@@ -190,6 +246,7 @@ public class DlgLocalizar extends javax.swing.JDialog {
             case "fornecedor":
                 this.setTitle("Selecionar: Fornecedor");
                 lblTitulo.setText("Fornecedor");
+                popularTabelaFornecedor();
                 break;
             default:
                 this.dispose();
@@ -199,7 +256,8 @@ public class DlgLocalizar extends javax.swing.JDialog {
 
     private void popularTabelaCliente() {
         ArrayList<Cliente> clientes = new ArrayList<>();
-        if (tfdFiltro.getText().trim().length() > 0) {
+
+        if (!tfdFiltro.getText().isBlank()) {
             String DML = "SELECT * FROM cliente "
                     + "WHERE nome ILIKE '%" + tfdFiltro.getText() + "%'"
                     + "ORDER BY nome;";
@@ -229,14 +287,14 @@ public class DlgLocalizar extends javax.swing.JDialog {
         }
 
         tblListagem.setModel(model);
-
         tblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        alterarBotaoSelecionar();
     }
 
     private void popularTabelaProduto() {
         ArrayList<Produto> produtos = new ArrayList<>();
 
-        if (tfdFiltro.getText().trim().length() > 0) {
+        if (!tfdFiltro.getText().isBlank()) {
             String dml = "SELECT * FROM produto "
                     + "WHERE descricao ILIKE '%" + tfdFiltro.getText() + "%' "
                     + "ORDER BY descricao;";
@@ -273,6 +331,47 @@ public class DlgLocalizar extends javax.swing.JDialog {
 
         tblListagem.setModel(model);
         tblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        alterarBotaoSelecionar();
+    }
+
+    public void popularTabelaFornecedor() {
+        ArrayList<Fornecedor> fornecedores = new ArrayList<>();
+
+        if (!tfdFiltro.getText().isBlank()) {
+            String dml = "SELECT * FROM fornecedor "
+                    + "WHERE nome ILIKE '%" + tfdFiltro.getText() + "%' "
+                    + "ORDER BY nome;";
+            fornecedores = new FornecedorDAO().consultar(dml);
+        } else {
+            fornecedores = new FornecedorDAO().consultarTodos();
+        }
+
+        data[0] = fornecedores;
+
+        Object[] cabecalho = {
+            "Nome",
+            "CNPJ"
+        };
+
+        DefaultTableModel model = new DefaultTableModel(cabecalho, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        for (Fornecedor fornecedor : fornecedores) {
+            Object[] row = {
+                fornecedor.getNome(),
+                fornecedor.getCnpj()
+            };
+
+            model.addRow(row);
+        }
+
+        tblListagem.setModel(model);
+        tblListagem.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        alterarBotaoSelecionar();
     }
 
     private void selecionar() {
@@ -296,8 +395,9 @@ public class DlgLocalizar extends javax.swing.JDialog {
                 }
                 break;
             case "fornecedor":
-                this.setTitle("Selecionar: Fornecedor");
-                lblTitulo.setText("Fornecedor");
+                ArrayList<Fornecedor> fornecedores = (ArrayList<Fornecedor>) data[0];
+                Fornecedor fornecedor = fornecedores.get(tblListagem.getSelectedRow());
+                idRetorno = fornecedor.getId();
                 origem.definirValor(idRetorno, tipo);
                 this.dispose();
                 break;
