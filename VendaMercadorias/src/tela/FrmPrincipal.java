@@ -4,12 +4,17 @@
  */
 package tela;
 
+import apoio.Automatizar;
 import apoio.ConexaoBD;
 import apoio.Relatorios;
 import dao.ClienteDAO;
+import dao.FornecedorDAO;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -64,7 +69,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenu7 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         MenSair = new javax.swing.JMenuItem();
 
@@ -211,13 +218,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Sistema");
         jMenu2.add(jSeparator2);
 
-        jMenuItem5.setText("Exportar CSV Clientes");
+        jMenu7.setText("Exportar");
+
+        jMenuItem5.setText("Clientes (.csv)");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem5);
+        jMenu7.add(jMenuItem5);
+
+        jMenuItem6.setText("Fornecedores (.csv)");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem6);
+
+        jMenu2.add(jMenu7);
         jMenu2.add(jSeparator3);
 
         MenSair.setText("Sair");
@@ -292,7 +311,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         IfrPedido frmPedido = new IfrPedido();
 
         DtpPrincipal.add(frmPedido);
-        
+
         frmPedido.setFocus(1);
         frmPedido.setVisible(true);
     }//GEN-LAST:event_mitPedidoCadastrarActionPerformed
@@ -307,27 +326,27 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void mitPedidoListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPedidoListarActionPerformed
         IfrPedido frmPedido = new IfrPedido();
-        
+
         DtpPrincipal.add(frmPedido);
-        
+
         frmPedido.setFocus(0);
         frmPedido.setVisible(true);
     }//GEN-LAST:event_mitPedidoListarActionPerformed
 
     private void mitCompraCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitCompraCadastrarActionPerformed
         IfrCompra ifrCompra = new IfrCompra();
-        
+
         DtpPrincipal.add(ifrCompra);
-        
+
         ifrCompra.setFocus(1);
         ifrCompra.setVisible(true);
     }//GEN-LAST:event_mitCompraCadastrarActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         IfrCompra ifrCompra = new IfrCompra();
-        
+
         DtpPrincipal.add(ifrCompra);
-        
+
         ifrCompra.setFocus(0);
         ifrCompra.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -341,11 +360,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        new ClienteDAO().gerarCSV();
+        String caminho = Automatizar.gerarCaminhoParaSalvar();
+
+        if (caminho != null) {
+            new ClienteDAO().gerarCSV(caminho);
+        }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    
-    
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        String caminho = Automatizar.gerarCaminhoParaSalvar();
+        if(caminho != null) {
+            new FornecedorDAO().gerarCSV(caminho);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -395,12 +423,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
