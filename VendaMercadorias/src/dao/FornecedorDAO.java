@@ -6,6 +6,7 @@ package dao;
 
 import apoio.ConexaoBD;
 import apoio.IDAOT;
+import apoio.Relatorios;
 import entidade.Fornecedor;
 import java.util.ArrayList;
 import java.sql.*;
@@ -50,7 +51,7 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
                 + "cnpj = '" + o.getCnpj() + "' "
                 + "WHERE id = " + o.getId()
                 + ";";
-        
+
         try {
             int retorno = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
             return null;
@@ -63,7 +64,7 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
     @Override
     public String excluir(int id) {
         String dml = "DELETE FROM fornecedor WHERE id = " + id;
-        
+
         try {
             int retorno = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
             return null;
@@ -132,7 +133,40 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
 
     @Override
     public Fornecedor consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Fornecedor fornecedor = null;
+
+        try {
+            Statement st = ConexaoBD.getInstancia().getConexao().createStatement();
+
+            String DML = "SELECT * FROM fornecedor WHERE id = " + id;
+
+            ResultSet rs = st.executeQuery(DML);
+
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    String nome = rs.getString("nome");
+                    String email = rs.getString("email");
+                    String telefone = rs.getString("telefone");
+                    String cnpj = rs.getString("cnpj");
+
+                    fornecedor = new Fornecedor(id, nome, email, telefone, cnpj);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("ERRO: " + e);
+        }
+
+        return fornecedor;
     }
 
+    public void gerarCSV(String local) {
+        try {
+            String dml = "SELECT * FROM fornecedor";
+            
+            ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
+            
+            Relatorios.gerarCSV(rs, local);
+        } catch (Exception e) {
+        }
+    }
 }
