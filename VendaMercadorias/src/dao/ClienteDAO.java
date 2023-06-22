@@ -7,10 +7,20 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.Formatacao;
 import apoio.IDAOT;
+import apoio.Relatorios;
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVWriterBuilder;
+import com.opencsv.ICSVWriter;
 import entidade.Cliente;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.sql.*;
 import java.time.LocalDate;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -185,4 +195,26 @@ public class ClienteDAO implements IDAOT<Cliente> {
         return cliente;
     }
 
+    public void gerarCSV(String local) {
+        try {
+            String dml = "SELECT "
+                    + "cli.id, "
+                    + "cli.nome, "
+                    + "cli.email, "
+                    + "cli.telefone, "
+                    + "cli.cpf, "
+                    + "to_char(cli.data_nascimento, 'DD/MM/YYYY') AS data_nascimento, "
+                    + "cli.logradouro, "
+                    + "cid.descricao AS cidade "
+                    + "FROM cliente cli, cidade cid "
+                    + "WHERE cli.id_cidade = cid.id "
+                    + ""
+                    + "ORDER BY cli.id";
+
+            ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
+
+            Relatorios.gerarCSV(rs, local);
+        } catch (Exception e) {
+        }
+    }
 }
