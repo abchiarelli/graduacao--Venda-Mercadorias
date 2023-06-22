@@ -5,6 +5,7 @@
 package tela;
 
 import apoio.Automatizar;
+import apoio.ComboItem;
 import apoio.CombosDAO;
 import apoio.Formatacao;
 import apoio.IItemPesquisa;
@@ -104,6 +105,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         tfdObservacao = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         tfdValorProduto = new javax.swing.JTextField();
+        btnEditarEndereco = new javax.swing.JButton();
         btnSalvarPedido = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
@@ -141,7 +143,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +166,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -172,7 +174,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
                     .addComponent(jLabel12)
                     .addComponent(tffDataAte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimparFiltros))
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
 
         tbpPrincipal.addTab("Listagem", jPanel1);
@@ -263,6 +265,14 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
 
         tfdValorProduto.setEnabled(false);
 
+        btnEditarEndereco.setText("Editar");
+        btnEditarEndereco.setEnabled(false);
+        btnEditarEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarEnderecoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -285,12 +295,16 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfdEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(tfdClienteNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSelecionarCliente))))
+                                .addComponent(btnSelecionarCliente))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(cmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnEditarEndereco))
+                                .addComponent(tfdEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(btnCriarPedido)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,7 +361,8 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarEndereco))
                 .addGap(18, 18, 18)
                 .addComponent(btnCriarPedido)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -376,7 +391,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(tfdObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         tbpPrincipal.addTab("Manutenção", jPanel2);
@@ -486,12 +501,15 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
     }//GEN-LAST:event_btnSelecionarProdutoActionPerformed
 
     private void btnCriarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriarPedidoActionPerformed
-        if (Automatizar.data(tffDataPedido, false)) {
+        if (Automatizar.data(tffDataPedido, false) 
+                || Automatizar.comboBox(cmbCidade, false)
+                || Automatizar.nome(tfdEndereco, false)) {
             JOptionPane.showMessageDialog(this, Formatacao.mensagemErroPreenchimento());
         } else {
+            ComboItem tempItem = (ComboItem) cmbCidade.getSelectedItem();
             String data = tffDataPedido.getText();
-            String endereco = "Logradouro: " + cliente.getLogradouro() + " | Cidade: " + new CidadeDAO().consultarId(cliente.getCidade()).getNome();
-            Pedido pedido = new Pedido(data, endereco, "", cliente.getId(), valor);
+            String endereco = tfdEndereco.getText();
+            Pedido pedido = new Pedido(data, endereco, "", cliente.getId(), valor, tempItem.getId());
 
             String codPedido = new PedidoDAO().salvar(pedido);
 
@@ -503,7 +521,6 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
                 tfdNumPedido.setText(codPedido);
 
                 btnCriarPedido.setEnabled(false);
-                btnSelecionarCliente.setEnabled(false);
 
                 btnSelecionarProduto.setEnabled(true);
                 tfdObservacao.setEnabled(true);
@@ -544,7 +561,9 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
     }//GEN-LAST:event_btnAdicionarItemActionPerformed
 
     private void btnSalvarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPedidoActionPerformed
-        if (Automatizar.data(tffDataPedido, false)) {
+        if (Automatizar.data(tffDataPedido, false)
+                || Automatizar.comboBox(cmbCidade, false)
+                || Automatizar.nome(tfdEndereco, false)) {
             JOptionPane.showMessageDialog(this, Formatacao.mensagemErroPreenchimento());
         } else {
             if (pedidoSelecionado == null) {
@@ -613,7 +632,10 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         listaProdutos = new ItemPedidoDAO().consultarTodos(idPedido);
 
         tfdNumPedido.setText(String.valueOf(idPedido));
-        imprimirCliente();
+        tfdEndereco.setText(pedidoSelecionado.getEndereco());
+        tfdClienteNome.setText(new ClienteDAO().consultarId(pedidoSelecionado.getIdCliente()).getNome());
+        new CombosDAO().popularComboBox("cidade", cmbCidade);
+        new CombosDAO().definirItemCombo(cmbCidade, pedidoSelecionado.getIdCidade());
         btnSelecionarCliente.setEnabled(true);
         btnCriarPedido.setEnabled(false);
         btnSelecionarProduto.setEnabled(true);
@@ -623,6 +645,8 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         tfdValorTotal.setText(Formatacao.formatarCasasDecimais(valor, 2).replace('.', ','));
         tfdObservacao.setText(pedidoSelecionado.getObservacao());
         tfdObservacao.setEnabled(true);
+        
+        alterarBotoesEditar(false);
 
         tbpPrincipal.setSelectedIndex(1);
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -643,6 +667,11 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         tffDataAte.setText("");
         popularTabelaPedidos();
     }//GEN-LAST:event_btnLimparFiltrosActionPerformed
+
+    private void btnEditarEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarEnderecoActionPerformed
+        tfdEndereco.setEnabled(true);
+        cmbCidade.setEnabled(true);
+    }//GEN-LAST:event_btnEditarEnderecoActionPerformed
 
     private void popularTabelaItensPedido() {
         Object[] cabecalho = {
@@ -684,6 +713,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         cliente = null;
         produto = null;
         pedidoSelecionado = null;
+        listaProdutos.clear();
         idPedido = 0;
         valor = 0.00;
 
@@ -743,6 +773,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
     }
 
     private void popularTabelaPedidos() {
+        alterarBotoesEditar(false);
         pedidos = new PedidoDAO().consultar(criarFiltroPedidos());
 
         Object[] cabecalho = {
@@ -826,7 +857,8 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
         Pedido tempPedido = new PedidoDAO().consultarId(idPedido);
         tempPedido.setData(tffDataPedido.getText());
         tempPedido.setIdCliente(cliente.getId());
-        tempPedido.setEndereco("Logradouro: " + cliente.getLogradouro() + " | Cidade: " + new CidadeDAO().consultarId(cliente.getCidade()).getNome());
+        tempPedido.setEndereco(tfdEndereco.getText());
+        tempPedido.setIdCidade(((ComboItem) cmbCidade.getSelectedItem()).getId());
         tempPedido.setObservacao(tfdObservacao.getText());
         tempPedido.setValorTotal(valor);
         return new PedidoDAO().atualizar(tempPedido) == null;
@@ -838,6 +870,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCriarPedido;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEditarEndereco;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimparFiltros;
     private javax.swing.JButton btnRemover;
@@ -888,6 +921,7 @@ public class IfrPedido extends javax.swing.JInternalFrame implements IItemPesqui
 
                 if (pedidoSelecionado == null) {
                     btnCriarPedido.setEnabled(true);
+                    btnEditarEndereco.setEnabled(true);
                 }
             } else {
                 btnCriarPedido.setEnabled(false);
