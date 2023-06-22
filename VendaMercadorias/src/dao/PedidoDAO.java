@@ -28,7 +28,8 @@ public class PedidoDAO implements IDAOT<Pedido> {
                     + "'" + o.getEndereco() + "', "
                     + "'" + o.getObservacao() + "', "
                     + o.getIdCliente() + ", "
-                    + o.getValorTotal()
+                    + o.getValorTotal() + ", "
+                    + o.getIdCidade()
                     + ") returning id;";
 
             ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
@@ -47,7 +48,23 @@ public class PedidoDAO implements IDAOT<Pedido> {
 
     @Override
     public String atualizar(Pedido o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String dml = "UPDATE pedido SET "
+                    + "data = '" + o.getData() + "', "
+                    + "endereco_entrega = '" + o.getEndereco() + "', "
+                    + "observacao = '" + o.getObservacao() + "', "
+                    + "cliente_id = " + o.getIdCliente() + ", "
+                    + "valor_total = " + o.getValorTotal() + ", "
+                    + "cidade_id = " + o.getIdCidade() + " "
+                    + "WHERE id = " + o.getId();
+
+            int resp = ConexaoBD.getInstancia().getConexao().createStatement().executeUpdate(dml);
+
+            return null;
+        } catch (Exception e) {
+            System.out.println("Pedido > atualiza() ERROR: " + e);
+            return e.toString();
+        }
     }
 
     @Override
@@ -67,12 +84,12 @@ public class PedidoDAO implements IDAOT<Pedido> {
     @Override
     public ArrayList<Pedido> consultarTodos() {
         ArrayList<Pedido> pedidos = new ArrayList<>();
-        
+
         try {
             String dml = "SELECT * FROM pedido ORDER BY data";
-            
+
             ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(dml);
-            
+
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     int id = rs.getInt("id");
@@ -81,9 +98,10 @@ public class PedidoDAO implements IDAOT<Pedido> {
                     String observacao = rs.getString("observacao");
                     int idCliente = rs.getInt("cliente_id");
                     Double valor = rs.getDouble("valor_total");
-                    
-                    Pedido pedido = new Pedido(id, data, endereco, observacao, idCliente, valor);
-                    
+                    int idCidade = rs.getInt("cidade_id");
+
+                    Pedido pedido = new Pedido(id, data, endereco, observacao, idCliente, valor, idCidade);
+
                     pedidos.add(pedido);
                 }
             }
@@ -97,10 +115,10 @@ public class PedidoDAO implements IDAOT<Pedido> {
     @Override
     public ArrayList<Pedido> consultar(String criterio) {
         ArrayList<Pedido> pedidos = new ArrayList<>();
-        
+
         try {
             ResultSet rs = ConexaoBD.getInstancia().getConexao().createStatement().executeQuery(criterio);
-            
+
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     int id = rs.getInt("id");
@@ -109,9 +127,10 @@ public class PedidoDAO implements IDAOT<Pedido> {
                     String observacao = rs.getString("observacao");
                     int idCliente = rs.getInt("cliente_id");
                     Double valor = rs.getDouble("valor_total");
-                    
-                    Pedido pedido = new Pedido(id, data, endereco, observacao, idCliente, valor);
-                    
+                    int idCidade = rs.getInt("cidade_id");
+
+                    Pedido pedido = new Pedido(id, data, endereco, observacao, idCliente, valor, idCidade);
+
                     pedidos.add(pedido);
                 }
             }
@@ -138,8 +157,9 @@ public class PedidoDAO implements IDAOT<Pedido> {
                     String observacao = rs.getString("observacao");
                     int idCliente = rs.getInt("cliente_id");
                     Double valorTotal = rs.getDouble("valor_total");
+                    int idCidade = rs.getInt("cidade_id");
 
-                    pedido = new Pedido(id, data, endereco, observacao, idCliente, valorTotal);
+                    pedido = new Pedido(id, data, endereco, observacao, idCliente, valorTotal, idCidade);
                 }
             }
         } catch (Exception e) {
