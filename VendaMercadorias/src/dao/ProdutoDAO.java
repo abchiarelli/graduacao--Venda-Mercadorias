@@ -170,7 +170,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
             
             return null;
         } catch (Exception e) {
-            System.out.println("Produto > somarQuantidade() ERROR: " + e);
+            System.out.println("Produto > diminuirQuantidade() ERROR: " + e);
             return e.toString();
         }
     }
