@@ -35,6 +35,7 @@ public class DlgRelatorioData extends javax.swing.JDialog {
 
         this.tipo = tipo;
 
+        tffDataAte.setText(Formatacao.getDataAtual());
         imprimeTitulo();
     }
 
@@ -206,7 +207,7 @@ public class DlgRelatorioData extends javax.swing.JDialog {
                 switch (tipo) {
                     case 0: //compras
                         this.dispose();
-                        new Relatorios().gerarRelatorioData("/relatorios/venda_mercadoria_relatorio_compras.jrxml", tffDataDe.getText(), tffDataAte.getText());
+                        new Relatorios().gerarRelatorioData("/relatorios/venda_mercadoria_relatorio_de_compras.jrxml", tffDataDe.getText(), tffDataAte.getText());
                         break;
                     case 1: //vendas
                         this.dispose();
