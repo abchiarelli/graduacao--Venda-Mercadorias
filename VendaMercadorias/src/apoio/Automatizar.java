@@ -6,8 +6,11 @@ package apoio;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -192,6 +195,24 @@ public class Automatizar {
                 campo.setBackground(Formatacao.colorError());
                 return true;
             }
+        }
+    }
+    
+    public static String gerarCaminhoParaSalvar() {
+        JFrame frame = new JFrame();
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Arquivos CSV (.csv)", ".csv");
+        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        chooser.setFileFilter(filtro);
+        
+        if (chooser.showSaveDialog(frame) == 0) {
+            String caminho = chooser.getSelectedFile().getPath();
+            if (!caminho.endsWith(".csv")) {
+                caminho += ".csv";
+            }
+            return caminho;
+        } else {
+            return null;
         }
     }
 }
