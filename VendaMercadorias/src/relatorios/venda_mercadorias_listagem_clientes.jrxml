@@ -117,7 +117,7 @@ WHERE cli.id_cidade = cid.id]]>
 				<text><![CDATA[e-mail]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="430" y="0" width="82" height="30" uuid="b0a2864a-8443-49e7-855e-916dc017abcb">
+				<reportElement x="430" y="0" width="90" height="30" uuid="b0a2864a-8443-49e7-855e-916dc017abcb">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -131,7 +131,7 @@ WHERE cli.id_cidade = cid.id]]>
 				<text><![CDATA[Telefone]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="512" y="0" width="120" height="30" uuid="01f84610-b669-4877-8179-8daf77f85efd">
+				<reportElement x="520" y="0" width="120" height="30" uuid="01f84610-b669-4877-8179-8daf77f85efd">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -145,7 +145,7 @@ WHERE cli.id_cidade = cid.id]]>
 				<text><![CDATA[Cidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="632" y="0" width="170" height="30" uuid="81255edf-4bce-4451-b666-604e106abddf">
+				<reportElement x="640" y="0" width="162" height="30" uuid="81255edf-4bce-4451-b666-604e106abddf">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -260,7 +260,7 @@ WHERE cli.id_cidade = cid.id]]>
 				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="430" y="0" width="82" height="20" uuid="96ce0d6d-8ccd-4fc8-bf38-46ec5f294770">
+				<reportElement x="430" y="0" width="90" height="20" uuid="96ce0d6d-8ccd-4fc8-bf38-46ec5f294770">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d1e41e8a-9e48-4b7c-b80b-98231d87f023"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -274,7 +274,7 @@ WHERE cli.id_cidade = cid.id]]>
 				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="512" y="0" width="120" height="20" uuid="6099c272-7cd1-476b-ae8a-0a3c11e94893">
+				<reportElement x="520" y="0" width="120" height="20" uuid="6099c272-7cd1-476b-ae8a-0a3c11e94893">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff975e47-8e7b-4dc2-b371-499f0c28b138"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -288,7 +288,7 @@ WHERE cli.id_cidade = cid.id]]>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="632" y="0" width="170" height="20" uuid="ab550513-ccfa-4b2e-99bd-ca1f2037a0a4">
+				<reportElement x="640" y="0" width="162" height="20" uuid="ab550513-ccfa-4b2e-99bd-ca1f2037a0a4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9135f003-b5c4-4a0f-bd1e-5f9222c879a7"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>

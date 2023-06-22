@@ -23,13 +23,18 @@
 	to_char(pedido.valor_total, '999G999G999D99') AS valor,
 	cliente.nome,
 	pedido.endereco_entrega AS endereco,
+	cidade.descricao AS cidade,
 	pedido.observacao
 FROM
 	pedido,
-	cliente
+	cliente,
+	cidade
 WHERE pedido.cliente_id = cliente.id
-
-ORDER BY p_data]]>
+	AND pedido.cidade_id = cidade.id
+	AND pedido.data BETWEEN 
+	to_date('$P!{dataDe}', 'DD/MM/YYYY') 
+	AND to_date('$P!{dataAte}', 'DD/MM/YY')
+ORDER BY pedido.data]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
@@ -55,6 +60,11 @@ ORDER BY p_data]]>
 		<property name="com.jaspersoft.studio.field.label" value="endereco"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="pedido"/>
 	</field>
+	<field name="cidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cidade"/>
+		<property name="com.jaspersoft.studio.field.label" value="cidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cidade"/>
+	</field>
 	<field name="observacao" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="observacao"/>
 		<property name="com.jaspersoft.studio.field.label" value="observacao"/>
@@ -70,7 +80,7 @@ ORDER BY p_data]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="26" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Relatório Compras]]></text>
+				<text><![CDATA[Relatório Vendas]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -167,7 +177,7 @@ ORDER BY p_data]]>
 				<text><![CDATA[Valor]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="210" y="0" width="200" height="30" uuid="49bb8c52-629a-474f-84bb-9428a100bfa8">
+				<reportElement x="210" y="0" width="150" height="30" uuid="49bb8c52-629a-474f-84bb-9428a100bfa8">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c8cc926c-7e1d-4f76-98b1-947c6a5634b1"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -182,7 +192,7 @@ ORDER BY p_data]]>
 				<text><![CDATA[Cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="410" y="0" width="200" height="30" uuid="81c342f0-53e6-46e0-9027-c09b19a2a684">
+				<reportElement x="360" y="0" width="140" height="30" uuid="81c342f0-53e6-46e0-9027-c09b19a2a684">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0897d7b4-de05-4175-b7a1-20358b186983"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -197,7 +207,7 @@ ORDER BY p_data]]>
 				<text><![CDATA[Endereço]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="610" y="0" width="200" height="30" uuid="0375a287-187d-4a58-8a20-6f3017d3300f">
+				<reportElement x="630" y="0" width="175" height="30" uuid="0375a287-187d-4a58-8a20-6f3017d3300f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf99e1f7-cec6-44c9-b8c5-8dbdffb107da"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -210,6 +220,21 @@ ORDER BY p_data]]>
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Observação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="0" width="130" height="30" uuid="284ddec6-c6f2-4e6b-9450-37357bbff4a8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="421ef1d6-b000-4249-a7a0-638b0b535012"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cidade]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -261,10 +286,10 @@ ORDER BY p_data]]>
 				<textFieldExpression><![CDATA["R$ " + $F{valor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="210" y="0" width="200" height="40" uuid="aadc57bf-8a94-474f-9e41-def756a80ce5">
+				<reportElement x="210" y="0" width="150" height="40" uuid="aadc57bf-8a94-474f-9e41-def756a80ce5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c8cc926c-7e1d-4f76-98b1-947c6a5634b1"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box leftPadding="5" rightPadding="5">
 					<pen lineWidth="0.5"/>
@@ -276,10 +301,10 @@ ORDER BY p_data]]>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="410" y="0" width="200" height="40" uuid="bbbaa11c-1f04-4373-93a0-07cf5133d1d4">
+				<reportElement x="360" y="0" width="140" height="40" uuid="bbbaa11c-1f04-4373-93a0-07cf5133d1d4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0897d7b4-de05-4175-b7a1-20358b186983"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box leftPadding="5" rightPadding="5">
 					<pen lineWidth="0.5"/>
@@ -291,9 +316,8 @@ ORDER BY p_data]]>
 				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="610" y="0" width="200" height="40" uuid="1c50c952-6014-4d8b-b601-937a4ccf393d">
+				<reportElement x="630" y="0" width="175" height="40" uuid="1c50c952-6014-4d8b-b601-937a4ccf393d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf99e1f7-cec6-44c9-b8c5-8dbdffb107da"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box leftPadding="5" rightPadding="5">
@@ -304,6 +328,21 @@ ORDER BY p_data]]>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{observacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="130" height="40" uuid="c54f3269-ac94-434e-9311-69012fbe56bd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="421ef1d6-b000-4249-a7a0-638b0b535012"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
