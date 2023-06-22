@@ -15,22 +15,25 @@ public class Pedido {
     private String observacao;
     private int idCliente;
     private double valorTotal;
+    private int idCidade;
 
-    public Pedido(String data, String endereco, String observacao, int idCliente, double valorTotal) {
+    public Pedido(String data, String endereco, String observacao, int idCliente, double valorTotal, int idCidade) {
         this.data = data;
         this.endereco = endereco;
         this.observacao = observacao;
         this.idCliente = idCliente;
         this.valorTotal = valorTotal;
+        this.idCidade = idCidade;
     }
 
-    public Pedido(int id, String data, String endereco, String observacao, int idCliente, double valorTotal) {
+    public Pedido(int id, String data, String endereco, String observacao, int idCliente, double valorTotal, int idCidade) {
         this.id = id;
         this.data = data;
         this.endereco = endereco;
         this.observacao = observacao;
         this.idCliente = idCliente;
         this.valorTotal = valorTotal;
+        this.idCidade = idCidade;
     }
 
     public int getId() {
@@ -80,6 +83,15 @@ public class Pedido {
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
     }
+
+    public int getIdCidade() {
+        return idCidade;
+    }
+
+    public void setIdCidade(int idCidade) {
+        this.idCidade = idCidade;
+    }
+
     
     
 }
