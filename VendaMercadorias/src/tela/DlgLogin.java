@@ -20,9 +20,6 @@ public class DlgLogin extends javax.swing.JDialog {
     public DlgLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        tfdUser.setText("juca@bala.com");
-        pfdPass.setText("baloso123");
     }
 
     /**
